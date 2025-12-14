@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!card || card.classList.contains("locked")) return;
     e.preventDefault();
 
-    openModal(card.dataset.gameUrl); // БЕРЕМО ТІЛЬКИ data-game-url
+    openModal(card.dataset.gameUrl); 
   });
 
   modal.addEventListener("click", (e) => {

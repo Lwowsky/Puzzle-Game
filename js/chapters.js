@@ -22,8 +22,8 @@
   }
 
   function isUnlocked(done, id) {
-    if (id === 1) return true;         
-    return done.has(id - 1);            
+    if (id === 1) return true;
+    return done.has(id - 1);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -43,28 +43,44 @@
       const isDone = done.has(id);
       const unlocked = isUnlocked(done, id);
 
-      let state = "locked", status = "Заблоковано", icon = "🔒";
-      if (isDone) { state = "done"; status = "Пройдено"; icon = "✅"; }
-      else if (unlocked) { state = "available"; status = "Доступно"; icon = "▶️"; }
+      let state = "locked",
+        status = "Заблоковано",
+        icon = "🔒";
+      if (isDone) {
+        state = "done";
+        status = "Пройдено";
+        icon = "✅";
+      } else if (unlocked) {
+        state = "available";
+        status = "Доступно";
+        icon = "▶️";
+      }
 
-const u = new URL("game.html", location.href);
-u.searchParams.set("id", String(id));
+      const u = new URL("game.html", location.href);
+      u.searchParams.set("id", String(id));
 
-const thumb = `../img/puzzles/tom${pad3(id)}.png`;
+      const thumb = `../img/puzzles/tom${pad3(id)}.png`;
 
-html += `
-  <a class="game-card ${state}"
-     href="${u.href}"
-     data-id="${id}"
-     data-game-url="${u.href}"
-     style="--thumb: url('${thumb}')">
-    <div class="left">
-      <div class="name">Гра ${id}</div>
-      <div class="status">${status}</div>
-    </div>
-    <div class="icon">${icon}</div>
-  </a>
-`;
+      // назва глави з stories.js
+      const chapterName = window.STORIES?.[id]?.chapter || `Глава ${id}`;
+
+      html += `<div>
+       <h2 class="game-card--title">${chapterName}</h2> <a class="game-card ${state}"
+           href="${u.href}"
+           data-id="${id}"
+           data-game-url="${u.href}"
+           style="--thumb: url('${thumb}')">
+
+          <div class="thumb"></div>
+
+          <div class="meta">
+            <div class="chapter">${chapterName}</div>
+            <div class="status">${status}</div>
+          </div>
+
+          <div class="icon">${icon}</div>
+        </a></div>
+      `;
     }
 
     grid.innerHTML = html;
