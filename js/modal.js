@@ -4,12 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("rankGames");
   if (!modal || !frame || !grid) return;
 
-  function openModal(url) {
-    // форс перезавантаження iframe
+  function openModal(rawUrl) {
+    // cache-buster, щоб iframe точно вантажив нову гру
+    const u = new URL(rawUrl, location.href);
+    u.searchParams.set("_", String(Date.now()));
+
     frame.src = "about:blank";
-    setTimeout(() => {
-      frame.src = url;
-    }, 20);
+    requestAnimationFrame(() => {
+      frame.src = u.href;
+    });
 
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -26,13 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
   grid.addEventListener("click", (e) => {
     const card = e.target.closest(".game-card");
     if (!card || card.classList.contains("locked")) return;
-
     e.preventDefault();
 
-    const url = card.dataset.gameUrl; // ✅ тільки звідси
-    if (!url) return;
-
-    openModal(url);
+    openModal(card.dataset.gameUrl); // БЕРЕМО ТІЛЬКИ data-game-url
   });
 
   modal.addEventListener("click", (e) => {

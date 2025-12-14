@@ -22,8 +22,8 @@
   }
 
   function isUnlocked(done, id) {
-    if (id === 1) return true;          // тільки 1 відкрита спочатку
-    return done.has(id - 1);            // далі строго по черзі 1→2→3...
+    if (id === 1) return true;         
+    return done.has(id - 1);            
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -47,27 +47,24 @@
       if (isDone) { state = "done"; status = "Пройдено"; icon = "✅"; }
       else if (unlocked) { state = "available"; status = "Доступно"; icon = "▶️"; }
 
-      // ✅ АБСОЛЮТНИЙ url до chapters/game.html з id
-      const u = new URL("./game.html", location.href);
-      u.searchParams.set("id", String(id));
-      u.searchParams.set("_", String(Date.now())); // анти-кеш
-      const href = u.href;
+const u = new URL("game.html", location.href);
+u.searchParams.set("id", String(id));
 
-      const thumb = `../img/puzzles/tom${pad3(id)}.png`;
+const thumb = `../img/puzzles/tom${pad3(id)}.png`;
 
-      html += `
-        <a class="game-card ${state}"
-           href="${href}"
-           data-id="${id}"
-           data-game-url="${href}"
-           style="--thumb: url('${thumb}')">
-          <div class="left">
-            <div class="name">Гра ${id}</div>
-            <div class="status">${status}</div>
-          </div>
-          <div class="icon">${icon}</div>
-        </a>
-      `;
+html += `
+  <a class="game-card ${state}"
+     href="${u.href}"
+     data-id="${id}"
+     data-game-url="${u.href}"
+     style="--thumb: url('${thumb}')">
+    <div class="left">
+      <div class="name">Гра ${id}</div>
+      <div class="status">${status}</div>
+    </div>
+    <div class="icon">${icon}</div>
+  </a>
+`;
     }
 
     grid.innerHTML = html;
