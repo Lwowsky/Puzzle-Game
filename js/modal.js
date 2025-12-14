@@ -5,10 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!modal || !frame || !grid) return;
 
   function openModal(url) {
+    // форс перезавантаження iframe
     frame.src = "about:blank";
     setTimeout(() => {
       frame.src = url;
-    }, 0);
+    }, 20);
 
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -28,12 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     e.preventDefault();
 
-    const id = card.dataset.id; // <-- головне!
-    const u = new URL("game.html", location.href);
-    u.searchParams.set("id", String(id));
-    u.searchParams.set("_", String(Date.now())); // анти-кеш для iframe
+    const url = card.dataset.gameUrl; // ✅ тільки звідси
+    if (!url) return;
 
-    openModal(u.toString());
+    openModal(url);
   });
 
   modal.addEventListener("click", (e) => {
