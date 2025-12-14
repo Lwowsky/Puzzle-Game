@@ -13,49 +13,41 @@
     />
   </head>
 
-  <body class="naruto-shuriken-bg-dark" data-rank="4">
-    <header class="header">
+  <body class="naruto-shuriken-bg-dark" data-rank="2">
+      <header class="header">
       <div class="header-inner">
-        <!-- на головну з папки chapters -->
-        <a href="../index.html" class="brand" aria-label="На головну">
-          <img src="../img/logo.png" alt="Logo" class="nav-logo" />
+        <a href="index.html" class="brand" aria-label="На головну">
+          <img src="img/logo.png" alt="Logo" class="nav-logo" />
         </a>
       </div>
-
       <nav>
         <ul class="header-menu">
           <div class="rank-menu">
-            <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank001.png" alt="rank" class="rank-link" />
             <li><a href="rank001.html">Учень</a></li>
           </div>
-
           <div class="rank-menu">
-            <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank002.png" alt="rank" class="rank-link" />
             <li><a href="rank002.html">Шинобі</a></li>
           </div>
-
           <div class="rank-menu">
-            <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank003.png" alt="rank" class="rank-link" />
             <li><a href="rank003.html">Генін</a></li>
           </div>
-
           <div class="rank-menu">
-            <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank004.png" alt="rank" class="rank-link" />
             <li><a href="rank004.html">Чунін</a></li>
           </div>
-
           <div class="rank-menu">
-            <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank005.png" alt="rank" class="rank-link" />
             <li><a href="rank005.html">Джонін</a></li>
           </div>
-
           <div class="rank-menu">
-            <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
+            <img src="img/avatar/rank006.png" alt="rank" class="rank-link" />
             <li><a href="rank006.html">Хокаге</a></li>
           </div>
         </ul>
       </nav>
-
       <div class="nav-overlay" id="navOverlay" hidden></div>
       <button
         class="burger"
@@ -67,12 +59,17 @@
       >
         <i class="fa-solid fa-bars"></i>
       </button>
-
       <nav class="nav-drawer" aria-label="Головне меню">
         <ul class="nav-list" id="primaryNav" aria-hidden="true">
-          <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="../about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="../contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact</a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -108,10 +105,9 @@
       </div>
 
       <div class="story-content" id="story-content">
-        <!-- 4 бокси глав -->
+        <h2 class="game-card--title ">Розділ 2:</h2>
+        <div class="sections" id="gameSections"></div>
         <div class="games-grid" id="rankGames"></div>
-
-        <button id="finishRank">Завершити</button>
       </div>
     </main>
 
@@ -131,10 +127,10 @@
       </div>
     </div>
 
-    <script src="../js/script.js"></script>
-    <script src="../js/player.js"></script>
-    <script src="../js/stories.js"></script>
-    <script src="../js/chapters.js"></script>
-    <script src="../js/modal.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/stories.js"></script>
+    <script src="js/chapters.js"></script>
+    <script src="js/modal.js"></script>
   </body>
 </html>
