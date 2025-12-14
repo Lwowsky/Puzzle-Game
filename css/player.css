@@ -1,0 +1,41 @@
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50px;
+}
+
+.avatar:hover {
+  box-shadow: 12px 6px 12px rgba(0, 0, 0, 0.9);
+  transform: scale(1.01);
+}
+
+.progress {
+  width: 95%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress-bar {
+  height: 20px;
+  background-color: #76c7c0;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.avatar-subtitle {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+  text-align: center;
+  font-family: "Chewy", system-ui, sans-serif;
+}
+
+.avatar-title {
+ font-family: "Chewy", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #EDE7DD;
+  text-align: center;
+}
+

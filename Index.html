@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample HTML Page</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body class="naruto-shuriken-bg-dark">
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="brand" aria-label="На головну">
+          <img src="img/logo.png" alt="Logo" class="nav-logo" />
+        </a>
+      </div>
+      <nav>
+        <ul class="header-menu">
+          <div class="rank-menu">
+            <img src="img/avatar/rank001.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank001.html">Учень</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="img/avatar/rank002.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank002.html">Шинобі</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="img/avatar/rank003.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank003.html">Генін</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="img/avatar/rank004.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank004.html">Чунін</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="img/avatar/rank005.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank005.html">Джонін</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="img/avatar/rank006.png" alt="rank" class="rank-link" />
+            <li><a href="chapters/rank006.html">Хокаге</a></li>
+          </div>
+        </ul>
+      </nav>
+      <div class="nav-overlay" id="navOverlay" hidden></div>
+      <button
+        class="burger"
+        id="burgerBtn"
+        aria-label="Меню"
+        aria-controls="primaryNav"
+        aria-expanded="false"
+        type="button"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="nav-drawer" aria-label="Головне меню">
+        <ul class="nav-list" id="primaryNav" aria-hidden="true">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="main-content--second">
+        <h2 class="avatar-title">Player Name</h2>
+        <div class="avatar-subtitle">
+          <img
+            class="avatar"
+            src="img/avatar/avatar001.png"
+            alt="Player Avatar"
+          />
+          <p>Ранг: Учень</p>
+          <p>Рівень: 1</p>
+          <p>XP: 0</p>
+        </div>
+        <div class="progress">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: 70%"
+            aria-valuenow="70"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+        <div class="story-content story-content--text">
+          <form id="nameForm" class="name-form">
+            <input
+              id="nameInput"
+              type="text"
+              placeholder="Введи ім’я"
+              maxlength="18"
+            />
+            <button type="submit">Зберегти</button>
+          </form>
+        </div>
+      </div>
+      <div class="story-content" id="story-content">
+        <section class="welcome">
+          <h2 class="welcome-title">
+            Ласкаво просимо, <span data-player-name>Гравцю</span>!
+          </h2>
+
+          <p class="welcome-text">
+            Ти ступив у Світ Пазлів — місце, де кожен фрагмент має характер, а
+            кожне з’єднання — це твій крок до сили. Тут перемагає не поспіх, а
+            концентрація.
+          </p>
+
+          <p class="welcome-text">
+            Збирай картину з хаосу, відкривай нові глави й піднімайся сходами
+            майстерності — від Учня до рівня Каге. Твоя воля — твоя техніка.
+          </p>
+          <div class="welcome-content">
+            <img
+              src="img/puzzles/tom001.png"
+              alt="Welcome Image"
+              class="welcome-image"
+            />
+            
+            <ul class="welcome-quotes">
+              <h3 class="welcome-subtitle">Сувої настанов</h3>
+              <li>
+                Сила починається з першого правильно поставленого шматочка.
+              </li>
+              <li>Коли не бачиш рішення — зміни кут, не відступай.</li>
+              <li>
+                Пазл не ламається від труднощів — він стає зрозумілішим.
+              </li>
+              <li>Терпіння — це невидима техніка, яка перемагає шум.</li>
+              <li>Один фрагмент сьогодні — ціла картина завтра.</li>
+
+              <li>Не бійся помилок: вони показують, де справжній шлях.</li>
+              <li>
+                Сильний гравець не той, хто швидкий, а той, хто уважний.
+              </li>
+              <li>
+                Кожна глава — тренування. Кожна перемога — новий рівень.
+              </li>
+              <li>
+                Якщо пазли “не стають” — значить, ти ще не зібрав правильну
+                думку.
+              </li>
+              <li>Воля — це клей, який тримає розрізнені частини разом.</li>
+
+              <li>Хаос — лише початкова форма порядку.</li>
+              <li>Найважчі пазли не лякають — вони навчають.</li>
+              <li>Зосередженість — твоя найточніша зброя.</li>
+              <li>
+                Твій прогрес видно не в швидкості, а в впевненості руху.
+              </li>
+              <li>Сьогодні ти шукаєш — завтра ти ведеш інших.</li>
+
+              <li>
+                Пам’ятай, <span data-player-name>Гравцю</span>: легенда
+                збирається по частинках.
+              </li>
+            </ul>
+          </div>
+          <p class="welcome-note">
+            Натискай  <a class="controls-button" id="start-game" style="color: #ff5733">Почати / Продовжити</a>
+        , щоб повернутися туди, де ти
+            зупинився — і зробити наступний крок.
+          </p>
+        </section>
+
+        <!--<div class="chapters" id="chaptersList"></div> -->
+       >
+      </div>
+    </main>
+    <footer class="footer">
+      <nav class="footer-nav">
+        <p>© 2024 Puzzle Game. All rights reserved.</p>
+      </nav>
+    </footer>
+    <script src="js/script.js"></script>
+    <script src="js/chapters.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/modal.js"></script>
+  </body>
+</html>

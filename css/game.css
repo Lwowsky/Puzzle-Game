@@ -1,0 +1,41 @@
+.game-box {
+    width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 20px;
+  
+}
+.game-play {
+  flex: 8;
+  height: 530px;
+  background: rgba(17, 17, 17, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-story {
+  flex: 3;
+  height: 530px;
+  background: rgba(17, 17, 17, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 20px;
+}
+.main-content--info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.info-xp {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  
+}
