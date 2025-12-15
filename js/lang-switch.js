@@ -1,11 +1,29 @@
-(() => {
-  const a = document.getElementById("langSwitch");
-  if (!a) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("langSwitch");
+  if (!btn) return;
 
-  const path = location.pathname; // /Puzzle-Game/uk/rank001.html
-  const isUk = path.includes("/uk/");
-  const target = isUk ? path.replace("/uk/", "/en/") : path.replace("/en/", "/uk/");
+  const url = new URL(location.href);
+  const path = url.pathname;
 
-  a.href = target + location.search + location.hash;
-  a.textContent = isUk ? "EN" : "UK";
-})();
+  const isUk = /\/uk(\/|$)/.test(path);
+  const isEn = /\/en(\/|$)/.test(path);
+
+  let newPath = path;
+
+  if (isUk) newPath = path.replace(/\/uk(\/|$)/, "/en$1");
+  else if (isEn) newPath = path.replace(/\/en(\/|$)/, "/uk$1");
+  else {
+    newPath = "/Puzzle-Game/uk/index.html";
+  }
+
+  url.pathname = newPath;
+
+  btn.href = url.toString();
+  btn.textContent = isUk ? "EN" : "UK";
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.setItem("lang", isUk ? "en" : "uk");
+    location.assign(btn.href);
+  });
+});

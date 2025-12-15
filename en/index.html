@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +18,7 @@
   <body class="naruto-shuriken-bg-dark">
     <header class="header">
       <div class="header-inner">
-        <a href="index.html" class="brand" aria-label="На головну">
+        <a href="index.html" class="brand" aria-label="Home">
           <img src="../img/logo.png" alt="Logo" class="nav-logo" />
         </a>
       </div>
@@ -26,27 +26,27 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Учень</a></li>
+            <li><a href="rank001.html">Apprentice</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
-            <li><a href="rank002.html">Шинобі</a></li>
+            <li><a href="rank002.html">Shinobi</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
-            <li><a href="rank003.html">Генін</a></li>
+            <li><a href="rank003.html">Genin</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
-            <li><a href="rank004.html">Чунін</a></li>
+            <li><a href="rank004.html">Chunin</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
-            <li><a href="rank005.html">Джонін</a></li>
+            <li><a href="rank005.html">Jonin</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
-            <li><a href="rank006.html">Хокаге</a></li>
+            <li><a href="rank006.html">Hokage</a></li>
           </div>
         </ul>
       </nav>
@@ -54,14 +54,14 @@
       <button
         class="burger"
         id="burgerBtn"
-        aria-label="Меню"
+        aria-label="Menu"
         aria-controls="primaryNav"
         aria-expanded="false"
         type="button"
       >
         <i class="fa-solid fa-bars"></i>
       </button>
-      <nav class="nav-drawer" aria-label="Головне меню">
+      <nav class="nav-drawer" aria-label="Main menu">
         <ul class="nav-list" id="primaryNav" aria-hidden="true">
           <li class="nav-item">
             <a href="index.html" class="nav-link">Home</a>
@@ -71,6 +71,9 @@
           </li>
           <li class="nav-item">
             <a href="contact.html" class="nav-link">Contact</a>
+          </li>
+          <li>
+            <a class="lang-switch" id="langSwitch" href="#">UK</a>
           </li>
         </ul>
       </nav>
@@ -84,8 +87,8 @@
             src="../img/avatar/avatar001.png"
             alt="Player Avatar"
           />
-          <p>Ранг: Учень</p>
-          <p>Рівень: 1</p>
+          <p>Rank: Apprentice</p>
+          <p>Level: 1</p>
           <p>XP: 0</p>
         </div>
         <div class="progress">
@@ -103,26 +106,27 @@
             <input
               id="nameInput"
               type="text"
-              placeholder="Введи ім’я"
+              placeholder="Enter your name"
               maxlength="18"
             />
-            <button type="submit">Зберегти</button>
+            <button type="submit">Save</button>
           </form>
         </div>
       </div>
       <div class="story-content" id="story-content">
         <section class="welcome">
           <h2 class="welcome-title">
-            Ласкаво просимо, <span data-player-name>Гравцю</span>!
+            Welcome, <span data-player-name>Player</span>!
           </h2>
           <p class="welcome-text">
-            Ти ступив у Світ Пазлів — місце, де кожен фрагмент має характер, а
-            кожне з’єднання — це твій крок до сили. Тут перемагає не поспіх, а
-            концентрація.
+            You’ve stepped into the World of Puzzles — a place where every piece
+            has character, and every connection is your step toward power. Here,
+            not speed but focus wins.
           </p>
           <p class="welcome-text">
-            Збирай картину з хаосу, відкривай нові глави й піднімайся сходами
-            майстерності — від Учня до рівня Каге. Твоя воля — твоя техніка.
+            Assemble order from chaos, unlock new chapters, and climb the ladder
+            of mastery — from Apprentice to Kage level. Your will is your
+            technique.
           </p>
           <div class="welcome-content">
             <img
@@ -131,38 +135,34 @@
               class="welcome-image"
             />
             <ul class="welcome-quotes">
-              <h3 class="welcome-subtitle">Сувої настанов</h3>
+              <h3 class="welcome-subtitle">Scrolls of Guidance</h3>
+              <li>Strength begins with the first piece placed correctly.</li>
+              <li>If you don’t see the solution — change the angle, don’t retreat.</li>
+              <li>A puzzle doesn’t break from hardship — it becomes clearer.</li>
+              <li>Patience is an invisible technique that defeats the noise.</li>
+              <li>One piece today — a whole picture tomorrow.</li>
+              <li>Don’t fear mistakes: they show where the real path is.</li>
+              <li>A strong player isn’t the fast one, but the attentive one.</li>
+              <li>Every chapter is training. Every victory is a new level.</li>
+              <li>If the pieces “won’t fit” — you haven’t found the right thought yet.</li>
+              <li>Willpower is the glue that holds scattered parts together.</li>
+              <li>Chaos is only the starting shape of order.</li>
+              <li>The hardest puzzles don’t scare you — they teach you.</li>
+              <li>Focus is your sharpest weapon.</li>
+              <li>Your progress shows not in speed, but in confidence.</li>
+              <li>Today you search — tomorrow you lead others.</li>
               <li>
-                Сила починається з першого правильно поставленого шматочка.
-              </li>
-              <li>Коли не бачиш рішення — зміни кут, не відступай.</li>
-              <li>Пазл не ламається від труднощів — він стає зрозумілішим.</li>
-              <li>Терпіння — це невидима техніка, яка перемагає шум.</li>
-              <li>Один фрагмент сьогодні — ціла картина завтра.</li>
-              <li>Не бійся помилок: вони показують, де справжній шлях.</li>
-              <li>Сильний гравець не той, хто швидкий, а той, хто уважний.</li>
-              <li>Кожна глава — тренування. Кожна перемога — новий рівень.</li>
-              <li>
-                Якщо пазли “не стають” — значить, ти ще не зібрав правильну
-                думку.
-              </li>
-              <li>Воля — це клей, який тримає розрізнені частини разом.</li>
-              <li>Хаос — лише початкова форма порядку.</li>
-              <li>Найважчі пазли не лякають — вони навчають.</li>
-              <li>Зосередженість — твоя найточніша зброя.</li>
-              <li>Твій прогрес видно не в швидкості, а в впевненості руху.</li>
-              <li>Сьогодні ти шукаєш — завтра ти ведеш інших.</li>
-              <li>
-                Пам’ятай, <span data-player-name>Гравцю</span>: легенда
-                збирається по частинках.
+                Remember, <span data-player-name>Player</span>: a legend is built
+                piece by piece.
               </li>
             </ul>
           </div>
           <p class="welcome-note">
-            Натискай
+            Click
             <a class="controls-button" id="start-game" style="color: #ff5733"
-              >Почати / Продовжити</a>
-            , щоб повернутися туди, де ти зупинився — і зробити наступний крок.
+              >Start / Continue</a
+            >
+            to return to where you left off — and take the next step.
           </p>
         </section>
       </div>
