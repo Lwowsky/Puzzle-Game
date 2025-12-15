@@ -81,24 +81,29 @@
         <h2 class="avatar-title">Player Name</h2>
         <div class="avatar-subtitle">
           <img
-            class="avatar"
+            class="rank-badge"
+            id="playerRankIcon"
             src="../img/avatar/avatar001.png"
-            alt="Player Avatar"
+            alt="Rank"
           />
-          <p>Ранг: Учень</p>
-          <p>Рівень: 1</p>
-          <p>XP: 0</p>
+
+          <p>Ранг: <span id="playerRank">Учень</span></p>
+          <p>Рівень: <span id="playerLevel">1</span></p>
+          <p>
+            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
+          </p>
         </div>
+
         <div class="progress">
           <div
             class="progress-bar"
             role="progressbar"
-            style="width: 70%"
-            aria-valuenow="70"
             aria-valuemin="0"
             aria-valuemax="100"
+            aria-valuenow="0"
           ></div>
         </div>
+
         <div class="story-content story-content--text">
           <form id="nameForm" class="name-form">
             <input
@@ -112,7 +117,7 @@
         </div>
       </div>
       <div class="story-content" id="story-content">
-        <h2 class="game-card--title ">Розділ 1: Народження сили</h2>
+        <h2 class="game-card--title">Розділ 1: Народження сили</h2>
         <div class="sections" id="gameSections"></div>
         <div class="games-grid" id="rankGames"></div>
       </div>

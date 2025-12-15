@@ -1,10 +1,9 @@
-.avatar {
+.rank-badge {
   width: 200px;
   height: 200px;
-  border-radius: 50px;
+  border-radius: 10px;
 }
-
-.avatar:hover {
+.rank-badge:hover {
   box-shadow: 12px 6px 12px rgba(0, 0, 0, 0.9);
   transform: scale(1.01);
 }
@@ -32,10 +31,9 @@
 }
 
 .avatar-title {
- font-family: "Chewy", system-ui, sans-serif;
+  font-family: "Chewy", system-ui, sans-serif;
   font-size: 24px;
   font-weight: bold;
-  color: #EDE7DD;
+  color: #ede7dd;
   text-align: center;
 }
-

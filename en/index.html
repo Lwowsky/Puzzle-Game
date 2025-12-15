@@ -83,24 +83,29 @@
         <h2 class="avatar-title">Player Name</h2>
         <div class="avatar-subtitle">
           <img
-            class="avatar"
+            class="rank-badge"
+            id="playerRankIcon"
             src="../img/avatar/avatar001.png"
-            alt="Player Avatar"
+            alt="Rank"
           />
-          <p>Rank: Apprentice</p>
-          <p>Level: 1</p>
-          <p>XP: 0</p>
+
+          <p>Rank: <span id="playerRank"></span></p>
+          <p>Level: <span id="playerLevel"></span></p>
+          <p>
+            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
+          </p>
         </div>
+
         <div class="progress">
           <div
             class="progress-bar"
             role="progressbar"
-            style="width: 70%"
-            aria-valuenow="70"
             aria-valuemin="0"
             aria-valuemax="100"
+            aria-valuenow="0"
           ></div>
         </div>
+
         <div class="story-content story-content--text">
           <form id="nameForm" class="name-form">
             <input
@@ -137,23 +142,36 @@
             <ul class="welcome-quotes">
               <h3 class="welcome-subtitle">Scrolls of Guidance</h3>
               <li>Strength begins with the first piece placed correctly.</li>
-              <li>If you don’t see the solution — change the angle, don’t retreat.</li>
-              <li>A puzzle doesn’t break from hardship — it becomes clearer.</li>
-              <li>Patience is an invisible technique that defeats the noise.</li>
+              <li>
+                If you don’t see the solution — change the angle, don’t retreat.
+              </li>
+              <li>
+                A puzzle doesn’t break from hardship — it becomes clearer.
+              </li>
+              <li>
+                Patience is an invisible technique that defeats the noise.
+              </li>
               <li>One piece today — a whole picture tomorrow.</li>
               <li>Don’t fear mistakes: they show where the real path is.</li>
-              <li>A strong player isn’t the fast one, but the attentive one.</li>
+              <li>
+                A strong player isn’t the fast one, but the attentive one.
+              </li>
               <li>Every chapter is training. Every victory is a new level.</li>
-              <li>If the pieces “won’t fit” — you haven’t found the right thought yet.</li>
-              <li>Willpower is the glue that holds scattered parts together.</li>
+              <li>
+                If the pieces “won’t fit” — you haven’t found the right thought
+                yet.
+              </li>
+              <li>
+                Willpower is the glue that holds scattered parts together.
+              </li>
               <li>Chaos is only the starting shape of order.</li>
               <li>The hardest puzzles don’t scare you — they teach you.</li>
               <li>Focus is your sharpest weapon.</li>
               <li>Your progress shows not in speed, but in confidence.</li>
               <li>Today you search — tomorrow you lead others.</li>
               <li>
-                Remember, <span data-player-name>Player</span>: a legend is built
-                piece by piece.
+                Remember, <span data-player-name>Player</span>: a legend is
+                built piece by piece.
               </li>
             </ul>
           </div>

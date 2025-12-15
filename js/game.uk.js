@@ -18,10 +18,64 @@
       .replaceAll("'", "&#39;");
   }
 
+  // fallback (якщо у тебе нема window.addXP у player.js)
+  const PLAYER_STATE_KEY = "playerState";
+  function loadPlayerState() {
+    try {
+      const raw = localStorage.getItem(PLAYER_STATE_KEY);
+      if (!raw) return { level: 1, xp: 0 };
+      const obj = JSON.parse(raw);
+      return {
+        level: Number(obj.level) > 0 ? Number(obj.level) : 1,
+        xp: Number(obj.xp) >= 0 ? Number(obj.xp) : 0,
+      };
+    } catch {
+      return { level: 1, xp: 0 };
+    }
+  }
+  function savePlayerState(state) {
+    localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
+  }
+  function xpNeeded(level) {
+    // lvl1 -> 100, lvl2 -> 200, lvl3 -> 400 ...
+    return 100 * Math.pow(2, Math.max(0, level - 1));
+  }
+  function addXP(amount) {
+    if (!amount) return;
+
+    // якщо у тебе вже є addXP у player.js — використовуємо його
+    if (typeof window.addXP === "function") {
+      window.addXP(amount);
+      return;
+    }
+
+    // інакше — простий fallback
+    const st = loadPlayerState();
+    st.xp += amount;
+
+    // ап левел
+    while (st.xp >= xpNeeded(st.level)) {
+      st.xp -= xpNeeded(st.level);
+      st.level += 1;
+    }
+
+    savePlayerState(st);
+
+    // якщо є твоя функція для оновлення UI — викличемо
+    if (typeof window.renderPlayerInfo === "function") {
+      window.renderPlayerInfo();
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
     const id3 = pad3(id);
+
     const COMPLETED_KEY = "completedRanks";
+
+    // XP правила
+    const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
+    const FIRST_CLEAR_BONUS_XP = 25;
 
     // ===== STORY =====
     const data = window.STORIES?.[id];
@@ -38,7 +92,7 @@
       if (!text) {
         storyEl.innerHTML = "<p>Ця глава ще готується…</p>";
       } else if (Array.isArray(text)) {
-        storyEl.innerHTML = text.map(p => `<p>${escapeHtml(p)}</p>`).join("");
+        storyEl.innerHTML = text.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
       } else {
         storyEl.innerHTML = `<p>${escapeHtml(text)}</p>`;
       }
@@ -130,14 +184,10 @@
     shuffleBtn.addEventListener("click", shuffle);
     resetBtn.addEventListener("click", startGame);
 
+    // Кнопка тепер просто закриває/оновлює список (XP не дає)
     completeBtn.addEventListener("click", () => {
-      const done = new Set(
-        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
-      );
-      done.add(id);
-      localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
       window.parent?.postMessage({ type: "puzzleWin", id }, "*");
-      status.textContent = "✅ Глава збережена як пройдена!";
+      status.textContent = "✅ Готово!";
     });
 
     function tryLoadImage(i = 0) {
@@ -192,7 +242,9 @@
           correctOrder.push(index);
 
           piece.draggable = true;
-          piece.addEventListener("dragstart", function () { dragged = this; });
+          piece.addEventListener("dragstart", function () {
+            dragged = this;
+          });
           piece.addEventListener("dragover", (e) => e.preventDefault());
           piece.addEventListener("drop", function () {
             if (!dragged || dragged === this) return;
@@ -233,6 +285,7 @@
         timeEl.textContent = String(time);
       }, 1000);
     }
+
     function stopTimer() {
       if (timer) clearInterval(timer);
       timer = null;
@@ -244,14 +297,38 @@
       }
 
       stopTimer();
-      status.textContent = "✅ Пазл складено! Тепер можна завершити главу.";
-      completeBtn.disabled = false;
 
+      // 1) XP за складність (кожен раз)
+      const diffXP = DIFFICULTY_XP[size] || 0;
+      addXP(diffXP);
+
+      // 2) Бонус + запис проходження (лише 1 раз на главу)
+      const done = new Set(
+        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
+      );
+
+      let bonusXP = 0;
+      if (!done.has(id)) {
+        done.add(id);
+        localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
+        bonusXP = FIRST_CLEAR_BONUS_XP;
+        addXP(bonusXP);
+      }
+
+      // повідомлення
+      status.textContent = bonusXP
+        ? `🎉 Пазл складено! +${diffXP} XP • Перше проходження глави: +${bonusXP} XP`
+        : `✅ Пазл складено! +${diffXP} XP`;
+
+      // рекорд
       const best = getBest();
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
       }
+
+      // тепер можна “завершити главу” (закрити модалку)
+      completeBtn.disabled = false;
     }
 
     highlightSize();

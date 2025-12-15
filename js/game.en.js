@@ -18,10 +18,64 @@
       .replaceAll("'", "&#39;");
   }
 
+  // fallback (if you don't have window.addXP in player.js)
+  const PLAYER_STATE_KEY = "playerState";
+  function loadPlayerState() {
+    try {
+      const raw = localStorage.getItem(PLAYER_STATE_KEY);
+      if (!raw) return { level: 1, xp: 0 };
+      const obj = JSON.parse(raw);
+      return {
+        level: Number(obj.level) > 0 ? Number(obj.level) : 1,
+        xp: Number(obj.xp) >= 0 ? Number(obj.xp) : 0,
+      };
+    } catch {
+      return { level: 1, xp: 0 };
+    }
+  }
+  function savePlayerState(state) {
+    localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
+  }
+  function xpNeeded(level) {
+    // lvl1 -> 100, lvl2 -> 200, lvl3 -> 400 ...
+    return 100 * Math.pow(2, Math.max(0, level - 1));
+  }
+  function addXP(amount) {
+    if (!amount) return;
+
+    // if you already have addXP in player.js — use it
+    if (typeof window.addXP === "function") {
+      window.addXP(amount);
+      return;
+    }
+
+    // otherwise — simple fallback
+    const st = loadPlayerState();
+    st.xp += amount;
+
+    // level up
+    while (st.xp >= xpNeeded(st.level)) {
+      st.xp -= xpNeeded(st.level);
+      st.level += 1;
+    }
+
+    savePlayerState(st);
+
+    // if you have your UI update function — call it
+    if (typeof window.renderPlayerInfo === "function") {
+      window.renderPlayerInfo();
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
     const id3 = pad3(id);
+
     const COMPLETED_KEY = "completedRanks";
+
+    // XP rules
+    const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
+    const FIRST_CLEAR_BONUS_XP = 25;
 
     // ===== STORY =====
     const data = window.STORIES?.[id];
@@ -36,7 +90,7 @@
     if (storyEl) {
       const text = data?.text;
       if (!text) {
-        storyEl.innerHTML = "<p>This chapter is still being prepared…</p>";
+        storyEl.innerHTML = "<p>This chapter is still in progress…</p>";
       } else if (Array.isArray(text)) {
         storyEl.innerHTML = text.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
       } else {
@@ -130,19 +184,15 @@
     shuffleBtn.addEventListener("click", shuffle);
     resetBtn.addEventListener("click", startGame);
 
+    // This button now only closes / refreshes the chapter list (no XP here)
     completeBtn.addEventListener("click", () => {
-      const done = new Set(
-        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
-      );
-      done.add(id);
-      localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
       window.parent?.postMessage({ type: "puzzleWin", id }, "*");
-      status.textContent = "✅ Chapter saved as completed!";
+      status.textContent = "✅ Done!";
     });
 
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ No image for game ${id}. Add: img/puzzles/tom${id3}.png`;
+        hintEl.textContent = `❌ No image found for game ${id}. Add: img/puzzles/tom${id3}.png`;
         return;
       }
       const src = imgCandidates[i];
@@ -235,6 +285,7 @@
         timeEl.textContent = String(time);
       }, 1000);
     }
+
     function stopTimer() {
       if (timer) clearInterval(timer);
       timer = null;
@@ -246,14 +297,37 @@
       }
 
       stopTimer();
-      status.textContent = "✅ Puzzle completed! Now you can finish the chapter.";
-      completeBtn.disabled = false;
 
+      // 1) XP for difficulty (every time)
+      const diffXP = DIFFICULTY_XP[size] || 0;
+      addXP(diffXP);
+
+      // 2) Bonus + mark chapter as completed (only once per chapter)
+      const done = new Set(
+        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
+      );
+
+      let bonusXP = 0;
+      if (!done.has(id)) {
+        done.add(id);
+        localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
+        bonusXP = FIRST_CLEAR_BONUS_XP;
+        addXP(bonusXP);
+      }
+
+      status.textContent = bonusXP
+        ? `🎉 Puzzle completed! +${diffXP} XP • First chapter clear: +${bonusXP} XP`
+        : `✅ Puzzle completed! +${diffXP} XP`;
+
+      // best time
       const best = getBest();
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
       }
+
+      // now you can "complete chapter" (close modal)
+      completeBtn.disabled = false;
     }
 
     highlightSize();

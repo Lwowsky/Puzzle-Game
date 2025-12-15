@@ -78,23 +78,29 @@
       <div class="main-content--second">
         <h2 class="avatar-title">Player Name</h2>
 
-        <div class="avatar-subtitle">
-          <img class="avatar" src="../img/avatar/avatar001.png" alt="Player Avatar" />
-          <p>Ранг: Учень</p>
-          <p>Рівень: 1</p>
-          <p>XP: 0</p>
-        </div>
+       <div class="avatar-subtitle">
+ <img
+            class="rank-badge"
+            id="playerRankIcon"
+            src="../img/avatar/avatar001.png"
+            alt="Rank"
+          />
 
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            style="width: 70%"
-            aria-valuenow="70"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
-        </div>
+  <p>Ранг: <span id="playerRank">Учень</span></p>
+  <p>Рівень: <span id="playerLevel">1</span></p>
+  <p>XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span></p>
+</div>
+
+<div class="progress">
+  <div
+    class="progress-bar"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="0"
+  ></div>
+</div>
+
 
         <div class="story-content story-content--text">
           <form id="nameForm" class="name-form">
