@@ -26,7 +26,7 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Apprentice</a></li>
+            <li><a href="rank001.html">Student</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
@@ -67,13 +67,25 @@
             <a href="index.html" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact us</a>
           </li>
-          <li class="nav-item">
-            <a href="contact.html" class="nav-link">Contact</a>
+          <li class="lang-switches">
+            <a class="lang-flag" id="toUk" href="#" aria-label="Ukrainian">
+              <img src="../img/flags/ua.svg" alt="UA" />
+            </a>
+            <a class="lang-flag" id="toEn" href="#" aria-label="English">
+              <img src="../img/flags/gb.svg" alt="EN" />
+            </a>
           </li>
           <li>
-            <a class="lang-switch" id="langSwitch" href="#">UK</a>
+            <button
+              class="settings-btn"
+              id="openSettings"
+              type="button"
+              aria-label="Settings"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
           </li>
         </ul>
       </nav>
@@ -89,8 +101,8 @@
             alt="Rank"
           />
 
-          <p>Rank: <span id="playerRank"></span></p>
-          <p>Level: <span id="playerLevel"></span></p>
+          <p>Rank: <span id="playerRank">Student</span></p>
+          <p>Level: <span id="playerLevel">1</span></p>
           <p>
             XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
           </p>
@@ -104,18 +116,29 @@
             aria-valuemax="100"
             aria-valuenow="0"
           ></div>
+          <span class="progress-label" id="progressLabel"></span>
         </div>
-
+        <div class="avatar-title">Statistics</div>
         <div class="story-content story-content--text">
-          <form id="nameForm" class="name-form">
-            <input
-              id="nameInput"
-              type="text"
-              placeholder="Enter your name"
-              maxlength="18"
-            />
-            <button type="submit">Save</button>
-          </form>
+          <div id="registerBox">
+            <form id="nameForm" class="name-form">
+              <input
+                id="nameInput"
+                class="name-form--input"
+                type="text"
+                placeholder="Enter your name"
+                maxlength="18"
+              />
+              <button class="name-form--btn" type="submit">Save</button>
+            </form>
+          </div>
+
+          <div class="playerPanel" id="playerPanel" hidden>
+            <div><b id="playerNameLabel"></b></div>
+            <div>Times played: <span id="statPlays">0</span></div>
+            <div>Total XP: <span id="statTotalXP">0</span></div>
+            <div>Next level: <span id="statToNext">0</span> XP</div>
+          </div>
         </div>
       </div>
       <div class="story-content" id="story-content">
@@ -124,14 +147,14 @@
             Welcome, <span data-player-name>Player</span>!
           </h2>
           <p class="welcome-text">
-            You’ve stepped into the World of Puzzles — a place where every piece
-            has character, and every connection is your step toward power. Here,
-            not speed but focus wins.
+            You have stepped into the World of Puzzles — a place where every
+            piece has character, and every connection is your step toward power.
+            Here, speed doesn’t win — focus does.
           </p>
           <p class="welcome-text">
-            Assemble order from chaos, unlock new chapters, and climb the ladder
-            of mastery — from Apprentice to Kage level. Your will is your
-            technique.
+            Assemble a picture from chaos, unlock new chapters, and climb the
+            ladder of mastery — from Student to the level of Kage. Your will is
+            your technique.
           </p>
           <div class="welcome-content">
             <img
@@ -141,37 +164,27 @@
             />
             <ul class="welcome-quotes">
               <h3 class="welcome-subtitle">Scrolls of Guidance</h3>
-              <li>Strength begins with the first piece placed correctly.</li>
+              <li>Strength begins with the first correctly placed piece.</li>
+              <li>When you can’t see the solution — change the angle, don’t retreat.</li>
+              <li>A puzzle doesn’t break from difficulty — it becomes clearer.</li>
+              <li>Patience is an invisible technique that defeats noise.</li>
+              <li>One fragment today — a whole picture tomorrow.</li>
+              <li>Don’t fear mistakes: they show where the true path is.</li>
+              <li>A strong player isn’t the fast one, but the attentive one.</li>
+              <li>Each chapter is training. Each victory is a new level.</li>
               <li>
-                If you don’t see the solution — change the angle, don’t retreat.
+                If the pieces “won’t fit” — it means you haven’t assembled the
+                right thought yet.
               </li>
-              <li>
-                A puzzle doesn’t break from hardship — it becomes clearer.
-              </li>
-              <li>
-                Patience is an invisible technique that defeats the noise.
-              </li>
-              <li>One piece today — a whole picture tomorrow.</li>
-              <li>Don’t fear mistakes: they show where the real path is.</li>
-              <li>
-                A strong player isn’t the fast one, but the attentive one.
-              </li>
-              <li>Every chapter is training. Every victory is a new level.</li>
-              <li>
-                If the pieces “won’t fit” — you haven’t found the right thought
-                yet.
-              </li>
-              <li>
-                Willpower is the glue that holds scattered parts together.
-              </li>
-              <li>Chaos is only the starting shape of order.</li>
+              <li>Willpower is the glue that holds scattered parts together.</li>
+              <li>Chaos is only the initial form of order.</li>
               <li>The hardest puzzles don’t scare you — they teach you.</li>
-              <li>Focus is your sharpest weapon.</li>
-              <li>Your progress shows not in speed, but in confidence.</li>
+              <li>Focus is your most precise weapon.</li>
+              <li>Your progress shows not in speed, but in confident moves.</li>
               <li>Today you search — tomorrow you lead others.</li>
               <li>
                 Remember, <span data-player-name>Player</span>: a legend is
-                built piece by piece.
+                assembled piece by piece.
               </li>
             </ul>
           </div>
@@ -189,11 +202,146 @@
       <nav class="footer-nav">
         <p>© 2024 Puzzle Game. All rights reserved.</p>
       </nav>
+      <div class="modal" id="settingsModal" aria-hidden="true">
+        S
+        <div class="modal-overlay" data-close-settings></div>
+
+        <div
+          class="modal-window settings-window"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Settings"
+        >
+          <button
+            class="modal-close"
+            type="button"
+            data-close-settings
+            aria-label="Close"
+          >
+            ✕
+          </button>
+
+          <div class="settings-head">
+            <h2 class="settings-title">Settings</h2>
+          </div>
+
+          <div class="settings-body">
+            <aside class="settings-tabs" role="tablist">
+              <button
+                class="settings-tab is-active"
+                data-tab="avatar"
+                type="button"
+              >
+                Avatar
+              </button>
+              <button class="settings-tab" data-tab="name" type="button">
+                Nickname
+              </button>
+              <button class="settings-tab" data-tab="stats" type="button">
+                Statistics
+              </button>
+              <button
+                class="settings-tab danger"
+                data-tab="reset"
+                type="button"
+              >
+                Reset
+              </button>
+            </aside>
+
+            <section class="settings-content">
+              <!-- AVATAR -->
+              <div class="settings-pane is-active" data-pane="avatar">
+                <p class="settings-text">
+                  Available avatars depend on your rank.
+                </p>
+                <div class="avatar-grid" id="avatarGrid"></div>
+                <div class="settings-row">
+                  <button class="pz-btn" id="saveAvatarBtn" type="button">
+                    Save avatar
+                  </button>
+                  <span class="settings-hint" id="avatarHint"></span>
+                </div>
+              </div>
+
+              <!-- NAME -->
+              <div class="settings-pane" data-pane="name">
+                <p class="settings-text">
+                  Change your nickname (it will be saved in the browser).
+                </p>
+                <div class="settings-row">
+                  <input
+                    id="newNameInput"
+                    class="settings-input"
+                    type="text"
+                    maxlength="18"
+                    placeholder="Enter your name"
+                  />
+                  <button class="pz-btn" id="saveNameBtn" type="button">
+                    Save
+                  </button>
+                </div>
+                <div class="settings-hint" id="nameHint"></div>
+              </div>
+
+              <!-- STATS -->
+              <div class="settings-pane" data-pane="stats">
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-k">Rank</div>
+                    <div class="stat-v" id="sRank">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Level</div>
+                    <div class="stat-v" id="sLevel">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">XP</div>
+                    <div class="stat-v">
+                      <span id="sXP">—</span> / <span id="sNeed">—</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">To next</div>
+                    <div class="stat-v" id="sToNext">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Total XP</div>
+                    <div class="stat-v" id="sTotal">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Times played</div>
+                    <div class="stat-v" id="sPlays">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESET -->
+              <div class="settings-pane" data-pane="reset">
+                <p class="settings-text">
+                  Resets your name, XP/level, avatar, statistics, and chapter
+                  progress.
+                </p>
+                <button
+                  class="pz-btn"
+                  id="resetAllBtn"
+                  type="button"
+                  style="background: #ff5733"
+                >
+                  Reset everything
+                </button>
+                <div class="settings-hint" id="resetHint"></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </footer>
     <script src="../js/script.js"></script>
     <script src="../js/chapters.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
-    <script src="../js/lang-switch.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/lang-switch.js" defer></script>
   </body>
 </html>

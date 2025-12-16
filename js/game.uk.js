@@ -235,8 +235,9 @@
           piece.className = "pz-piece";
           piece.style.backgroundImage = `url("${imgSrc}")`;
           piece.style.backgroundSize = `${size * 100}% ${size * 100}%`;
-          piece.style.backgroundPosition =
-            `${(x / (size - 1)) * 100}% ${(y / (size - 1)) * 100}%`;
+          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
+            (y / (size - 1)) * 100
+          }%`;
 
           piece.dataset.index = String(index);
           correctOrder.push(index);
@@ -297,6 +298,12 @@
       }
 
       stopTimer();
+
+      // ✅ +1 до “зіграно разів”
+      localStorage.setItem(
+        "gamesPlayed",
+        String(Number(localStorage.getItem("gamesPlayed") || "0") + 1)
+      );
 
       // 1) XP за складність (кожен раз)
       const diffXP = DIFFICULTY_XP[size] || 0;

@@ -64,16 +64,28 @@
       <nav class="nav-drawer" aria-label="Головне меню">
         <ul class="nav-list" id="primaryNav" aria-hidden="true">
           <li class="nav-item">
-            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">На головну</a>
           </li>
           <li class="nav-item">
-            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Написати нам</a>
           </li>
-          <li class="nav-item">
-            <a href="contact.html" class="nav-link">Contact</a>
+          <li class="lang-switches">
+            <a class="lang-flag" id="toUk" href="#" aria-label="Українська">
+              <img src="../img/flags/ua.svg" alt="UA" />
+            </a>
+            <a class="lang-flag" id="toEn" href="#" aria-label="English">
+              <img src="../img/flags/gb.svg" alt="EN" />
+            </a>
           </li>
           <li>
-            <a class="lang-switch" id="langSwitch" href="#">EN</a>
+            <button
+              class="settings-btn"
+              id="openSettings"
+              type="button"
+              aria-label="Налаштування"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
           </li>
         </ul>
       </nav>
@@ -82,39 +94,51 @@
       <div class="main-content--second">
         <h2 class="avatar-title">Player Name</h2>
         <div class="avatar-subtitle">
-   <img
+          <img
             class="rank-badge"
             id="playerRankIcon"
             src="../img/avatar/avatar001.png"
             alt="Rank"
           />
 
-  <p>Ранг: <span id="playerRank">Учень</span></p>
-  <p>Рівень: <span id="playerLevel">1</span></p>
-  <p>XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span></p>
-</div>
+          <p>Ранг: <span id="playerRank">Учень</span></p>
+          <p>Рівень: <span id="playerLevel">1</span></p>
+          <p>
+            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
+          </p>
+        </div>
 
-<div class="progress">
-  <div
-    class="progress-bar"
-    role="progressbar"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-valuenow="0"
-  ></div>
-</div>
-
-
+        <div class="progress">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          ></div>
+          <span class="progress-label" id="progressLabel"></span>
+        </div>
+        <div class="avatar-title">Статистика</div>
         <div class="story-content story-content--text">
-          <form id="nameForm" class="name-form">
-            <input
-              id="nameInput"
-              type="text"
-              placeholder="Введи ім’я"
-              maxlength="18"
-            />
-            <button type="submit">Зберегти</button>
-          </form>
+          <div id="registerBox">
+            <form id="nameForm" class="name-form">
+              <input
+                id="nameInput"
+                class="name-form--input"
+                type="text"
+                placeholder="Введи ім’я"
+                maxlength="18"
+              />
+              <button class="name-form--btn" type="submit">Зберегти</button>
+            </form>
+          </div>
+
+          <div class="playerPanel" id="playerPanel" hidden>
+            <div><b id="playerNameLabel"></b></div>
+            <div>Зіграно разів: <span id="statPlays">0</span></div>
+            <div>Всього XP: <span id="statTotalXP">0</span></div>
+            <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+          </div>
         </div>
       </div>
       <div class="story-content" id="story-content">
@@ -179,11 +203,146 @@
       <nav class="footer-nav">
         <p>© 2024 Puzzle Game. All rights reserved.</p>
       </nav>
+      <div class="modal" id="settingsModal" aria-hidden="true">
+        S
+        <div class="modal-overlay" data-close-settings></div>
+
+        <div
+          class="modal-window settings-window"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Налаштування"
+        >
+          <button
+            class="modal-close"
+            type="button"
+            data-close-settings
+            aria-label="Закрити"
+          >
+            ✕
+          </button>
+
+          <div class="settings-head">
+            <h2 class="settings-title">Налаштування</h2>
+          </div>
+
+          <div class="settings-body">
+            <aside class="settings-tabs" role="tablist">
+              <button
+                class="settings-tab is-active"
+                data-tab="avatar"
+                type="button"
+              >
+                Аватар
+              </button>
+              <button class="settings-tab" data-tab="name" type="button">
+                Нік
+              </button>
+              <button class="settings-tab" data-tab="stats" type="button">
+                Статистика
+              </button>
+              <button
+                class="settings-tab danger"
+                data-tab="reset"
+                type="button"
+              >
+                Скинути
+              </button>
+            </aside>
+
+            <section class="settings-content">
+              <!-- AVATAR -->
+              <div class="settings-pane is-active" data-pane="avatar">
+                <p class="settings-text">
+                  Доступні аватари залежать від твого рангу.
+                </p>
+                <div class="avatar-grid" id="avatarGrid"></div>
+                <div class="settings-row">
+                  <button class="pz-btn" id="saveAvatarBtn" type="button">
+                    Зберегти аватар
+                  </button>
+                  <span class="settings-hint" id="avatarHint"></span>
+                </div>
+              </div>
+
+              <!-- NAME -->
+              <div class="settings-pane" data-pane="name">
+                <p class="settings-text">
+                  Зміни нікнейм (збережеться у браузері).
+                </p>
+                <div class="settings-row">
+                  <input
+                    id="newNameInput"
+                    class="settings-input"
+                    type="text"
+                    maxlength="18"
+                    placeholder="Введи ім’я"
+                  />
+                  <button class="pz-btn" id="saveNameBtn" type="button">
+                    Зберегти
+                  </button>
+                </div>
+                <div class="settings-hint" id="nameHint"></div>
+              </div>
+
+              <!-- STATS -->
+              <div class="settings-pane" data-pane="stats">
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-k">Ранг</div>
+                    <div class="stat-v" id="sRank">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Рівень</div>
+                    <div class="stat-v" id="sLevel">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">XP</div>
+                    <div class="stat-v">
+                      <span id="sXP">—</span> / <span id="sNeed">—</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">До наступного</div>
+                    <div class="stat-v" id="sToNext">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Всього XP</div>
+                    <div class="stat-v" id="sTotal">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Скільки раз грав</div>
+                    <div class="stat-v" id="sPlays">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESET -->
+              <div class="settings-pane" data-pane="reset">
+                <p class="settings-text">
+                  Скине ім’я, XP/level, аватар, статистику і прогрес проходження
+                  глав.
+                </p>
+                <button
+                  class="pz-btn"
+                  id="resetAllBtn"
+                  type="button"
+                  style="background: #ff5733"
+                >
+                  Скинути все
+                </button>
+                <div class="settings-hint" id="resetHint"></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </footer>
     <script src="../js/script.js"></script>
     <script src="../js/chapters.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
+    <script src="../js/settings.js"></script>
     <script src="../js/lang-switch.js" defer></script>
   </body>
 </html>

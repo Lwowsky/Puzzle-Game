@@ -1,29 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("langSwitch");
-  if (!btn) return;
+  const toUk = document.getElementById("toUk");
+  const toEn = document.getElementById("toEn");
+  if (!toUk || !toEn) return;
 
-  const url = new URL(location.href);
-  const path = url.pathname;
+  const path = location.pathname;
+  const isUk = path.includes("/uk/");
+  const isEn = path.includes("/en/");
 
-  const isUk = /\/uk(\/|$)/.test(path);
-  const isEn = /\/en(\/|$)/.test(path);
+  // якщо ти на /uk/ — шлях для англ робимо replace на /en/
+  // якщо ти на /en/ — шлях для укр робимо replace на /uk/
+  // якщо ніде — ведемо на uk/index.html та en/index.html
+  const ukPath = isEn ? path.replace("/en/", "/uk/") : (isUk ? path : "/uk/index.html");
+  const enPath = isUk ? path.replace("/uk/", "/en/") : (isEn ? path : "/en/index.html");
 
-  let newPath = path;
+  toUk.href = ukPath + location.search + location.hash;
+  toEn.href = enPath + location.search + location.hash;
 
-  if (isUk) newPath = path.replace(/\/uk(\/|$)/, "/en$1");
-  else if (isEn) newPath = path.replace(/\/en(\/|$)/, "/uk$1");
-  else {
-    newPath = "/Puzzle-Game/uk/index.html";
-  }
-
-  url.pathname = newPath;
-
-  btn.href = url.toString();
-  btn.textContent = isUk ? "EN" : "UK";
-
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    localStorage.setItem("lang", isUk ? "en" : "uk");
-    location.assign(btn.href);
-  });
+  // підсвітити активний прапор (без CSS теж буде видно через class)
+  toUk.classList.toggle("active", isUk);
+  toEn.classList.toggle("active", isEn);
 });

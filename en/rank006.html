@@ -3,17 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rank 001</title>
+    <title>Sample HTML Page</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
-
   <body class="naruto-shuriken-bg-dark" data-rank="6">
+    <body class="naruto-shuriken-bg-dark">
     <header class="header">
       <div class="header-inner">
         <a href="index.html" class="brand" aria-label="Home">
@@ -24,7 +27,7 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Apprentice</a></li>
+            <li><a href="rank001.html">Student</a></li>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
@@ -65,29 +68,42 @@
             <a href="index.html" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact us</a>
           </li>
-          <li class="nav-item">
-            <a href="contact.html" class="nav-link">Contact</a>
+          <li class="lang-switches">
+            <a class="lang-flag" id="toUk" href="#" aria-label="Ukrainian">
+              <img src="../img/flags/ua.svg" alt="UA" />
+            </a>
+            <a class="lang-flag" id="toEn" href="#" aria-label="English">
+              <img src="../img/flags/gb.svg" alt="EN" />
+            </a>
+          </li>
+          <li>
+            <button
+              class="settings-btn"
+              id="openSettings"
+              type="button"
+              aria-label="Settings"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
           </li>
         </ul>
       </nav>
     </header>
-
     <main class="main-content">
       <div class="main-content--second">
         <h2 class="avatar-title">Player Name</h2>
-
-       <div class="avatar-subtitle">
-           <img
+        <div class="avatar-subtitle">
+          <img
             class="rank-badge"
             id="playerRankIcon"
             src="../img/avatar/avatar001.png"
             alt="Rank"
           />
 
-          <p>Rank: <span id="playerRank"></span></p>
-          <p>Level: <span id="playerLevel"></span></p>
+          <p>Rank: <span id="playerRank">Student</span></p>
+          <p>Level: <span id="playerLevel">1</span></p>
           <p>
             XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
           </p>
@@ -101,28 +117,176 @@
             aria-valuemax="100"
             aria-valuenow="0"
           ></div>
+          <span class="progress-label" id="progressLabel"></span>
         </div>
-
-
+        <div class="avatar-title">Statistics</div>
         <div class="story-content story-content--text">
-          <form id="nameForm" class="name-form">
-            <input id="nameInput" type="text" placeholder="Enter your name" maxlength="18" />
-            <button type="submit">Save</button>
-          </form>
+          <div id="registerBox">
+            <form id="nameForm" class="name-form">
+              <input
+                id="nameInput"
+                class="name-form--input"
+                type="text"
+                placeholder="Enter your name"
+                maxlength="18"
+              />
+              <button class="name-form--btn" type="submit">Save</button>
+            </form>
+          </div>
+
+          <div class="playerPanel" id="playerPanel" hidden>
+            <div><b id="playerNameLabel"></b></div>
+            <div>Times played: <span id="statPlays">0</span></div>
+            <div>Total XP: <span id="statTotalXP">0</span></div>
+            <div>Next level: <span id="statToNext">0</span> XP</div>
+          </div>
         </div>
       </div>
-
       <div class="story-content" id="story-content">
-        <h2 class="game-card--title">Section 2:</h2>
+        <h2 class="game-card--title">Section 1: Birth of Power</h2>
         <div class="sections" id="gameSections"></div>
         <div class="games-grid" id="rankGames"></div>
       </div>
     </main>
 
-    <footer class="footer">
+          <footer class="footer">
       <nav class="footer-nav">
         <p>© 2024 Puzzle Game. All rights reserved.</p>
       </nav>
+      <div class="modal" id="settingsModal" aria-hidden="true">
+        S
+        <div class="modal-overlay" data-close-settings></div>
+
+        <div
+          class="modal-window settings-window"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Settings"
+        >
+          <button
+            class="modal-close"
+            type="button"
+            data-close-settings
+            aria-label="Close"
+          >
+            ✕
+          </button>
+
+          <div class="settings-head">
+            <h2 class="settings-title">Settings</h2>
+          </div>
+
+          <div class="settings-body">
+            <aside class="settings-tabs" role="tablist">
+              <button
+                class="settings-tab is-active"
+                data-tab="avatar"
+                type="button"
+              >
+                Avatar
+              </button>
+              <button class="settings-tab" data-tab="name" type="button">
+                Nickname
+              </button>
+              <button class="settings-tab" data-tab="stats" type="button">
+                Statistics
+              </button>
+              <button
+                class="settings-tab danger"
+                data-tab="reset"
+                type="button"
+              >
+                Reset
+              </button>
+            </aside>
+
+            <section class="settings-content">
+              <!-- AVATAR -->
+              <div class="settings-pane is-active" data-pane="avatar">
+                <p class="settings-text">
+                  Available avatars depend on your rank.
+                </p>
+                <div class="avatar-grid" id="avatarGrid"></div>
+                <div class="settings-row">
+                  <button class="pz-btn" id="saveAvatarBtn" type="button">
+                    Save avatar
+                  </button>
+                  <span class="settings-hint" id="avatarHint"></span>
+                </div>
+              </div>
+
+              <!-- NAME -->
+              <div class="settings-pane" data-pane="name">
+                <p class="settings-text">
+                  Change your nickname (it will be saved in the browser).
+                </p>
+                <div class="settings-row">
+                  <input
+                    id="newNameInput"
+                    class="settings-input"
+                    type="text"
+                    maxlength="18"
+                    placeholder="Enter your name"
+                  />
+                  <button class="pz-btn" id="saveNameBtn" type="button">
+                    Save
+                  </button>
+                </div>
+                <div class="settings-hint" id="nameHint"></div>
+              </div>
+
+              <!-- STATS -->
+              <div class="settings-pane" data-pane="stats">
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-k">Rank</div>
+                    <div class="stat-v" id="sRank">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Level</div>
+                    <div class="stat-v" id="sLevel">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">XP</div>
+                    <div class="stat-v">
+                      <span id="sXP">—</span> / <span id="sNeed">—</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">To next</div>
+                    <div class="stat-v" id="sToNext">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Total XP</div>
+                    <div class="stat-v" id="sTotal">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Times played</div>
+                    <div class="stat-v" id="sPlays">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESET -->
+              <div class="settings-pane" data-pane="reset">
+                <p class="settings-text">
+                  Resets your name, XP/level, avatar, statistics, and chapter
+                  progress.
+                </p>
+                <button
+                  class="pz-btn"
+                  id="resetAllBtn"
+                  type="button"
+                  style="background: #ff5733"
+                >
+                  Reset everything
+                </button>
+                <div class="settings-hint" id="resetHint"></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- modal -->
@@ -141,5 +305,6 @@
     <script src="../js/chapters.en.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/lang-switch.js"></script>
+    <script src="../js/settings.js"></script>
   </body>
 </html>
