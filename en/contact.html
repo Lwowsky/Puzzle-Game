@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample HTML Page</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body class="naruto-shuriken-bg-dark">
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="brand" aria-label="Home">
+          <img src="../img/logo.png" alt="Logo" class="nav-logo" />
+        </a>
+      </div>
+      <nav>
+        <ul class="header-menu">
+          <div class="rank-menu">
+            <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
+            <li><a href="rank001.html">Student</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
+            <li><a href="rank002.html">Shinobi</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
+            <li><a href="rank003.html">Genin</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
+            <li><a href="rank004.html">Chunin</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
+            <li><a href="rank005.html">Jonin</a></li>
+          </div>
+          <div class="rank-menu">
+            <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
+            <li><a href="rank006.html">Hokage</a></li>
+          </div>
+        </ul>
+      </nav>
+      <div class="nav-overlay" id="navOverlay" hidden></div>
+      <button
+        class="burger"
+        id="burgerBtn"
+        aria-label="Menu"
+        aria-controls="primaryNav"
+        aria-expanded="false"
+        type="button"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="nav-drawer" aria-label="Main menu">
+        <ul class="nav-list" id="primaryNav" aria-hidden="true">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact us</a>
+          </li>
+          <li class="lang-switches">
+            <a class="lang-flag" id="toUk" href="#" aria-label="Ukrainian">
+              <img src="../img/flags/ua.svg" alt="UA" />
+            </a>
+            <a class="lang-flag" id="toEn" href="#" aria-label="English">
+              <img src="../img/flags/gb.svg" alt="EN" />
+            </a>
+          </li>
+          <li>
+            <button
+              class="settings-btn"
+              id="openSettings"
+              type="button"
+              aria-label="Settings"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main-content">
+      <div class="main-content--second">
+        <h2 class="avatar-title">Player Name</h2>
+        <div class="avatar-subtitle">
+          <img
+            class="rank-badge"
+            id="playerRankIcon"
+            src="../img/avatar/avatar001.png"
+            alt="Rank"
+          />
+
+          <p>Rank: <span id="playerRank">Student</span></p>
+          <p>Level: <span id="playerLevel">1</span></p>
+          <p>
+            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
+          </p>
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          ></div>
+          <span class="progress-label" id="progressLabel"></span>
+        </div>
+
+        <div class="avatar-title">Statistics</div>
+        <div class="story-content story-content--text">
+          <div id="registerBox">
+            <form id="nameForm" class="name-form">
+              <input
+                id="nameInput"
+                class="name-form--input"
+                type="text"
+                placeholder="Enter your name"
+                maxlength="18"
+              />
+              <button class="name-form--btn" type="submit">Save</button>
+            </form>
+          </div>
+
+          <div class="playerPanel" id="playerPanel" hidden>
+            <div><b id="playerNameLabel"></b></div>
+            <div>Times played: <span id="statPlays">0</span></div>
+            <div>Total XP: <span id="statTotalXP">0</span></div>
+            <div>Next level: <span id="statToNext">0</span> XP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-content" id="story-content">
+        <section id="contact" class="contact">
+          <div class="contact__wrap">
+            <header class="contact__header">
+              <h2 class="contact__title">Contact</h2>
+              <p class="contact__subtitle">
+                Got an idea for a new chapter or want to report a bug? Write to
+                me 🙂
+              </p>
+            </header>
+
+            <form
+              id="contactForm"
+              class="contact__form"
+              method="POST"
+              action="https://formspree.io/f/YOUR_FORM_ID"
+              novalidate
+            >
+              <label class="contact__hp" aria-hidden="true">
+                Do not fill in this field
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </label>
+
+              <div class="contact__grid">
+                <label class="field">
+                  <span class="field__label">Name</span>
+                  <input
+                    class="field__input"
+                    name="name"
+                    type="text"
+                    placeholder="Naruto"
+                    required
+                    minlength="2"
+                  />
+                  <span class="field__error" data-error-for="name"></span>
+                </label>
+
+                <label class="field">
+                  <span class="field__label">Email</span>
+                  <input
+                    class="field__input"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                  <span class="field__error" data-error-for="email"></span>
+                </label>
+
+                <label class="field contact__full">
+                  <span class="field__label">Subject</span>
+                  <input
+                    class="field__input"
+                    name="subject"
+                    type="text"
+                    placeholder="For example: Idea for Chapter 7"
+                    required
+                    minlength="3"
+                  />
+                  <span class="field__error" data-error-for="subject"></span>
+                </label>
+
+                <label class="field contact__full">
+                  <span class="field__label">Message</span>
+                  <textarea
+                    class="field__input field__textarea"
+                    name="message"
+                    rows="6"
+                    placeholder="Describe what you need…"
+                    required
+                    minlength="10"
+                  ></textarea>
+                  <span class="field__error" data-error-for="message"></span>
+                </label>
+
+                <label class="check contact__full">
+                  <input
+                    class="check__box"
+                    type="checkbox"
+                    name="consent"
+                    required
+                  />
+                  <span class="check__text"
+                    >I agree to the processing of my data in order to respond to
+                    my message.</span
+                  >
+                </label>
+              </div>
+
+              <div class="contact__actions">
+                <button class="btn" type="submit" id="contactSubmit">
+                  <span class="btn__text">Send</span>
+                  <span class="btn__spinner" aria-hidden="true"></span>
+                </button>
+
+                <p
+                  class="contact__status"
+                  id="contactStatus"
+                  role="status"
+                  aria-live="polite"
+                ></p>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <nav class="footer-nav">
+        <p>© 2024 Puzzle Game. All rights reserved.</p>
+      </nav>
+
+      <div class="modal" id="settingsModal" aria-hidden="true">
+        <div class="modal-overlay" data-close-settings></div>
+
+        <div
+          class="modal-window settings-window"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Settings"
+        >
+          <button
+            class="modal-close"
+            type="button"
+            data-close-settings
+            aria-label="Close"
+          >
+            ✕
+          </button>
+
+          <div class="settings-head">
+            <h2 class="settings-title">Settings</h2>
+          </div>
+
+          <div class="settings-body">
+            <aside class="settings-tabs" role="tablist">
+              <button
+                class="settings-tab is-active"
+                data-tab="avatar"
+                type="button"
+              >
+                Avatar
+              </button>
+              <button class="settings-tab" data-tab="name" type="button">
+                Nickname
+              </button>
+              <button class="settings-tab" data-tab="stats" type="button">
+                Statistics
+              </button>
+              <button
+                class="settings-tab danger"
+                data-tab="reset"
+                type="button"
+              >
+                Reset
+              </button>
+            </aside>
+
+            <section class="settings-content">
+              <!-- AVATAR -->
+              <div class="settings-pane is-active" data-pane="avatar">
+                <p class="settings-text">
+                  Available avatars depend on your rank.
+                </p>
+                <div class="avatar-grid" id="avatarGrid"></div>
+                <div class="settings-row">
+                  <button class="pz-btn" id="saveAvatarBtn" type="button">
+                    Save avatar
+                  </button>
+                  <span class="settings-hint" id="avatarHint"></span>
+                </div>
+              </div>
+
+              <!-- NAME -->
+              <div class="settings-pane" data-pane="name">
+                <p class="settings-text">
+                  Change your nickname (saved in your browser).
+                </p>
+                <div class="settings-row">
+                  <input
+                    id="newNameInput"
+                    class="settings-input"
+                    type="text"
+                    maxlength="18"
+                    placeholder="Enter your name"
+                  />
+                  <button class="pz-btn" id="saveNameBtn" type="button">
+                    Save
+                  </button>
+                </div>
+                <div class="settings-hint" id="nameHint"></div>
+              </div>
+
+              <!-- STATS -->
+              <div class="settings-pane" data-pane="stats">
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-k">Rank</div>
+                    <div class="stat-v" id="sRank">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Level</div>
+                    <div class="stat-v" id="sLevel">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">XP</div>
+                    <div class="stat-v">
+                      <span id="sXP">—</span> / <span id="sNeed">—</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">To next level</div>
+                    <div class="stat-v" id="sToNext">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Total XP</div>
+                    <div class="stat-v" id="sTotal">—</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-k">Times played</div>
+                    <div class="stat-v" id="sPlays">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESET -->
+              <div class="settings-pane" data-pane="reset">
+                <p class="settings-text">
+                  Resets your name, XP/level, avatar, stats, and chapter
+                  progress.
+                </p>
+                <button
+                  class="pz-btn"
+                  id="resetAllBtn"
+                  type="button"
+                  style="background: #ff5733"
+                >
+                  Reset everything
+                </button>
+                <div class="settings-hint" id="resetHint"></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/chapters.js"></script>
+    <script src="../js/player.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/lang-switch.js" defer></script>
+    <script src="../js/contact.js"></script>
+  </body>
+</html>
