@@ -4,3 +4,36 @@
     padding: 10px 0;
     text-align: center;
 }
+@media (max-width: 768px) {
+  .footer-ranks {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 10px 0 6px;
+  }
+
+  .footer-ranks .rank-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-ranks .rank-link {
+    width: 70px;
+    height: auto;
+  }
+
+.footer-ranks a {
+  text-decoration: none;
+  color: #ff5733;
+  list-style: none;
+}
+
+.footer-ranks a:hover {
+  color: #fff;
+}
+
+}

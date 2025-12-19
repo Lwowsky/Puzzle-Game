@@ -208,3 +208,13 @@
     renderPlayerPanel();
   });
 })();
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("playerSidebar");
+  const btn = document.getElementById("playerSidebarToggle");
+  if (!sidebar || !btn) return;
+
+  btn.addEventListener("click", () => {
+    const open = sidebar.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+});

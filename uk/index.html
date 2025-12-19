@@ -26,27 +26,27 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Учень</a></li>
+            <a href="rank001.html">Учень</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
-            <li><a href="rank002.html">Шинобі</a></li>
+            <a href="rank002.html">Шинобі</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
-            <li><a href="rank003.html">Генін</a></li>
+            <a href="rank003.html">Генін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
-            <li><a href="rank004.html">Чунін</a></li>
+            <a href="rank004.html">Чунін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
-            <li><a href="rank005.html">Джонін</a></li>
+            <a href="rank005.html">Джонін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
-            <li><a href="rank006.html">Хокаге</a></li>
+            <a href="rank006.html">Хокаге</a>
           </div>
         </ul>
       </nav>
@@ -91,7 +91,17 @@
       </nav>
     </header>
     <main class="main-content">
-      <div class="main-content--second">
+      <div class="main-content--second player-sidebar" id="playerSidebar">
+        <button
+          class="player-sidebar__toggle"
+          id="playerSidebarToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="playerSidebarBody"
+        >
+          <span class="player-sidebar__chev">▾</span>
+        </button>
+         <div class="player-sidebar__body" id="playerSidebarBody">
         <h2 class="avatar-title">Player Name</h2>
         <div class="avatar-subtitle">
           <img
@@ -140,6 +150,7 @@
             <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
           </div>
         </div>
+         </div>
       </div>
       <div class="story-content" id="story-content">
         <section class="welcome">
