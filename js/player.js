@@ -141,22 +141,15 @@ const AVATAR_KEY = "playerAvatarId"; // 1..6
     if (levelEl) levelEl.textContent = String(st.level);
     if (xpEl) xpEl.textContent = String(st.xp);
     if (xpMaxEl) xpMaxEl.textContent = String(need);
-
-    // ✅ Авто-іконка рангу
     if (rankIcon) {
       rankIcon.src = `../img/avatar/avatar${pad3(rankLevel)}.png`;
       rankIcon.alt = `Rank ${rankLevel}`;
     }
 
    if (avatarImg) {
-  // беремо збережений аватар
-  let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
-
-  // підрізаємо до доступного (1..rankLevel)
+    let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
   if (!avatarId || avatarId < 1) avatarId = 1;
   if (avatarId > rankLevel) avatarId = rankLevel;
-
-  // можна зберегти назад, щоб не висіло "недоступне" значення
   localStorage.setItem(AVATAR_KEY, String(avatarId));
 
   avatarImg.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
@@ -172,12 +165,8 @@ const AVATAR_KEY = "playerAvatarId"; // 1..6
       bar.setAttribute("aria-valuemax", String(need));
       if (label) label.textContent = pct + "%";
     }
-
-    // оновимо також панель
     renderPlayerPanel();
   }
-
-  // Глобальна функція для гри: window.addXP(25)
   function addXP(amount) {
     if (!amount || !Number.isFinite(amount)) return;
 
@@ -198,8 +187,7 @@ const AVATAR_KEY = "playerAvatarId"; // 1..6
 
   document.addEventListener("DOMContentLoaded", () => {
     applyPlayerName();
-    renderPlayerInfo(); // всередині викличе renderPlayerPanel()
-
+    renderPlayerInfo(); 
     const form = document.getElementById("nameForm");
     const input = document.getElementById("nameInput");
 
@@ -213,11 +201,9 @@ const AVATAR_KEY = "playerAvatarId"; // 1..6
         input.value = "";
 
         applyPlayerName();
-        renderPlayerInfo(); // оновить і панель, і прогрес
+        renderPlayerInfo(); 
       });
     }
-
-    // на всякий випадок, якщо форми нема — але панель є
     renderPlayerPanel();
   });
 })();

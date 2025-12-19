@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sample HTML Page</title>
+    <title>Puzzle Game Hidden Leaf</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link
@@ -102,56 +102,54 @@
           <span class="player-sidebar__chev">▾</span>
           <h3 class="profile-menu">Профіль</h3>
         </button>
-         <div class="player-sidebar__body" id="playerSidebarBody">
-        <h2 class="avatar-title">Player Name</h2>
-        <div class="avatar-subtitle">
-          <img
-            class="rank-badge"
-            id="playerRankIcon"
-            src="../img/avatar/avatar001.png"
-            alt="Rank"
-          />
-
-          <p>Ранг: <span id="playerRank">Учень</span></p>
-          <p>Рівень: <span id="playerLevel">1</span></p>
-          <p>
-            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
-          </p>
-        </div>
-
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0"
-          ></div>
-          <span class="progress-label" id="progressLabel"></span>
-        </div>
-        <div class="avatar-title">Статистика</div>
-        <div class="story-content story-content--text">
-          <div id="registerBox">
-            <form id="nameForm" class="name-form">
-              <input
-                id="nameInput"
-                class="name-form--input"
-                type="text"
-                placeholder="Введи ім’я"
-                maxlength="18"
-              />
-              <button class="name-form--btn" type="submit">Зберегти</button>
-            </form>
+        <div class="player-sidebar__body" id="playerSidebarBody">
+          <h2 class="avatar-title">Player Name</h2>
+          <div class="avatar-subtitle">
+            <img
+              class="rank-badge"
+              id="playerRankIcon"
+              src="../img/avatar/avatar001.png"
+              alt="Rank"
+            />
+            <p>Ранг: <span id="playerRank">Учень</span></p>
+            <p>Рівень: <span id="playerLevel">1</span></p>
+            <p>
+              XP: <span id="playerXP">0</span> /
+              <span id="playerXPMax">100</span>
+            </p>
           </div>
-
-          <div class="playerPanel" id="playerPanel" hidden>
-            <div><b id="playerNameLabel"></b></div>
-            <div>Зіграно разів: <span id="statPlays">0</span></div>
-            <div>Всього XP: <span id="statTotalXP">0</span></div>
-            <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            ></div>
+            <span class="progress-label" id="progressLabel"></span>
+          </div>
+          <div class="avatar-title">Статистика</div>
+          <div class="story-content story-content--text">
+            <div id="registerBox">
+              <form id="nameForm" class="name-form">
+                <input
+                  id="nameInput"
+                  class="name-form--input"
+                  type="text"
+                  placeholder="Введи ім’я"
+                  maxlength="18"
+                />
+                <button class="name-form--btn" type="submit">Зберегти</button>
+              </form>
+            </div>
+            <div class="playerPanel" id="playerPanel" hidden>
+              <div><b id="playerNameLabel"></b></div>
+              <div>Зіграно разів: <span id="statPlays">0</span></div>
+              <div>Всього XP: <span id="statTotalXP">0</span></div>
+              <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+            </div>
           </div>
         </div>
-         </div>
       </div>
       <div class="story-content" id="story-content">
         <section class="welcome">
@@ -159,66 +157,101 @@
             Ласкаво просимо, <span data-player-name>Гравцю</span>!
           </h2>
           <p class="welcome-text">
-            Ти ступив у Світ Пазлів — місце, де кожен фрагмент має характер, а
-            кожне з’єднання — це твій крок до сили. Тут перемагає не поспіх, а
-            концентрація.
+            Ти увійшов у Світ Пазлів — тренувальний полігон уважності. Тут кожен
+            фрагмент має своє місце, а кожне точне з’єднання — крок до
+            майстерності шинобі. Проходь глави, збирай досвід і піднімайся
+            рангами — від Учня до Хокаге. Не поспішай: перемогу тут приносить не
+            швидкість, а концентрація й холодна голова. Твоя воля — твоя чакра.
           </p>
-          <p class="welcome-text">
-            Збирай картину з хаосу, відкривай нові глави й піднімайся сходами
-            майстерності — від Учня до рівня Каге. Твоя воля — твоя техніка.
-          </p>
-          <div class="welcome-content">
+          <div class="welcome-flow">
             <img
               src="../img/puzzles/main.png"
               alt="Welcome Image"
               class="welcome-image"
             />
-            <ul class="welcome-quotes">
-              <h3 class="welcome-subtitle">Сувої настанов</h3>
-              <li>
-                Сила починається з першого правильно поставленого шматочка.
-              </li>
-              <li>Коли не бачиш рішення — зміни кут, не відступай.</li>
-              <li>Пазл не ламається від труднощів — він стає зрозумілішим.</li>
-              <li>Терпіння — це невидима техніка, яка перемагає шум.</li>
-              <li>Один фрагмент сьогодні — ціла картина завтра.</li>
-              <li>Не бійся помилок: вони показують, де справжній шлях.</li>
-              <li>Сильний гравець не той, хто швидкий, а той, хто уважний.</li>
-              <li>Кожна глава — тренування. Кожна перемога — новий рівень.</li>
-              <li>
-                Якщо пазли “не стають” — значить, ти ще не зібрав правильну
-                думку.
-              </li>
-              <li>Воля — це клей, який тримає розрізнені частини разом.</li>
-              <li>Хаос — лише початкова форма порядку.</li>
-              <li>Найважчі пазли не лякають — вони навчають.</li>
-              <li>Зосередженість — твоя найточніша зброя.</li>
-              <li>Твій прогрес видно не в швидкості, а в впевненості руху.</li>
-              <li>Сьогодні ти шукаєш — завтра ти ведеш інших.</li>
-              <li>
-                Пам’ятай, <span data-player-name>Гравцю</span>: легенда
-                збирається по частинках.
-              </li>
-            </ul>
+            <div class="welcome-after">
+              <h3 class="welcome-subtitle">Опис місії</h3>
+              <p class="welcome-text">
+                У цьому світі кожна глава — це окрема місія. Її мета проста:
+                зібрати картину так, ніби ти складаєш техніку з печаток —
+                уважно, послідовно, без зайвих рухів. Пазли не “карають” за
+                помилки — вони навчають дисципліни й точності.
+              </p>
+              <p class="welcome-text">
+                Твій шлях вимірюється не тільки перемогами, а й тим, як ти їх
+                здобуваєш: через спостережливість, терпіння та контроль. Це і є
+                справжня сила шинобі. А кожен зібраний фрагмент — маленький
+                доказ, що хаос підкоряється волі.
+              </p>
+              <h3 class="welcome-subtitle">Система ранґів і прогрес</h3>
+              <p class="welcome-text">
+                За проходження ти отримуєш досвід і піднімаєш рівень. З рівнем
+                зростає твій ранг — від Учня до Хокаге. Це не просто “цифри”:
+                ранг означає, що ти навчився тримати фокус довше, знаходити
+                закономірності швидше і не губитися, коли картинка здається
+                заплутаною.
+              </p>
+              <p class="welcome-text">
+                Пам’ятай: аватарки відкриваються разом із рангом. Чим вищий
+                рівень — тим ширший вибір стилю. Обирай той образ, який
+                відповідає твоєму характеру: спокійний тактик, швидкий аналітик
+                чи наполегливий “доведу до кінця за будь-яку ціну”.
+              </p>
+              <h3 class="welcome-subtitle">Тактика шинобі для пазлів</h3>
+              <p class="welcome-text">
+                Якщо хочеш проходити впевнено — грай як шинобі, а не як новачок
+                на емоціях. Ось “тихі техніки”, які дають результат:
+              </p>
+              <ul class="welcome-quotes">
+                <li>
+                  <b>Техніка рамки:</b> почни з кутів і країв — це твій “щит” і
+                  опора.
+                </li>
+                <li>
+                  <b>Техніка зон:</b> розділи поле на ділянки
+                  (небо/трава/обличчя/фон) і працюй по секторах.
+                </li>
+                <li>
+                  <b>Техніка відтінків:</b> шукай не колір, а <i>переходи</i>
+                  (тіні, світло, лінії).
+                </li>
+                <li>
+                  <b>Техніка паузи:</b> якщо “не йде” — зроби крок назад: мозок
+                  добудує патерни сам.
+                </li>
+                <li>
+                  <b>Техніка чистоти:</b> менше хаосу на полі — менше помилок у
+                  голові.
+                </li>
+              </ul>
+              <h3 class="welcome-subtitle">Сувій дисципліни</h3>
+              <p class="welcome-text">
+                Справжня різниця між Учнем і Джоніном — у стабільності. Джонін
+                не шукає “удачу”, він створює умови, де правильне рішення стає
+                неминучим. Грай спокійно, але наполегливо: кожна завершена глава
+                тренує уважність так само, як щоденні вправи тренують чакру.
+              </p>
+              <p class="welcome-text">
+                А ще — не порівнюй себе з іншими. Порівнюй себе з учорашнім
+                <span data-player-name>Гравцем</span>. Якщо сьогодні ти зібрав
+                на один фрагмент точніше, ніж учора — ти вже став сильнішим.
+              </p>
+              <div class="welcome-divider" aria-hidden="true"></div>
+              <p class="welcome-text">
+                <b>Готовий?</b> Зосередься. Вирівняй дихання. І починай збирати
+                — фрагмент за фрагментом.
+              </p>
+            </div>
           </div>
-          <p class="welcome-note">
-            Натискай
-            <a class="controls-button" id="start-game" style="color: #ff5733"
-              >Почати / Продовжити</a
-            >
-            , щоб повернутися туди, де ти зупинився — і зробити наступний крок.
-          </p>
         </section>
       </div>
     </main>
     <footer class="footer">
       <nav class="footer-nav">
-        <p>© 2024 Puzzle Game. All rights reserved.</p>
+        <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
       <div class="modal" id="settingsModal" aria-hidden="true">
-        S
         <div class="modal-overlay" data-close-settings></div>
-
         <div
           class="modal-window settings-window"
           role="dialog"
@@ -233,11 +266,9 @@
           >
             ✕
           </button>
-
           <div class="settings-head">
             <h2 class="settings-title">Налаштування</h2>
           </div>
-
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
               <button
@@ -261,9 +292,7 @@
                 Скинути
               </button>
             </aside>
-
             <section class="settings-content">
-              <!-- AVATAR -->
               <div class="settings-pane is-active" data-pane="avatar">
                 <p class="settings-text">
                   Доступні аватари залежать від твого рангу.
@@ -276,8 +305,6 @@
                   <span class="settings-hint" id="avatarHint"></span>
                 </div>
               </div>
-
-              <!-- NAME -->
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
                   Зміни нікнейм (збережеться у браузері).
@@ -296,8 +323,6 @@
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
-
-              <!-- STATS -->
               <div class="settings-pane" data-pane="stats">
                 <div class="stats-grid">
                   <div class="stat-card">
@@ -328,8 +353,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- RESET -->
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
                   Скине ім’я, XP/level, аватар, статистику і прогрес проходження
@@ -351,7 +374,7 @@
       </div>
     </footer>
     <script src="../js/script.js"></script>
-    <script src="../js/chapters.js"></script>
+    <script src="../js/chapters.uk.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/settings.js"></script>

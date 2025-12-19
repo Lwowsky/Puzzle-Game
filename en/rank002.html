@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sample HTML Page</title>
+    <title>Chapter 2: The Ninja Path</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link
@@ -16,7 +16,6 @@
     />
   </head>
   <body class="naruto-shuriken-bg-dark" data-rank="2">
-    <body class="naruto-shuriken-bg-dark">
     <header class="header">
       <div class="header-inner">
         <a href="index.html" class="brand" aria-label="Home">
@@ -27,27 +26,27 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Student</a></li>
+            <a href="rank001.html">Student</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
-            <li><a href="rank002.html">Shinobi</a></li>
+            <a href="rank002.html">Shinobi</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
-            <li><a href="rank003.html">Genin</a></li>
+            <a href="rank003.html">Genin</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
-            <li><a href="rank004.html">Chunin</a></li>
+            <a href="rank004.html">Chunin</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
-            <li><a href="rank005.html">Jonin</a></li>
+            <a href="rank005.html">Jonin</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
-            <li><a href="rank006.html">Hokage</a></li>
+            <a href="rank006.html">Hokage</a>
           </div>
         </ul>
       </nav>
@@ -92,71 +91,78 @@
       </nav>
     </header>
     <main class="main-content">
-      <div class="main-content--second">
-        <h2 class="avatar-title">Player Name</h2>
-        <div class="avatar-subtitle">
-          <img
-            class="rank-badge"
-            id="playerRankIcon"
-            src="../img/avatar/avatar001.png"
-            alt="Rank"
-          />
-
-          <p>Rank: <span id="playerRank">Student</span></p>
-          <p>Level: <span id="playerLevel">1</span></p>
-          <p>
-            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
-          </p>
-        </div>
-
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0"
-          ></div>
-          <span class="progress-label" id="progressLabel"></span>
-        </div>
-        <div class="avatar-title">Statistics</div>
-        <div class="story-content story-content--text">
-          <div id="registerBox">
-            <form id="nameForm" class="name-form">
-              <input
-                id="nameInput"
-                class="name-form--input"
-                type="text"
-                placeholder="Enter your name"
-                maxlength="18"
-              />
-              <button class="name-form--btn" type="submit">Save</button>
-            </form>
+      <div class="main-content--second player-sidebar" id="playerSidebar">
+        <button
+          class="player-sidebar__toggle"
+          id="playerSidebarToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="playerSidebarBody"
+        >
+          <span class="player-sidebar__chev">▾</span>
+          <h3 class="profile-menu">Profile</h3>
+        </button>
+        <div class="player-sidebar__body" id="playerSidebarBody">
+          <h2 class="avatar-title">Player Name</h2>
+          <div class="avatar-subtitle">
+            <img
+              class="rank-badge"
+              id="playerRankIcon"
+              src="../img/avatar/avatar001.png"
+              alt="Rank"
+            />
+            <p>Rank: <span id="playerRank">Student</span></p>
+            <p>Level: <span id="playerLevel">1</span></p>
+            <p>
+              XP: <span id="playerXP">0</span> /
+              <span id="playerXPMax">100</span>
+            </p>
           </div>
-
-          <div class="playerPanel" id="playerPanel" hidden>
-            <div><b id="playerNameLabel"></b></div>
-            <div>Times played: <span id="statPlays">0</span></div>
-            <div>Total XP: <span id="statTotalXP">0</span></div>
-            <div>Next level: <span id="statToNext">0</span> XP</div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            ></div>
+            <span class="progress-label" id="progressLabel"></span>
+          </div>
+          <div class="avatar-title">Statistics</div>
+          <div class="story-content story-content--text">
+            <div id="registerBox">
+              <form id="nameForm" class="name-form">
+                <input
+                  id="nameInput"
+                  class="name-form--input"
+                  type="text"
+                  placeholder="Enter your name"
+                  maxlength="18"
+                />
+                <button class="name-form--btn" type="submit">Save</button>
+              </form>
+            </div>
+            <div class="playerPanel" id="playerPanel" hidden>
+              <div><b id="playerNameLabel"></b></div>
+              <div>Times played: <span id="statPlays">0</span></div>
+              <div>Total XP: <span id="statTotalXP">0</span></div>
+              <div>Next level: <span id="statToNext">0</span> XP</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="story-content" id="story-content">
-        <h2 class="game-card--title">Section 2: The Ninja’s Path</h2>
+        <h2 class="game-card--title">Chapter 2: The Ninja Path</h2>
         <div class="sections" id="gameSections"></div>
         <div class="games-grid" id="rankGames"></div>
       </div>
     </main>
-
-          <footer class="footer">
+    <footer class="footer">
       <nav class="footer-nav">
-        <p>© 2024 Puzzle Game. All rights reserved.</p>
+        <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
       <div class="modal" id="settingsModal" aria-hidden="true">
-        S
         <div class="modal-overlay" data-close-settings></div>
-
         <div
           class="modal-window settings-window"
           role="dialog"
@@ -171,11 +177,9 @@
           >
             ✕
           </button>
-
           <div class="settings-head">
             <h2 class="settings-title">Settings</h2>
           </div>
-
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
               <button
@@ -199,9 +203,7 @@
                 Reset
               </button>
             </aside>
-
             <section class="settings-content">
-              <!-- AVATAR -->
               <div class="settings-pane is-active" data-pane="avatar">
                 <p class="settings-text">
                   Available avatars depend on your rank.
@@ -214,8 +216,6 @@
                   <span class="settings-hint" id="avatarHint"></span>
                 </div>
               </div>
-
-              <!-- NAME -->
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
                   Change your nickname (it will be saved in the browser).
@@ -234,8 +234,6 @@
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
-
-              <!-- STATS -->
               <div class="settings-pane" data-pane="stats">
                 <div class="stats-grid">
                   <div class="stat-card">
@@ -266,12 +264,9 @@
                   </div>
                 </div>
               </div>
-
-              <!-- RESET -->
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
-                  Resets your name, XP/level, avatar, statistics, and chapter
-                  progress.
+                  Resets your name, XP/level, avatar, statistics, and chapter completion progress.
                 </p>
                 <button
                   class="pz-btn"
@@ -288,17 +283,6 @@
         </div>
       </div>
     </footer>
-
-    <!-- modal -->
-    <div class="modal" id="gameModal" aria-hidden="true">
-      <div class="modal-overlay" data-close></div>
-
-      <div class="modal-window" role="dialog" aria-modal="true" aria-label="Game">
-        <button class="modal-close" type="button" data-close aria-label="Close">✕</button>
-        <iframe class="modal-frame" id="gameFrame" src="" loading="lazy" title="Puzzle Game"></iframe>
-      </div>
-    </div>
-
     <script src="../js/script.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/stories.en.js"></script>

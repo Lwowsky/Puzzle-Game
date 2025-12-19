@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sample HTML Page</title>
+    <title>Розділ 4: Спадок Мудреця</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link
@@ -26,27 +26,27 @@
         <ul class="header-menu">
           <div class="rank-menu">
             <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <li><a href="rank001.html">Учень</a></li>
+            <a href="rank001.html">Учень</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
-            <li><a href="rank002.html">Шинобі</a></li>
+            <a href="rank002.html">Шинобі</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
-            <li><a href="rank003.html">Генін</a></li>
+            <a href="rank003.html">Генін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
-            <li><a href="rank004.html">Чунін</a></li>
+            <a href="rank004.html">Чунін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
-            <li><a href="rank005.html">Джонін</a></li>
+            <a href="rank005.html">Джонін</a>
           </div>
           <div class="rank-menu">
             <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
-            <li><a href="rank006.html">Хокаге</a></li>
+            <a href="rank006.html">Хокаге</a>
           </div>
         </ul>
       </nav>
@@ -90,55 +90,64 @@
         </ul>
       </nav>
     </header>
-
     <main class="main-content">
-      <div class="main-content--second">
-        <h2 class="avatar-title">Player Name</h2>
-        <div class="avatar-subtitle">
-          <img
-            class="rank-badge"
-            id="playerRankIcon"
-            src="../img/avatar/avatar001.png"
-            alt="Rank"
-          />
-
-          <p>Ранг: <span id="playerRank">Учень</span></p>
-          <p>Рівень: <span id="playerLevel">1</span></p>
-          <p>
-            XP: <span id="playerXP">0</span> / <span id="playerXPMax">100</span>
-          </p>
-        </div>
-
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0"
-          ></div>
-          <span class="progress-label" id="progressLabel"></span>
-        </div>
-        <div class="avatar-title">Статистика</div>
-        <div class="story-content story-content--text">
-          <div id="registerBox">
-            <form id="nameForm" class="name-form">
-              <input
-                id="nameInput"
-                class="name-form--input"
-                type="text"
-                placeholder="Введи ім’я"
-                maxlength="18"
-              />
-              <button class="name-form--btn" type="submit">Зберегти</button>
-            </form>
+      <div class="main-content--second player-sidebar" id="playerSidebar">
+        <button
+          class="player-sidebar__toggle"
+          id="playerSidebarToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="playerSidebarBody"
+        >
+          <span class="player-sidebar__chev">▾</span>
+          <h3 class="profile-menu">Профіль</h3>
+        </button>
+        <div class="player-sidebar__body" id="playerSidebarBody">
+          <h2 class="avatar-title">Player Name</h2>
+          <div class="avatar-subtitle">
+            <img
+              class="rank-badge"
+              id="playerRankIcon"
+              src="../img/avatar/avatar001.png"
+              alt="Rank"
+            />
+            <p>Ранг: <span id="playerRank">Учень</span></p>
+            <p>Рівень: <span id="playerLevel">1</span></p>
+            <p>
+              XP: <span id="playerXP">0</span> /
+              <span id="playerXPMax">100</span>
+            </p>
           </div>
-
-          <div class="playerPanel" id="playerPanel" hidden>
-            <div><b id="playerNameLabel"></b></div>
-            <div>Зіграно разів: <span id="statPlays">0</span></div>
-            <div>Всього XP: <span id="statTotalXP">0</span></div>
-            <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            ></div>
+            <span class="progress-label" id="progressLabel"></span>
+          </div>
+          <div class="avatar-title">Статистика</div>
+          <div class="story-content story-content--text">
+            <div id="registerBox">
+              <form id="nameForm" class="name-form">
+                <input
+                  id="nameInput"
+                  class="name-form--input"
+                  type="text"
+                  placeholder="Введи ім’я"
+                  maxlength="18"
+                />
+                <button class="name-form--btn" type="submit">Зберегти</button>
+              </form>
+            </div>
+            <div class="playerPanel" id="playerPanel" hidden>
+              <div><b id="playerNameLabel"></b></div>
+              <div>Зіграно разів: <span id="statPlays">0</span></div>
+              <div>Всього XP: <span id="statTotalXP">0</span></div>
+              <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+            </div>
           </div>
         </div>
       </div>
@@ -150,12 +159,10 @@
     </main>
     <footer class="footer">
       <nav class="footer-nav">
-        <p>© 2024 Puzzle Game. All rights reserved.</p>
+        <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
       <div class="modal" id="settingsModal" aria-hidden="true">
-        S
         <div class="modal-overlay" data-close-settings></div>
-
         <div
           class="modal-window settings-window"
           role="dialog"
@@ -170,11 +177,9 @@
           >
             ✕
           </button>
-
           <div class="settings-head">
             <h2 class="settings-title">Налаштування</h2>
           </div>
-
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
               <button
@@ -198,9 +203,7 @@
                 Скинути
               </button>
             </aside>
-
             <section class="settings-content">
-              <!-- AVATAR -->
               <div class="settings-pane is-active" data-pane="avatar">
                 <p class="settings-text">
                   Доступні аватари залежать від твого рангу.
@@ -213,8 +216,6 @@
                   <span class="settings-hint" id="avatarHint"></span>
                 </div>
               </div>
-
-              <!-- NAME -->
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
                   Зміни нікнейм (збережеться у браузері).
@@ -233,8 +234,6 @@
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
-
-              <!-- STATS -->
               <div class="settings-pane" data-pane="stats">
                 <div class="stats-grid">
                   <div class="stat-card">
@@ -265,8 +264,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- RESET -->
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
                   Скине ім’я, XP/level, аватар, статистику і прогрес проходження
@@ -287,39 +284,11 @@
         </div>
       </div>
     </footer>
-    <div class="modal" id="gameModal" aria-hidden="true">
-      <div class="modal-overlay" data-close></div>
-      <div
-        class="modal-window"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Гра"
-      >
-        <button
-          class="modal-close"
-          type="button"
-          data-close
-          aria-label="Закрити"
-        >
-          ✕
-        </button>
-
-        <iframe
-          class="modal-frame"
-          id="gameFrame"
-          src=""
-          loading="lazy"
-          title="Puzzle Game"
-        ></iframe>
-      </div>
-    </div>
-
     <script src="../js/script.js"></script>
     <script src="../js/chapters.uk.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
-    <script src="../js/stories.uk.js"></script>
     <script src="../js/settings.js"></script>
-    <script src="../js/lang-switch.js"></script>
+    <script src="../js/lang-switch.js" defer></script>
   </body>
 </html>

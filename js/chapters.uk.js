@@ -58,10 +58,7 @@
 
       const u = new URL("game.html", location.href);
       u.searchParams.set("id", String(id));
-
       const thumb = `../img/puzzles/tom${pad3(id)}.png`;
-
-      // назва глави з stories.js
       const chapterName = window.STORIES?.[id]?.chapter || `Глава ${id}`;
 
       html += `<div>
@@ -82,7 +79,6 @@
         </a></div>
       `;
     }
-
     grid.innerHTML = html;
   });
 })();

@@ -3,14 +3,14 @@
   padding: 20px;
   display: grid;
   grid-template-columns: 1fr 5fr;
-   color: #EDE7DD;
-   gap: 20px;
-  }
-  .main-content--second {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    border-radius: 10px;
-  }
+  color: #ede7dd;
+  gap: 20px;
+}
+.main-content--second {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+}
 .main-section {
   background-color: #fff;
   padding: 15px;
@@ -21,16 +21,15 @@
 
 .story-content {
   padding: 15px;
-  background-color: #EDE7DD;
+  background-color: #ede7dd;
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
 }
 
 .avatar-title {
   font-family: "Chewy", system-ui, sans-serif;
   font-size: 32px;
-  color: #EDE7DD;
+  color: #ede7dd;
   margin: 15px;
   text-align: center;
 }
@@ -52,11 +51,11 @@
 }
 .start-game {
   display: flex;
-    justify-content: center;
+  justify-content: center;
   margin-top: 20px;
   border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
+  padding: 10px 20px;
+  border: none;
 }
 .start-game:hover {
   background-color: #ff5733;
@@ -66,7 +65,7 @@
 .avatar-subtitle {
   font-family: "Chewy", system-ui, sans-serif;
   font-size: 24px;
-  background-color: #EDE7DD;
+  background-color: #ede7dd;
   margin: 10px;
   text-align: center;
   border-radius: 10px;
@@ -81,119 +80,133 @@
   color: black;
 }
 
+/* =========================
+   ✅ WELCOME (виправлено)
+   ========================= */
+
 .welcome {
   font-size: 24px;
   text-align: center;
   color: #ff5733;
 }
-.welcome-content {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap; 
+
+/* В цьому блоці іде "обтікання" картинки */
+.welcome-flow {
+  text-align: left; /* щоб списки/текст були читабельні */
 }
+
+/* Картинка зліва, а текст обтікає і потім йде під неї */
 .welcome-image {
-  width: 450px;
+  float: left;
+  width: 420px;
+  max-width: 45%;
   height: auto;
-  border-radius: 30px;
-  flex: 0 1 450px;
+  margin: 0 24px 16px 0;
+  border-radius: 28px;
 }
-.welcome-quotes{
-  flex: 1 1 520px;      
+
+/* щоб блок коректно враховував float */
+.welcome-flow::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.welcome-after {
+  margin-top: 20px;
+}
+
+/* список */
+.welcome-quotes {
   min-width: 280px;
   margin: 0;
-  padding-left: 22px;  
+  padding-left: 22px;
   text-align: left;
 }
 .welcome-quotes li {
- font-size: 1.3rem;
- color: black;
- list-style-type: disc;
- justify-self: left;
+  font-size: 1.3rem;
+  color: black;
+  list-style-type: disc;
 }
+
 .welcome-subtitle {
   font-family: "Chewy", system-ui, sans-serif;
   font-size: 1.5rem;
   color: #ff5733;
-  margin-bottom: 10px;
-  margin-top: 0;
+  margin: 14px 0 10px;
+  text-align: center;
 }
+
 .welcome-text {
   font-size: 1.4rem;
-  margin: 0;
+  margin: 10px 0 0;
   color: black;
 }
+
 .welcome-note {
   font-size: 1.4rem;
   margin-top: 20px;
   color: black;
 }
-@media (max-width: 768px){
-  /* 2 колонки -> 1 колонка */
-  .main-content{
+
+@media (max-width: 768px) {
+  .main-content {
     grid-template-columns: 1fr;
     gap: 14px;
     padding: 12px;
   }
 
-  .story-content{
+  .story-content {
     padding: 14px;
     border-radius: 18px;
   }
 
-  /* текст і заголовки */
-  .welcome{
+  .welcome {
     font-size: 20px;
     text-align: center;
   }
 
-  .welcome-title{
+  .welcome-title {
     margin: 8px 0 10px;
   }
 
-  .welcome-text{
+  .welcome-text {
     font-size: 1.08rem;
     line-height: 1.5;
     margin: 10px 0 0;
     text-align: center;
   }
 
-  /* головне: робимо колонку і переставляємо елементи */
-  .welcome-content{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-
-  /* картинка після тексту і на всю ширину */
-  .welcome-image{
-    order: 2;
+  .welcome-image {
+    float: none;
+    display: block;
     width: 100%;
     max-width: 100%;
+    margin: 0 auto 14px;
     border-radius: 18px;
-    display: block;
   }
 
-  /* блок зі списком після картинки */
-  .welcome-quotes{
-    order: 3;
+  .welcome-flow {
+    text-align: left;
+  }
+
+  .welcome-subtitle {
+    text-align: center;
+    margin: 12px 0 10px 0;
+  }
+
+  .welcome-quotes {
     width: 100%;
     padding-left: 18px;
     margin: 0;
   }
 
-  .welcome-subtitle{
-    text-align: center;
-    margin: 0 0 10px 0;
-  }
-
-  .welcome-quotes li{
+  .welcome-quotes li {
     font-size: 1.05rem;
     line-height: 1.45;
   }
 
-  .welcome-note{
+  .welcome-note {
     font-size: 1.08rem;
     line-height: 1.5;
     text-align: center;
