@@ -221,22 +221,22 @@
 }
 
 @media (max-width: 768px) {
-   .player-sidebar {
-    order: -1;      
+  .player-sidebar {
+    order: -1;
     width: 100%;
   }
 
   .player-sidebar__toggle {
-    display: flex;
+    display: grid;
     width: 100%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: initial;
     gap: 12px;
-
+    grid-template-columns: 24px 1fr 24px;
     padding: 12px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(17,17,17,.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(17, 17, 17, 0.55);
     color: #e6e6e6;
     font-weight: 800;
     cursor: pointer;
@@ -246,24 +246,33 @@
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: max-height .25s ease, opacity .2s ease;
+    transition: max-height 0.25s ease, opacity 0.2s ease;
   }
 
   .player-sidebar.is-open .player-sidebar__body {
-    max-height: 1200px; 
+    max-height: 1200px;
     opacity: 1;
     margin-top: 10px;
   }
 
   .player-sidebar__chev {
-    transition: transform .2s ease;
+    transition: transform 0.2s ease;
+    justify-self: start;
   }
   .player-sidebar.is-open .player-sidebar__chev {
     transform: rotate(180deg);
   }
   .main-content {
     display: flex;
-    flex-direction: column; /* лівий блок піде наверх */
+    flex-direction: column;
     gap: 14px;
+  }
+  .profile-menu {
+    justify-self: center;
+    margin: 0;
+    text-align: center;
+    color: #ede7dd;
+    font-family: "Chewy", system-ui, sans-serif;
+    font-size: 18px;
   }
 }
