@@ -1,8 +1,8 @@
 .footer-nav {
-    background-color: #222;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
+  background-color: #222;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
 }
 @media (max-width: 768px) {
   .footer-ranks {
@@ -22,18 +22,15 @@
   }
 
   .footer-ranks .rank-link {
-    width: 50px;
+    width: 45px;
     height: auto;
   }
 
-.footer-ranks a {
-  text-decoration: none;
-  color: #ff5733;
-  list-style: none;
-}
+  .footer-ranks a {
+    color: #ff5733;
+  }
 
-.footer-ranks a:hover {
-  color: #fff;
-}
-
+  .footer-ranks a:hover {
+    color: #fff;
+  }
 }
