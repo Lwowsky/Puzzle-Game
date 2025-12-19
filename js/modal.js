@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!modal || !frame || !grid) return;
 
   function openModal(rawUrl) {
-    // cache-buster, щоб iframe точно вантажив нову гру
     const u = new URL(rawUrl, location.href);
     u.searchParams.set("_", String(Date.now()));
 

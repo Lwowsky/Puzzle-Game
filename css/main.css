@@ -88,14 +88,23 @@
 }
 .welcome-content {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 15px;
+  gap: 24px;
+  flex-wrap: wrap; 
 }
 .welcome-image {
   width: 450px;
+  height: auto;
   border-radius: 30px;
+  flex: 0 1 450px;
+}
+.welcome-quotes{
+  flex: 1 1 520px;      
+  min-width: 280px;
+  margin: 0;
+  padding-left: 22px;  
+  text-align: left;
 }
 .welcome-quotes li {
  font-size: 1.3rem;
@@ -119,4 +128,74 @@
   font-size: 1.4rem;
   margin-top: 20px;
   color: black;
+}
+@media (max-width: 768px){
+  /* 2 колонки -> 1 колонка */
+  .main-content{
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 12px;
+  }
+
+  .story-content{
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  /* текст і заголовки */
+  .welcome{
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .welcome-title{
+    margin: 8px 0 10px;
+  }
+
+  .welcome-text{
+    font-size: 1.08rem;
+    line-height: 1.5;
+    margin: 10px 0 0;
+    text-align: center;
+  }
+
+  /* головне: робимо колонку і переставляємо елементи */
+  .welcome-content{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  /* картинка після тексту і на всю ширину */
+  .welcome-image{
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+    display: block;
+  }
+
+  /* блок зі списком після картинки */
+  .welcome-quotes{
+    order: 3;
+    width: 100%;
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  .welcome-subtitle{
+    text-align: center;
+    margin: 0 0 10px 0;
+  }
+
+  .welcome-quotes li{
+    font-size: 1.05rem;
+    line-height: 1.45;
+  }
+
+  .welcome-note{
+    font-size: 1.08rem;
+    line-height: 1.5;
+    text-align: center;
+  }
 }
