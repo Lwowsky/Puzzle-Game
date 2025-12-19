@@ -2,6 +2,7 @@
   const NAME_KEY = "playerName";
   const STATE_KEY = "playerState"; // { level: number, xp: number }
   const WINS_KEY = "gamesPlayed"; // будемо рахувати перемоги (wins)
+const AVATAR_KEY = "playerAvatarId"; // 1..6
 
   const RANKS_UK = ["Учень", "Шинобі", "Генін", "Чунін", "Джонін", "Хокаге"];
   const RANKS_EN = [
@@ -147,9 +148,21 @@
       rankIcon.alt = `Rank ${rankLevel}`;
     }
 
-    if (avatarImg) {
-      avatarImg.src = `../img/avatar/avatar${pad3(rankLevel)}.png`;
-    }
+   if (avatarImg) {
+  // беремо збережений аватар
+  let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
+
+  // підрізаємо до доступного (1..rankLevel)
+  if (!avatarId || avatarId < 1) avatarId = 1;
+  if (avatarId > rankLevel) avatarId = rankLevel;
+
+  // можна зберегти назад, щоб не висіло "недоступне" значення
+  localStorage.setItem(AVATAR_KEY, String(avatarId));
+
+  avatarImg.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
+  avatarImg.alt = `Avatar ${avatarId}`;
+}
+
 
     if (bar) {
       const pct =
