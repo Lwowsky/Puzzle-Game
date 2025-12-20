@@ -82,6 +82,7 @@
           <div id="pzBoard" aria-label="Puzzle board"></div>
         </div>
         <div class="pz-right">
+        <div class="pz-top">
             <div class="pz-controls pz-sizes">
               <div class="pz-size-option">
                 <button class="pz-btn" data-size="3" type="button">3×3</button>
