@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!modal || !frame || !grid) return;
 
   function openModal(rawUrl) {
+   
     const u = new URL(rawUrl, location.href);
     u.searchParams.set("_", String(Date.now()));
 

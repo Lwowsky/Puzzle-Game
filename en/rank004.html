@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chapter 4: The Sage&#39;s Legacy</title>
+    <title>Section 4: The Sage’s Legacy</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link
@@ -152,7 +152,7 @@
         </div>
       </div>
       <div class="story-content" id="story-content">
-        <h2 class="game-card--title">Chapter 4: The Sage&#39;s Legacy</h2>
+        <h2 class="game-card--title">Section 4: The Sage’s Legacy</h2>
         <div class="sections" id="gameSections"></div>
         <div class="games-grid" id="rankGames"></div>
       </div>
@@ -266,8 +266,8 @@
               </div>
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
-                  Resets your name, XP/level, avatar, statistics, and chapter completion
-                  progress.
+                  Resets your name, XP/level, avatar, statistics, and chapter
+                  completion progress.
                 </p>
                 <button
                   class="pz-btn"
@@ -284,9 +284,28 @@
         </div>
       </div>
     </footer>
+    <div class="modal" id="gameModal" aria-hidden="true">
+      <div class="modal-overlay" data-close></div>
+      <div
+        class="modal-window"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Game"
+      >
+        <button class="modal-close" type="button" data-close aria-label="Close">
+          ✕
+        </button>
+        <iframe
+          class="modal-frame"
+          id="gameFrame"
+          src=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
     <script src="../js/script.js"></script>
     <script src="../js/player.js"></script>
-    <script src="../js/stories.en.js"></script>
+    <script src="../js/stories.en.js" defer></script>
     <script src="../js/chapters.en.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/lang-switch.js"></script>
