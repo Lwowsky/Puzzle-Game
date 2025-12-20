@@ -56,6 +56,9 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.25);
   overflow: hidden;
+
+  /* ✅ ВАЖЛИВО ДЛЯ МОБІЛЬНИХ: менше випадкового скролу/зуму */
+  touch-action: manipulation;
 }
 
 .pz-piece {
@@ -65,14 +68,28 @@
   background-size: 300% 300%;
   cursor: grab;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.35);
-  transition: transform 0.12s ease;
+  transition: transform 0.12s ease, opacity 0.12s ease, outline 0.12s ease;
 }
 
 .pz-piece:active {
   cursor: grabbing;
   transform: scale(0.98);
+}
+
+/* ✅ Коли тягнеш на ПК */
+.pz-piece.is-dragging {
+  opacity: 0.6;
+}
+
+/* ✅ МОБІЛЬНИЙ РЕЖИМ: вибраний шматок (tap-to-swap) */
+.pz-piece.is-selected {
+  outline: 3px solid #ff5733;
+  outline-offset: -3px;
+  transform: scale(0.985);
 }
 
 .pz-status {
@@ -86,24 +103,29 @@
   font-weight: 700;
   opacity: 0.9;
 }
+
 .pz-layout {
   display: flex;
   gap: 10px;
   align-items: center;
   margin: 0 7px;
 }
+
 .pz-left {
   flex-grow: 1;
 }
+
 .pz-right {
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
 }
+
 .pz-top {
   flex-direction: column;
 }
+
 .pz-controls {
   flex-direction: row;
   flex-wrap: wrap;
@@ -114,6 +136,7 @@
     flex-direction: column;
     align-items: center;
   }
+
   .pz-left {
     width: 100%;
     display: flex;
@@ -121,9 +144,9 @@
   }
 
   #pzBoard {
-    width: 92vw;          
-    max-width: 420px;     
-    aspect-ratio: 1 / 1;  
+    width: 92vw;
+    max-width: 420px;
+    aspect-ratio: 1 / 1;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
   }

@@ -1,4 +1,7 @@
 (() => {
+  // -----------------------------
+  // Helpers
+  // -----------------------------
   function getId() {
     const qs = new URLSearchParams(location.search);
     const n = Number(qs.get("id"));
@@ -18,8 +21,11 @@
       .replaceAll("'", "&#39;");
   }
 
-  // fallback (якщо у тебе нема window.addXP у player.js)
+  // -----------------------------
+  // XP fallback (якщо нема window.addXP у player.js)
+  // -----------------------------
   const PLAYER_STATE_KEY = "playerState";
+
   function loadPlayerState() {
     try {
       const raw = localStorage.getItem(PLAYER_STATE_KEY);
@@ -33,27 +39,26 @@
       return { level: 1, xp: 0 };
     }
   }
+
   function savePlayerState(state) {
     localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
   }
+
   function xpNeeded(level) {
-    // lvl1 -> 100, lvl2 -> 200, lvl3 -> 400 ...
     return 100 * Math.pow(2, Math.max(0, level - 1));
   }
+
   function addXP(amount) {
     if (!amount) return;
 
-    // якщо у тебе вже є addXP у player.js — використовуємо його
     if (typeof window.addXP === "function") {
       window.addXP(amount);
       return;
     }
 
-    // інакше — простий fallback
     const st = loadPlayerState();
     st.xp += amount;
 
-    // ап левел
     while (st.xp >= xpNeeded(st.level)) {
       st.xp -= xpNeeded(st.level);
       st.level += 1;
@@ -61,19 +66,19 @@
 
     savePlayerState(st);
 
-    // якщо є твоя функція для оновлення UI — викличемо
     if (typeof window.renderPlayerInfo === "function") {
       window.renderPlayerInfo();
     }
   }
 
+  // -----------------------------
+  // Main
+  // -----------------------------
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
     const id3 = pad3(id);
 
     const COMPLETED_KEY = "completedRanks";
-
-    // XP правила
     const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
     const FIRST_CLEAR_BONUS_XP = 25;
 
@@ -104,7 +109,9 @@
 
     container.innerHTML = `
       <div class="pz-layout">
-        <div class="pz-left"><div id="pzBoard"></div></div>
+        <div class="pz-left">
+          <div id="pzBoard" aria-label="Puzzle board"></div>
+        </div>
 
         <div class="pz-right">
           <div class="pz-top">
@@ -113,6 +120,7 @@
               <button class="pz-btn" data-size="4" type="button">4×4</button>
               <button class="pz-btn" data-size="5" type="button">5×5</button>
             </div>
+
             <div class="pz-stats">
               <div>⏳ <span id="pzTime">0</span> сек</div>
               <div>🏆 <span id="pzBest">—</span></div>
@@ -148,11 +156,16 @@
       `../img/puzzles/${id3}.jpg`,
     ];
 
+    // На мобільних drag&drop часто не працює -> робимо tap-to-swap
+    const isTouch = matchMedia("(pointer: coarse)").matches;
+
     let size = 3;
     let imgSrc = "";
+
     let pieces = [];
     let correctOrder = [];
     let dragged = null;
+    let selectedPiece = null;
 
     let timer = null;
     let time = 0;
@@ -173,6 +186,28 @@
       });
     }
 
+    function renderBoard() {
+      board.innerHTML = "";
+      pieces.forEach((p) => board.appendChild(p));
+    }
+
+    function swapPieces(p1, p2) {
+      const a = pieces.indexOf(p1);
+      const b = pieces.indexOf(p2);
+      if (a < 0 || b < 0) return;
+
+      pieces[a] = p2;
+      pieces[b] = p1;
+
+      renderBoard();
+      checkWin();
+    }
+
+    function clearSelection() {
+      if (selectedPiece) selectedPiece.classList.remove("is-selected");
+      selectedPiece = null;
+    }
+
     container.querySelectorAll("[data-size]").forEach((btn) => {
       btn.addEventListener("click", () => {
         size = Number(btn.dataset.size);
@@ -184,7 +219,6 @@
     shuffleBtn.addEventListener("click", shuffle);
     resetBtn.addEventListener("click", startGame);
 
-    // Кнопка тепер просто закриває/оновлює список (XP не дає)
     completeBtn.addEventListener("click", () => {
       window.parent?.postMessage({ type: "puzzleWin", id }, "*");
       status.textContent = "✅ Готово!";
@@ -195,6 +229,7 @@
         hintEl.textContent = `❌ Нема картинки для гри ${id}. Додай: img/puzzles/tom${id3}.png`;
         return;
       }
+
       const src = imgCandidates[i];
       hintEl.textContent = `Гра ${id} • Завантажую: ${src}`;
 
@@ -216,10 +251,10 @@
       timeEl.textContent = "0";
       status.textContent = "";
       completeBtn.disabled = true;
+      clearSelection();
 
       bestEl.textContent = getBest();
 
-      board.innerHTML = "";
       board.style.display = "grid";
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -229,54 +264,81 @@
       dragged = null;
 
       let index = 0;
+
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
           const piece = document.createElement("div");
           piece.className = "pz-piece";
           piece.style.backgroundImage = `url("${imgSrc}")`;
           piece.style.backgroundSize = `${size * 100}% ${size * 100}%`;
-          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
-            (y / (size - 1)) * 100
-          }%`;
+          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${(y / (size - 1)) * 100}%`;
 
           piece.dataset.index = String(index);
           correctOrder.push(index);
 
-          piece.draggable = true;
-          piece.addEventListener("dragstart", function () {
-            dragged = this;
-          });
-          piece.addEventListener("dragover", (e) => e.preventDefault());
-          piece.addEventListener("drop", function () {
-            if (!dragged || dragged === this) return;
+          if (!isTouch) {
+            // ===== Desktop: drag & drop =====
+            piece.draggable = true;
 
-            const a = pieces.indexOf(dragged);
-            const b = pieces.indexOf(this);
+            piece.addEventListener("dragstart", function () {
+              dragged = this;
+              this.classList.add("is-dragging");
+            });
 
-            pieces[a] = this;
-            pieces[b] = dragged;
+            piece.addEventListener("dragend", function () {
+              this.classList.remove("is-dragging");
+              dragged = null;
+            });
 
-            board.innerHTML = "";
-            pieces.forEach((p) => board.appendChild(p));
+            piece.addEventListener("dragover", (e) => e.preventDefault());
 
-            checkWin();
-          });
+            piece.addEventListener("drop", function () {
+              if (!dragged || dragged === this) return;
+              swapPieces(dragged, this);
+            });
+          } else {
+            // ===== Mobile: tap-to-swap =====
+            piece.addEventListener("click", () => {
+              if (!selectedPiece) {
+                selectedPiece = piece;
+                piece.classList.add("is-selected");
+                return;
+              }
+
+              if (selectedPiece === piece) {
+                clearSelection();
+                return;
+              }
+
+              const p1 = selectedPiece;
+              clearSelection();
+              swapPieces(p1, piece);
+            });
+          }
 
           pieces.push(piece);
-          board.appendChild(piece);
           index++;
         }
       }
 
+      renderBoard();
       shuffle();
       startTimer();
       highlightSize();
     }
 
     function shuffle() {
-      pieces.sort(() => Math.random() - 0.5);
-      board.innerHTML = "";
-      pieces.forEach((p) => board.appendChild(p));
+      clearSelection();
+
+      // Fisher–Yates
+      for (let i = pieces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = pieces[i];
+        pieces[i] = pieces[j];
+        pieces[j] = tmp;
+      }
+
+      renderBoard();
       status.textContent = "Перемішано!";
     }
 
@@ -299,17 +361,14 @@
 
       stopTimer();
 
-      // ✅ +1 до “зіграно разів”
       localStorage.setItem(
         "gamesPlayed",
         String(Number(localStorage.getItem("gamesPlayed") || "0") + 1)
       );
 
-      // 1) XP за складність (кожен раз)
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
 
-      // 2) Бонус + запис проходження (лише 1 раз на главу)
       const done = new Set(
         JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
       );
@@ -322,19 +381,16 @@
         addXP(bonusXP);
       }
 
-      // повідомлення
       status.textContent = bonusXP
         ? `🎉 Пазл складено! +${diffXP} XP • Перше проходження глави: +${bonusXP} XP`
         : `✅ Пазл складено! +${diffXP} XP`;
 
-      // рекорд
       const best = getBest();
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
       }
 
-      // тепер можна “завершити главу” (закрити модалку)
       completeBtn.disabled = false;
     }
 
