@@ -2,28 +2,114 @@
   width: 100%;
 }
 
-.pz-wrap {
+.pz-layout {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-}
-
-.pz-top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 24px;
+  margin: 0 auto;
 }
 
-.pz-controls {
+.pz-left {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pz-right {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 280px;
+  max-width: 320px;
 }
 
+/* --- Puzzle board --- */
+.pz-board-wrap {
+  position: relative;
+  width: min(70vmin, 720px);
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+
+#pzBoard {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  touch-action: manipulation;
+  gap: 0;
+}
+
+.pz-piece {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-size: 300% 300%;
+  cursor: grab;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.35);
+  user-select: none;
+  transition: transform 0.12s ease, opacity 0.12s ease, outline 0.12s ease;
+}
+
+.pz-piece.is-dragging {
+  opacity: 0.6;
+}
+.pz-piece.is-selected {
+  outline: 3px solid #ff5733;
+  outline-offset: -3px;
+  transform: scale(0.985);
+}
+
+/* --- Preview + Start --- */
+.pz-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  opacity: 0;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.pz-start {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 14px 22px;
+  font-size: 18px;
+}
+
+/* --- Before start: assembled image --- */
+.pz-board-wrap:not(.started) #pzBoard {
+  pointer-events: none;
+  gap: 0;
+}
+
+/* --- After start: gameplay --- */
+.pz-board-wrap.started #pzBoard {
+  gap: 3px;
+}
+.pz-board-wrap.started .pz-preview {
+  opacity: 0;
+}
+.pz-board-wrap.started .pz-start {
+  display: none;
+}
+
+/* --- Buttons / stats --- */
 .pz-btn {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(17, 17, 17, 0.55);
@@ -34,102 +120,26 @@
   font-weight: 700;
 }
 
-.pz-btn.active {
-  border-color: rgba(255, 87, 51, 0.65);
-  box-shadow: 0 0 18px rgba(255, 87, 51, 0.14);
+/* Активний режим розміру */
+.pz-sizes .pz-btn.active{
+  border-color: rgba(255, 87, 51, 0.9);
+  box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.25), 0 0 22px rgba(255, 87, 51, 0.18);
+  background: rgba(255, 87, 51, 0.10);
 }
 
-.pz-stats {
-  display: flex;
-  gap: 14px;
-  color: #cfd6e1;
-  font-weight: 700;
-}
-
-#pzBoard {
-  width: 100%;
-  max-width: 720px;
-  aspect-ratio: 1 / 1;
-  display: grid;
-  gap: 3px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  touch-action: manipulation;
-}
-
-.pz-piece {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  background-size: 300% 300%;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.35);
-  transition: transform 0.12s ease, opacity 0.12s ease, outline 0.12s ease;
-}
-
-.pz-piece:active {
-  cursor: grabbing;
-  transform: scale(0.98);
-}
-
-.pz-piece.is-dragging {
-  opacity: 0.6;
-}
-
-.pz-piece.is-selected {
-  outline: 3px solid #ff5733;
-  outline-offset: -3px;
-  transform: scale(0.985);
-}
-
-.pz-status {
-  color: #cfd6e1;
-  font-size: 14px;
-  min-height: 18px;
-}
-
-.pz-hint {
-  color: #cfd6e1;
-  font-weight: 700;
-  opacity: 0.9;
-}
-
-.pz-layout {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin: 0 7px;
-}
-
-.pz-left {
-  flex-grow: 1;
-}
-
-.pz-right {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-}
-
-.pz-top {
-  flex-direction: column;
-}
 
 .pz-controls {
-  flex-direction: row;
+  display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
+
 .pz-sizes {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pz-size-option {
@@ -141,47 +151,34 @@
 
 .pz-xp {
   font-size: 12px;
-  line-height: 1;
   opacity: 0.85;
-  pointer-events: none;
-  user-select: none;
 }
 
+.pz-stats {
+  display: flex;
+  gap: 14px;
+  color: #cfd6e1;
+  font-weight: 700;
+  justify-content: center;
+}
+
+.pz-status {
+  color: #cfd6e1;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* --- Mobile --- */
 @media (max-width: 768px) {
   .pz-layout {
     flex-direction: column;
-    align-items: center;
+    gap: 16px;
   }
-
-  .pz-left {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  #pzBoard {
-    width: 92vw;
-    max-width: 420px;
-    aspect-ratio: 1 / 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
-  }
-
   .pz-right {
     width: 100%;
     max-width: 420px;
-    align-items: center;
-    text-align: center;
   }
-
-  .pz-controls {
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .pz-stats {
-    justify-content: center;
+  .pz-board-wrap {
+    width: min(92vw, 420px);
   }
 }

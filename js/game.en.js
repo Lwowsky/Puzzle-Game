@@ -15,6 +15,7 @@
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
   }
+
   const PLAYER_STATE_KEY = "playerState";
   function loadPlayerState() {
     try {
@@ -52,37 +53,47 @@
       window.renderPlayerInfo();
     }
   }
+
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
     const id3 = pad3(id);
+
     const COMPLETED_KEY = "completedRanks";
     const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
     const FIRST_CLEAR_BONUS_XP = 25;
+
     const data = window.STORIES?.[id];
     const titleEl = document.getElementById("gameTitle");
     const chapterEl = document.getElementById("gameChapter");
     const storyEl = document.getElementById("gameStory");
+
     if (titleEl) titleEl.textContent = data?.title || `Game ${id}`;
     if (chapterEl) chapterEl.textContent = data?.chapter || "";
     if (storyEl) {
       const text = data?.text;
       if (!text) {
-        storyEl.innerHTML = "<p>This chapter is still being prepared…</p>";
+        storyEl.innerHTML = "<p>This chapter is in progress…</p>";
       } else if (Array.isArray(text)) {
         storyEl.innerHTML = text.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
       } else {
         storyEl.innerHTML = `<p>${escapeHtml(text)}</p>`;
       }
     }
+
     const container = document.getElementById("puzzleContainer");
     if (!container) return;
+
     container.innerHTML = `
       <div class="pz-layout">
         <div class="pz-left">
-          <div id="pzBoard" aria-label="Puzzle board"></div>
+          <div class="pz-board-wrap" id="pzStage">
+            <div id="pzBoard" aria-label="Puzzle board"></div>
+            <img id="pzPreview" class="pz-preview" alt="Preview">
+            <button class="pz-btn pz-start" id="pzStart" type="button">Start</button>
+          </div>
         </div>
         <div class="pz-right">
-        <div class="pz-top">
+          <div class="pz-top">
             <div class="pz-controls pz-sizes">
               <div class="pz-size-option">
                 <button class="pz-btn" data-size="3" type="button">3×3</button>
@@ -112,7 +123,12 @@
         </div>
       </div>
     `;
+
     const board = container.querySelector("#pzBoard");
+    const stage = container.querySelector("#pzStage");
+    const previewImg = container.querySelector("#pzPreview");
+    const startBtn = container.querySelector("#pzStart");
+
     const status = container.querySelector("#pzStatus");
     const timeEl = container.querySelector("#pzTime");
     const bestEl = container.querySelector("#pzBest");
@@ -120,21 +136,27 @@
     const resetBtn = container.querySelector("#pzReset");
     const hintEl = container.querySelector("#pzHint");
     const completeBtn = container.querySelector("#completeBtn");
+
     const imgCandidates = [
       `../img/puzzles/tom${id3}.png`,
       `../img/puzzles/tom${id3}.jpg`,
       `../img/puzzles/${id3}.png`,
       `../img/puzzles/${id3}.jpg`,
     ];
+
     const isTouch = matchMedia("(pointer: coarse)").matches;
+
     let size = 3;
     let imgSrc = "";
     let pieces = [];
     let correctOrder = [];
     let dragged = null;
     let selectedPiece = null;
+
     let timer = null;
     let time = 0;
+    let started = false;
+
     function bestKey() {
       return `puzzleBest_${id}_${size}`;
     }
@@ -144,15 +166,18 @@
     function setBest(v) {
       localStorage.setItem(bestKey(), String(v));
     }
+
     function highlightSize() {
       container.querySelectorAll("[data-size]").forEach((b) => {
         b.classList.toggle("active", Number(b.dataset.size) === size);
       });
     }
+
     function renderBoard() {
       board.innerHTML = "";
       pieces.forEach((p) => board.appendChild(p));
     }
+
     function swapPieces(p1, p2) {
       const a = pieces.indexOf(p1);
       const b = pieces.indexOf(p2);
@@ -162,26 +187,40 @@
       renderBoard();
       checkWin();
     }
+
     function clearSelection() {
       if (selectedPiece) selectedPiece.classList.remove("is-selected");
       selectedPiece = null;
     }
+
     container.querySelectorAll("[data-size]").forEach((btn) => {
       btn.addEventListener("click", () => {
         size = Number(btn.dataset.size);
         highlightSize();
-        startGame();
+        preparePuzzle();
       });
     });
-    shuffleBtn.addEventListener("click", shuffle);
-    resetBtn.addEventListener("click", startGame);
+
+    shuffleBtn.addEventListener("click", () => {
+      if (!started) return;
+      shuffle();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      preparePuzzle();
+      beginGame();
+    });
+
     completeBtn.addEventListener("click", () => {
       window.parent?.postMessage({ type: "puzzleWin", id }, "*");
       status.textContent = "✅ Done!";
     });
+
+    startBtn.addEventListener("click", beginGame);
+
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ No image found for game ${id}. Add: img/puzzles/tom${id3}.jpg`;
+        hintEl.textContent = `❌ No image for game ${id}. Add: img/puzzles/tom${id3}.jpg`;
         return;
       }
       const src = imgCandidates[i];
@@ -189,27 +228,43 @@
       const test = new Image();
       test.onload = () => {
         imgSrc = src;
+        if (previewImg) previewImg.src = src;
         hintEl.textContent = "";
-        startGame();
+        preparePuzzle();
+
+        if (new URLSearchParams(location.search).get("autostart") === "1") {
+          beginGame();
+        }
       };
       test.onerror = () => tryLoadImage(i + 1);
       test.src = src;
     }
-    function startGame() {
+
+    function preparePuzzle() {
       if (!imgSrc) return;
+
+      started = false;
+      stage?.classList.remove("started");
+
       stopTimer();
       time = 0;
       timeEl.textContent = "0";
-      status.textContent = "";
+      status.textContent = "Press “Start” to shuffle and begin.";
       completeBtn.disabled = true;
+
       clearSelection();
       bestEl.textContent = getBest();
+
+      board.style.gap = "0px";
+
       board.style.display = "grid";
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
       pieces = [];
       correctOrder = [];
       dragged = null;
+
       let index = 0;
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
@@ -217,11 +272,11 @@
           piece.className = "pz-piece";
           piece.style.backgroundImage = `url("${imgSrc}")`;
           piece.style.backgroundSize = `${size * 100}% ${size * 100}%`;
-          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
-            (y / (size - 1)) * 100
-          }%`;
+          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${(y / (size - 1)) * 100}%`;
           piece.dataset.index = String(index);
+
           correctOrder.push(index);
+
           if (!isTouch) {
             piece.draggable = true;
             piece.addEventListener("dragstart", function () {
@@ -234,11 +289,14 @@
             });
             piece.addEventListener("dragover", (e) => e.preventDefault());
             piece.addEventListener("drop", function () {
+              if (!started) return;
               if (!dragged || dragged === this) return;
               swapPieces(dragged, this);
             });
           } else {
             piece.addEventListener("click", () => {
+              if (!started) return;
+
               if (!selectedPiece) {
                 selectedPiece = piece;
                 piece.classList.add("is-selected");
@@ -253,15 +311,36 @@
               swapPieces(p1, piece);
             });
           }
+
           pieces.push(piece);
           index++;
         }
       }
+
       renderBoard();
-      shuffle();
-      startTimer();
       highlightSize();
+
+      shuffleBtn.disabled = true;
+      resetBtn.disabled = true;
+      startBtn.disabled = false;
     }
+
+    function beginGame() {
+      if (!imgSrc || started) return;
+
+      started = true;
+      stage?.classList.add("started");
+
+      board.style.gap = "";
+
+      shuffleBtn.disabled = false;
+      resetBtn.disabled = false;
+
+      shuffle();
+      status.textContent = "Game started!";
+      startTimer();
+    }
+
     function shuffle() {
       clearSelection();
       for (let i = pieces.length - 1; i > 0; i--) {
@@ -273,30 +352,39 @@
       renderBoard();
       status.textContent = "Shuffled!";
     }
+
     function startTimer() {
+      stopTimer();
       timer = setInterval(() => {
         time++;
         timeEl.textContent = String(time);
       }, 1000);
     }
+
     function stopTimer() {
       if (timer) clearInterval(timer);
       timer = null;
     }
+
     function checkWin() {
       for (let i = 0; i < pieces.length; i++) {
         if (Number(pieces[i].dataset.index) !== correctOrder[i]) return;
       }
+
       stopTimer();
+
       localStorage.setItem(
         "gamesPlayed",
         String(Number(localStorage.getItem("gamesPlayed") || "0") + 1)
       );
+
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
+
       const done = new Set(
         JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
       );
+
       let bonusXP = 0;
       if (!done.has(id)) {
         done.add(id);
@@ -304,16 +392,20 @@
         bonusXP = FIRST_CLEAR_BONUS_XP;
         addXP(bonusXP);
       }
+
       status.textContent = bonusXP
-        ? `🎉 Puzzle completed! +${diffXP} XP • First clear bonus: +${bonusXP} XP`
-        : `✅ Puzzle completed! +${diffXP} XP`;
+        ? `🎉 Solved! +${diffXP} XP • First clear: +${bonusXP} XP`
+        : `✅ Solved! +${diffXP} XP`;
+
       const best = getBest();
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
       }
+
       completeBtn.disabled = false;
     }
+
     highlightSize();
     tryLoadImage();
   });

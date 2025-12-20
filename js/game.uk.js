@@ -4,213 +4,141 @@
     const n = Number(qs.get("id"));
     return Number.isFinite(n) && n > 0 ? n : 1;
   }
-  function pad3(n) {
-    return String(n).padStart(3, "0");
-  }
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
-  const PLAYER_STATE_KEY = "playerState";
-  function loadPlayerState() {
-    try {
-      const raw = localStorage.getItem(PLAYER_STATE_KEY);
-      if (!raw) return { level: 1, xp: 0 };
-      const obj = JSON.parse(raw);
-      return {
-        level: Number(obj.level) > 0 ? Number(obj.level) : 1,
-        xp: Number(obj.xp) >= 0 ? Number(obj.xp) : 0,
-      };
-    } catch {
-      return { level: 1, xp: 0 };
-    }
-  }
-  function savePlayerState(state) {
-    localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
-  }
-  function xpNeeded(level) {
-    return 100 * Math.pow(2, Math.max(0, level - 1));
-  }
-  function addXP(amount) {
-    if (!amount) return;
-    if (typeof window.addXP === "function") {
-      window.addXP(amount);
-      return;
-    }
-    const st = loadPlayerState();
-    st.xp += amount;
-    while (st.xp >= xpNeeded(st.level)) {
-      st.xp -= xpNeeded(st.level);
-      st.level += 1;
-    }
-    savePlayerState(st);
-    if (typeof window.renderPlayerInfo === "function") {
-      window.renderPlayerInfo();
-    }
-  }
+
+  const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
+  const FIRST_CLEAR_BONUS_XP = 25;
+  const COMPLETED_KEY = "completedRanks";
+
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
-    const id3 = pad3(id);
-    const COMPLETED_KEY = "completedRanks";
-    const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
-    const FIRST_CLEAR_BONUS_XP = 25;
+    const id3 = String(id).padStart(3, "0");
+    localStorage.setItem("lastGameId", String(id));
+
     const data = window.STORIES?.[id];
-    const titleEl = document.getElementById("gameTitle");
-    const chapterEl = document.getElementById("gameChapter");
+    document.getElementById("gameTitle").textContent =
+      data?.title || `Гра ${id}`;
+    document.getElementById("gameChapter").textContent = data?.chapter || "";
     const storyEl = document.getElementById("gameStory");
-    if (titleEl) titleEl.textContent = data?.title || `Гра ${id}`;
-    if (chapterEl) chapterEl.textContent = data?.chapter || "";
-    if (storyEl) {
-      const text = data?.text;
-      if (!text) {
-        storyEl.innerHTML = "<p>Ця глава ще готується…</p>";
-      } else if (Array.isArray(text)) {
-        storyEl.innerHTML = text.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
-      } else {
-        storyEl.innerHTML = `<p>${escapeHtml(text)}</p>`;
-      }
-    }
+    if (storyEl)
+      storyEl.innerHTML = Array.isArray(data?.text)
+        ? data.text.map((t) => `<p>${t}</p>`).join("")
+        : `<p>${data?.text || "Ця глава ще готується..."}</p>`;
+
     const container = document.getElementById("puzzleContainer");
-    if (!container) return;
     container.innerHTML = `
       <div class="pz-layout">
         <div class="pz-left">
-          <div id="pzBoard" aria-label="Puzzle board"></div>
+          <div class="pz-board-wrap" id="pzStage">
+            <div id="pzBoard"></div>
+            <img id="pzPreview" class="pz-preview" alt="Preview">
+            <button class="pz-btn pz-start" id="pzStart">Почати</button>
+          </div>
         </div>
         <div class="pz-right">
-          <div class="pz-top">
-            <div class="pz-controls pz-sizes">
-              <div class="pz-size-option">
-                <button class="pz-btn" data-size="3" type="button">3×3</button>
-                <div class="pz-xp">+5 XP</div>
-              </div>
-              <div class="pz-size-option">
-                <button class="pz-btn" data-size="4" type="button">4×4</button>
-                <div class="pz-xp">+10 XP</div>
-              </div>
-              <div class="pz-size-option">
-                <button class="pz-btn" data-size="5" type="button">5×5</button>
-                <div class="pz-xp">+25 XP</div>
-              </div>
+          <div class="pz-controls pz-sizes">
+            <div class="pz-size-option">
+              <button class="pz-btn" data-size="3">3×3</button><div class="pz-xp">+5 XP</div>
             </div>
-            <div class="pz-stats">
-              <div>⏳ <span id="pzTime">0</span> сек</div>
-              <div>🏆 <span id="pzBest">—</span></div>
+            <div class="pz-size-option">
+              <button class="pz-btn" data-size="4">4×4</button><div class="pz-xp">+10 XP</div>
+            </div>
+            <div class="pz-size-option">
+              <button class="pz-btn" data-size="5">5×5</button><div class="pz-xp">+25 XP</div>
             </div>
           </div>
+          <div class="pz-stats"><div>⏳ <span id="pzTime">0</span> сек</div><div>🏆 <span id="pzBest">—</span></div></div>
           <div class="pz-controls">
-            <button class="pz-btn" id="pzShuffle" type="button">Перемішати</button>
-            <button class="pz-btn" id="pzReset" type="button">Скинути</button>
+            <button class="pz-btn" id="pzShuffle">Перемішати</button>
+            <button class="pz-btn" id="pzReset">Скинути</button>
           </div>
           <div class="pz-status" id="pzStatus"></div>
-          <div class="pz-hint" id="pzHint"></div>
-          <button class="pz-btn" id="completeBtn" type="button" disabled>Завершити главу</button>
+          <button class="pz-btn" id="completeBtn" disabled>Завершити главу</button>
         </div>
       </div>
     `;
+
     const board = container.querySelector("#pzBoard");
+    const stage = container.querySelector("#pzStage");
+    const preview = container.querySelector("#pzPreview");
+    const startBtn = container.querySelector("#pzStart");
+    const shuffleBtn = container.querySelector("#pzShuffle");
+    const resetBtn = container.querySelector("#pzReset");
+    const completeBtn = container.querySelector("#completeBtn");
     const status = container.querySelector("#pzStatus");
     const timeEl = container.querySelector("#pzTime");
     const bestEl = container.querySelector("#pzBest");
-    const shuffleBtn = container.querySelector("#pzShuffle");
-    const resetBtn = container.querySelector("#pzReset");
-    const hintEl = container.querySelector("#pzHint");
-    const completeBtn = container.querySelector("#completeBtn");
-    const imgCandidates = [
+
+    const imgList = [
       `../img/puzzles/tom${id3}.png`,
       `../img/puzzles/tom${id3}.jpg`,
       `../img/puzzles/${id3}.png`,
       `../img/puzzles/${id3}.jpg`,
     ];
-    const isTouch = matchMedia("(pointer: coarse)").matches;
-    let size = 3;
+
     let imgSrc = "";
+    let size = 3;
     let pieces = [];
     let correctOrder = [];
-    let dragged = null;
-    let selectedPiece = null;
-    let timer = null;
+    let started = false;
     let time = 0;
-    function bestKey() {
+    let timer;
+
+    function getBestKey() {
       return `puzzleBest_${id}_${size}`;
     }
     function getBest() {
-      return localStorage.getItem(bestKey()) || "—";
+      return localStorage.getItem(getBestKey()) || "—";
     }
     function setBest(v) {
-      localStorage.setItem(bestKey(), String(v));
+      localStorage.setItem(getBestKey(), v);
     }
-    function highlightSize() {
-      container.querySelectorAll("[data-size]").forEach((b) => {
-        b.classList.toggle("active", Number(b.dataset.size) === size);
-      });
+
+    function stopTimer() {
+      if (timer) clearInterval(timer);
+      timer = null;
     }
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(() => {
+        time++;
+        timeEl.textContent = time;
+      }, 1000);
+    }
+
     function renderBoard() {
       board.innerHTML = "";
       pieces.forEach((p) => board.appendChild(p));
     }
-    function swapPieces(p1, p2) {
-      const a = pieces.indexOf(p1);
-      const b = pieces.indexOf(p2);
-      if (a < 0 || b < 0) return;
-      pieces[a] = p2;
-      pieces[b] = p1;
-      renderBoard();
-      checkWin();
+
+    function checkWin() {
+      if (!pieces.every((p, i) => +p.dataset.index === correctOrder[i])) return;
+      stopTimer();
+      status.textContent = "✅ Пазл складено!";
+      completeBtn.disabled = false;
+      const best = getBest();
+      if (best === "—" || time < +best) setBest(time);
+      bestEl.textContent = getBest();
     }
-    function clearSelection() {
-      if (selectedPiece) selectedPiece.classList.remove("is-selected");
-      selectedPiece = null;
-    }
-    container.querySelectorAll("[data-size]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        size = Number(btn.dataset.size);
-        highlightSize();
-        startGame();
-      });
-    });
-    shuffleBtn.addEventListener("click", shuffle);
-    resetBtn.addEventListener("click", startGame);
-    completeBtn.addEventListener("click", () => {
-      window.parent?.postMessage({ type: "puzzleWin", id }, "*");
-      status.textContent = "✅ Готово!";
-    });
-    function tryLoadImage(i = 0) {
-      if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ Нема картинки для гри ${id}. Додай: img/puzzles/tom${id3}.jpg`;
-        return;
+
+    function shuffle() {
+      for (let i = pieces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pieces[i], pieces[j]] = [pieces[j], pieces[i]];
       }
-      const src = imgCandidates[i];
-      hintEl.textContent = `Гра ${id} • Завантажую: ${src}`;
-      const test = new Image();
-      test.onload = () => {
-        imgSrc = src;
-        hintEl.textContent = "";
-        startGame();
-      };
-      test.onerror = () => tryLoadImage(i + 1);
-      test.src = src;
+      renderBoard();
     }
-    function startGame() {
-      if (!imgSrc) return;
+
+    function preparePuzzle() {
+      started = false;
+      stage.classList.remove("started");
       stopTimer();
       time = 0;
       timeEl.textContent = "0";
-      status.textContent = "";
-      completeBtn.disabled = true;
-      clearSelection();
-      bestEl.textContent = getBest();
-      board.style.display = "grid";
-      board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-      board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+      status.textContent = "Натисни «Почати», щоб почати гру.";
+
       pieces = [];
       correctOrder = [];
-      dragged = null;
-      let index = 0;
+
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
           const piece = document.createElement("div");
@@ -220,102 +148,68 @@
           piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
             (y / (size - 1)) * 100
           }%`;
-          piece.dataset.index = String(index);
-          correctOrder.push(index);
-          if (!isTouch) {
-            piece.draggable = true;
-            piece.addEventListener("dragstart", function () {
-              dragged = this;
-              this.classList.add("is-dragging");
-            });
-            piece.addEventListener("dragend", function () {
-              this.classList.remove("is-dragging");
-              dragged = null;
-            });
-            piece.addEventListener("dragover", (e) => e.preventDefault());
-            piece.addEventListener("drop", function () {
-              if (!dragged || dragged === this) return;
-              swapPieces(dragged, this);
-            });
-          } else {
-            piece.addEventListener("click", () => {
-              if (!selectedPiece) {
-                selectedPiece = piece;
-                piece.classList.add("is-selected");
-                return;
-              }
-              if (selectedPiece === piece) {
-                clearSelection();
-                return;
-              }
-              const p1 = selectedPiece;
-              clearSelection();
-              swapPieces(p1, piece);
-            });
-          }
+          piece.dataset.index = String(correctOrder.length);
+          piece.addEventListener("click", () => {
+            if (!started) return;
+            piece.classList.toggle("is-selected");
+          });
           pieces.push(piece);
-          index++;
+          correctOrder.push(correctOrder.length);
         }
       }
+
+      board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+      board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
       renderBoard();
-      shuffle();
-      startTimer();
+      bestEl.textContent = getBest();
       highlightSize();
     }
 
-    function shuffle() {
-      clearSelection();
-      for (let i = pieces.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const tmp = pieces[i];
-        pieces[i] = pieces[j];
-        pieces[j] = tmp;
-      }
-      renderBoard();
-      status.textContent = "Перемішано!";
+    function beginGame() {
+      if (started || !imgSrc) return;
+      started = true;
+      stage.classList.add("started");
+      shuffle();
+      startTimer();
+      status.textContent = "Гра почалась!";
     }
-    function startTimer() {
-      timer = setInterval(() => {
-        time++;
-        timeEl.textContent = String(time);
-      }, 1000);
+
+    startBtn.addEventListener("click", beginGame);
+    shuffleBtn.addEventListener("click", () => started && shuffle());
+    resetBtn.addEventListener("click", () => {
+      preparePuzzle();
+      beginGame();
+    });
+
+    container.querySelectorAll("[data-size]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        size = +btn.dataset.size;
+        preparePuzzle();
+        highlightSize();
+      });
+    });
+    function highlightSize() {
+      container.querySelectorAll(".pz-sizes [data-size]").forEach((b) => {
+        const isActive = Number(b.dataset.size) === size;
+        b.classList.toggle("active", isActive);
+        b.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
     }
-    function stopTimer() {
-      if (timer) clearInterval(timer);
-      timer = null;
-    }
-    function checkWin() {
-      for (let i = 0; i < pieces.length; i++) {
-        if (Number(pieces[i].dataset.index) !== correctOrder[i]) return;
+
+    // === Image load ===
+    (function loadImage(i = 0) {
+      if (i >= imgList.length) {
+        status.textContent = "❌ Картинка не знайдена.";
+        return;
       }
-      stopTimer();
-      localStorage.setItem(
-        "gamesPlayed",
-        String(Number(localStorage.getItem("gamesPlayed") || "0") + 1)
-      );
-      const diffXP = DIFFICULTY_XP[size] || 0;
-      addXP(diffXP);
-      const done = new Set(
-        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
-      );
-      let bonusXP = 0;
-      if (!done.has(id)) {
-        done.add(id);
-        localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
-        bonusXP = FIRST_CLEAR_BONUS_XP;
-        addXP(bonusXP);
-      }
-      status.textContent = bonusXP
-        ? `🎉 Пазл складено! +${diffXP} XP • Перше проходження глави: +${bonusXP} XP`
-        : `✅ Пазл складено! +${diffXP} XP`;
-      const best = getBest();
-      if (best === "—" || time < Number(best)) {
-        setBest(time);
-        bestEl.textContent = String(time);
-      }
-      completeBtn.disabled = false;
-    }
-    highlightSize();
-    tryLoadImage();
+      const img = new Image();
+      img.onload = () => {
+        imgSrc = img.src;
+        preview.src = imgSrc;
+        preparePuzzle();
+      };
+      img.onerror = () => loadImage(i + 1);
+      img.src = imgList[i];
+    })();
   });
 })();
