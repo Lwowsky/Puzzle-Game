@@ -173,7 +173,7 @@
     });
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ Нема картинки для гри ${id}. Додай: img/puzzles/tom${id3}.png`;
+        hintEl.textContent = `❌ Нема картинки для гри ${id}. Додай: img/puzzles/tom${id3}.jpg`;
         return;
       }
       const src = imgCandidates[i];

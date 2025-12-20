@@ -172,7 +172,7 @@
     });
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ No image found for game ${id}. Add: img/puzzles/tom${id3}.png`;
+        hintEl.textContent = `❌ No image found for game ${id}. Add: img/puzzles/tom${id3}.jpg`;
         return;
       }
       const src = imgCandidates[i];

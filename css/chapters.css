@@ -23,7 +23,7 @@
 }
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(280px, 1fr)); /* 4 бокси = 2х2 */
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
   gap: 16px;
   margin-top: 16px;
   align-items: stretch;
@@ -64,7 +64,7 @@
       rgba(0, 0, 0, 0.15) 0%,
       rgba(0, 0, 0, 0.82) 72%
     ),
-    var(--thumb, url("../img/puzzles/default.png"));
+    var(--thumb, url("../img/puzzles/default.jpg"));
   background-size: cover;
   background-position: center;
 }
