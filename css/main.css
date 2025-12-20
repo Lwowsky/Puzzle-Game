@@ -80,22 +80,16 @@
   color: black;
 }
 
-/* =========================
-   ✅ WELCOME (виправлено)
-   ========================= */
-
 .welcome {
   font-size: 24px;
   text-align: center;
   color: #ff5733;
 }
 
-/* В цьому блоці іде "обтікання" картинки */
 .welcome-flow {
-  text-align: left; /* щоб списки/текст були читабельні */
+  text-align: left;
 }
 
-/* Картинка зліва, а текст обтікає і потім йде під неї */
 .welcome-image {
   float: left;
   width: 420px;
@@ -105,7 +99,7 @@
   border-radius: 28px;
 }
 
-/* щоб блок коректно враховував float */
+
 .welcome-flow::after {
   content: "";
   display: table;
@@ -116,7 +110,6 @@
   margin-top: 20px;
 }
 
-/* список */
 .welcome-quotes {
   min-width: 280px;
   margin: 0;

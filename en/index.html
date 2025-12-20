@@ -22,32 +22,86 @@
           <img src="../img/logo.png" alt="Logo" class="nav-logo" />
         </a>
       </div>
-      <nav>
+      <nav aria-label="Ranks">
         <ul class="header-menu">
-          <div class="rank-menu">
-            <img src="../img/avatar/rank001.png" alt="rank" class="rank-link" />
-            <a href="rank001.html">Student</a>
-          </div>
-          <div class="rank-menu">
-            <img src="../img/avatar/rank002.png" alt="rank" class="rank-link" />
-            <a href="rank002.html">Shinobi</a>
-          </div>
-          <div class="rank-menu">
-            <img src="../img/avatar/rank003.png" alt="rank" class="rank-link" />
-            <a href="rank003.html">Genin</a>
-          </div>
-          <div class="rank-menu">
-            <img src="../img/avatar/rank004.png" alt="rank" class="rank-link" />
-            <a href="rank004.html">Chunin</a>
-          </div>
-          <div class="rank-menu">
-            <img src="../img/avatar/rank005.png" alt="rank" class="rank-link" />
-            <a href="rank005.html">Jonin</a>
-          </div>
-          <div class="rank-menu">
-            <img src="../img/avatar/rank006.png" alt="rank" class="rank-link" />
-            <a href="rank006.html">Hokage</a>
-          </div>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank001.html">
+              <img
+                src="../img/avatar/rank001.png"
+                alt="Student rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Student</span>
+            </a>
+          </li>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank002.html">
+              <img
+                src="../img/avatar/rank002.png"
+                alt="Shinobi rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Shinobi</span>
+            </a>
+          </li>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank003.html">
+              <img
+                src="../img/avatar/rank003.png"
+                alt="Genin rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Genin</span>
+            </a>
+          </li>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank004.html">
+              <img
+                src="../img/avatar/rank004.png"
+                alt="Chunin rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Chunin</span>
+            </a>
+          </li>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank005.html">
+              <img
+                src="../img/avatar/rank005.png"
+                alt="Jonin rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Jonin</span>
+            </a>
+          </li>
+          <li class="rank-menu">
+            <a class="rank-item" href="rank006.html">
+              <img
+                src="../img/avatar/rank006.png"
+                alt="Hokage rank"
+                class="rank-link"
+                width="44"
+                height="44"
+                decoding="async"
+              />
+              <span class="rank-label">Hokage</span>
+            </a>
+          </li>
         </ul>
       </nav>
       <div class="nav-overlay" id="navOverlay" hidden></div>
@@ -86,6 +140,81 @@
             >
               <i class="fa-solid fa-gear"></i>
             </button>
+          </li>
+          <li class="rank-wrapper mobile-only">
+            <div class="rank-grid">
+              <a class="rank-item" href="rank001.html">
+                <img
+                  src="../img/avatar/rank001.png"
+                  alt="Student rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Student</span>
+              </a>
+
+              <a class="rank-item" href="rank002.html">
+                <img
+                  src="../img/avatar/rank002.png"
+                  alt="Shinobi rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Shinobi</span>
+              </a>
+
+              <a class="rank-item" href="rank003.html">
+                <img
+                  src="../img/avatar/rank003.png"
+                  alt="Genin rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Genin</span>
+              </a>
+
+              <a class="rank-item" href="rank004.html">
+                <img
+                  src="../img/avatar/rank004.png"
+                  alt="Chunin rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Chunin</span>
+              </a>
+
+              <a class="rank-item" href="rank005.html">
+                <img
+                  src="../img/avatar/rank005.png"
+                  alt="Jonin rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Jonin</span>
+              </a>
+
+              <a class="rank-item" href="rank006.html">
+                <img
+                  src="../img/avatar/rank006.png"
+                  alt="Hokage rank"
+                  width="64"
+                  height="64"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <span class="rank-label">Hokage</span>
+              </a>
+            </div>
           </li>
         </ul>
       </nav>
@@ -157,11 +286,12 @@
             Welcome, <span data-player-name>Player</span>!
           </h2>
           <p class="welcome-text">
-            You have entered the World of Puzzles — a training ground for attention.
-            Here every piece has its place, and every precise connection is a step
-            toward shinobi mastery. Complete chapters, gain experience, and climb
-            the ranks — from Student to Hokage. Don’t rush: victory here comes not
-            from speed, but from focus and a cool head. Your will is your chakra.
+            You have entered the World of Puzzles — a training ground for
+            attention. Here every piece has its place, and every precise
+            connection is a step toward shinobi mastery. Complete chapters, gain
+            experience, and climb the ranks — from Student to Hokage. Don’t
+            rush: victory here comes not from speed, but from focus and a cool
+            head. Your will is your chakra.
           </p>
           <div class="welcome-flow">
             <img
@@ -172,65 +302,79 @@
             <div class="welcome-after">
               <h3 class="welcome-subtitle">Mission description</h3>
               <p class="welcome-text">
-                In this world, each chapter is a separate mission. Its goal is simple:
-                assemble the picture as if you were forming a technique from hand seals —
-                carefully, consistently, without unnecessary moves. Puzzles don’t “punish”
-                mistakes — they teach discipline and precision.
+                In this world, each chapter is a separate mission. Its goal is
+                simple: assemble the picture as if you were forming a technique
+                from hand seals — carefully, consistently, without unnecessary
+                moves. Puzzles don’t “punish” mistakes — they teach discipline
+                and precision.
               </p>
               <p class="welcome-text">
-                Your path is measured not only by victories, but by how you achieve them:
-                through observation, patience, and control. That is the true strength of a shinobi.
-                And every completed piece is a small proof that chaos bends to will.
+                Your path is measured not only by victories, but by how you
+                achieve them: through observation, patience, and control. That
+                is the true strength of a shinobi. And every completed piece is
+                a small proof that chaos bends to will.
               </p>
               <h3 class="welcome-subtitle">Rank system and progress</h3>
               <p class="welcome-text">
-                For completing missions you earn experience and level up. As your level increases,
-                your rank grows — from Student to Hokage. These aren’t just “numbers”:
-                rank means you’ve learned to hold focus longer, spot patterns faster,
-                and not get lost when the image seems confusing.
+                For completing missions you earn experience and level up. As
+                your level increases, your rank grows — from Student to Hokage.
+                These aren’t just “numbers”: rank means you’ve learned to hold
+                focus longer, spot patterns faster, and not get lost when the
+                image seems confusing.
               </p>
               <p class="welcome-text">
                 Remember: avatars unlock along with rank. The higher the level,
-                the wider the style selection. Choose the look that matches your character:
-                a calm tactician, a quick analyst, or a relentless “I’ll finish no matter what.”
+                the wider the style selection. Choose the look that matches your
+                character: a calm tactician, a quick analyst, or a relentless
+                “I’ll finish no matter what.”
               </p>
               <h3 class="welcome-subtitle">Shinobi tactics for puzzles</h3>
               <p class="welcome-text">
-                If you want to progress confidently — play like a shinobi, not like a beginner
-                driven by emotions. Here are “quiet techniques” that deliver results:
+                If you want to progress confidently — play like a shinobi, not
+                like a beginner driven by emotions. Here are “quiet techniques”
+                that deliver results:
               </p>
               <ul class="welcome-quotes">
                 <li>
-                  <b>Frame technique:</b> start with the corners and edges — this is your “shield” and support.
+                  <b>Frame technique:</b> start with the corners and edges —
+                  this is your “shield” and support.
                 </li>
                 <li>
-                  <b>Zone technique:</b> divide the field into areas (sky/grass/face/background) and work sector by sector.
+                  <b>Zone technique:</b> divide the field into areas
+                  (sky/grass/face/background) and work sector by sector.
                 </li>
                 <li>
-                  <b>Shade technique:</b> look not for color, but for <i>transitions</i> (shadows, light, lines).
+                  <b>Shade technique:</b> look not for color, but for
+                  <i>transitions</i> (shadows, light, lines).
                 </li>
                 <li>
-                  <b>Pause technique:</b> if it “doesn’t go” — step back: your brain will complete the patterns on its own.
+                  <b>Pause technique:</b> if it “doesn’t go” — step back: your
+                  brain will complete the patterns on its own.
                 </li>
                 <li>
-                  <b>Cleanliness technique:</b> less chaos on the board — fewer mistakes in your head.
+                  <b>Cleanliness technique:</b> less chaos on the board — fewer
+                  mistakes in your head.
                 </li>
               </ul>
               <h3 class="welcome-subtitle">Scroll of discipline</h3>
               <p class="welcome-text">
-                The real difference between a Student and a Jonin is consistency. A Jonin
-                doesn’t look for “luck” — they create conditions where the right decision becomes inevitable.
-                Play calmly but persistently: every completed chapter trains attention just as daily exercises train chakra.
+                The real difference between a Student and a Jonin is
+                consistency. A Jonin doesn’t look for “luck” — they create
+                conditions where the right decision becomes inevitable. Play
+                calmly but persistently: every completed chapter trains
+                attention just as daily exercises train chakra.
               </p>
               <p class="welcome-text">
-                And also — don’t compare yourself to others. Compare yourself to yesterday’s
-                <span data-player-name>Player</span>. If today you placed even one piece more accurately than yesterday —
-                you’ve already become stronger.
+                And also — don’t compare yourself to others. Compare yourself to
+                yesterday’s
+                <span data-player-name>Player</span>. If today you placed even
+                one piece more accurately than yesterday — you’ve already become
+                stronger.
               </p>
               <div class="welcome-divider" aria-hidden="true"></div>
               <p class="welcome-text">
-                <b>Ready?</b> Focus. Steady your breathing. And start assembling —
-                piece by piece.
+                <b>Ready?</b> Focus. Steady your breathing. And start assembling
+                — piece by piece.
               </p>
             </div>
           </div>
@@ -346,7 +490,8 @@
               </div>
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
-                  Resets your name, XP/level, avatar, statistics, and chapter progress.
+                  Resets your name, XP/level, avatar, statistics, and chapter
+                  progress.
                 </p>
                 <button
                   class="pz-btn"

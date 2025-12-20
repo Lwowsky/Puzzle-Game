@@ -71,40 +71,100 @@
 .lang-flag img:hover {
   transform: scale(1.1);
 }
+.mobile-only {
+  display: none;
+}
 @media (max-width: 768px) {
-  .settings-window{
+  .settings-window {
     width: min(96vw, 560px);
     padding: 16px;
     max-height: 92dvh;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
   }
 
-  .settings-head{
+  .settings-head {
     text-align: center;
   }
 
-  .settings-title{
+  .settings-title {
     text-align: center;
     width: 100%;
   }
 
-  .settings-body{
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .settings-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 
-  .settings-tabs{
+  .settings-tabs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
-  .settings-tab{
+  .settings-tab {
     text-align: center;
     justify-content: center;
   }
 
-   .settings-content{
+  .settings-content {
     min-height: auto;
+  }
+  .mobile-only {
+    display: grid;
+  }
+  .rank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: fit-content;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: start;
+  }
+
+  .rank-grid a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rank-grid img {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+
+  .rank-wrapper {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rank-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .rank-item:hover {
+    transform: scale(1.2);
+    color: #e6e6e6;
+  }
+  .rank-label {
+    font-size: 14px;
+    line-height: 1.1;
+    color: #ff5733;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .rank-item:hover .rank-label {
+    color: #e6e6e6;
   }
 }
