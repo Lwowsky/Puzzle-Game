@@ -22,7 +22,7 @@
           <img src="../img/logo.png" alt="Logo" class="nav-logo" />
         </a>
       </div>
-<nav aria-label="Ranks">
+      <nav aria-label="Ranks">
         <ul class="header-menu">
           <li class="rank-menu">
             <a class="rank-item" href="rank001.html">
@@ -37,7 +37,6 @@
               <span class="rank-label">Student</span>
             </a>
           </li>
-
           <li class="rank-menu">
             <a class="rank-item" href="rank002.html">
               <img
@@ -51,7 +50,6 @@
               <span class="rank-label">Shinobi</span>
             </a>
           </li>
-
           <li class="rank-menu">
             <a class="rank-item" href="rank003.html">
               <img
@@ -65,7 +63,6 @@
               <span class="rank-label">Genin</span>
             </a>
           </li>
-
           <li class="rank-menu">
             <a class="rank-item" href="rank004.html">
               <img
@@ -79,7 +76,6 @@
               <span class="rank-label">Chunin</span>
             </a>
           </li>
-
           <li class="rank-menu">
             <a class="rank-item" href="rank005.html">
               <img
@@ -93,7 +89,6 @@
               <span class="rank-label">Jonin</span>
             </a>
           </li>
-
           <li class="rank-menu">
             <a class="rank-item" href="rank006.html">
               <img
@@ -159,7 +154,6 @@
                 />
                 <span class="rank-label">Student</span>
               </a>
-
               <a class="rank-item" href="rank002.html">
                 <img
                   src="../img/avatar/rank002.png"
@@ -171,7 +165,6 @@
                 />
                 <span class="rank-label">Shinobi</span>
               </a>
-
               <a class="rank-item" href="rank003.html">
                 <img
                   src="../img/avatar/rank003.png"
@@ -183,7 +176,6 @@
                 />
                 <span class="rank-label">Genin</span>
               </a>
-
               <a class="rank-item" href="rank004.html">
                 <img
                   src="../img/avatar/rank004.png"
@@ -195,7 +187,6 @@
                 />
                 <span class="rank-label">Chunin</span>
               </a>
-
               <a class="rank-item" href="rank005.html">
                 <img
                   src="../img/avatar/rank005.png"
@@ -207,7 +198,6 @@
                 />
                 <span class="rank-label">Jonin</span>
               </a>
-
               <a class="rank-item" href="rank006.html">
                 <img
                   src="../img/avatar/rank006.png"
@@ -295,7 +285,6 @@
                 me 🙂
               </p>
             </header>
-
             <form
               id="contactForm"
               class="contact__form"
@@ -360,7 +349,6 @@
                   ></textarea>
                   <span class="field__error" data-error-for="message"></span>
                 </label>
-
                 <label class="check contact__full">
                   <input
                     class="check__box"
@@ -416,7 +404,11 @@
           </div>
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
-              <button class="settings-tab is-active" data-tab="avatar" type="button">
+              <button
+                class="settings-tab is-active"
+                data-tab="avatar"
+                type="button"
+              >
                 Avatar
               </button>
               <button class="settings-tab" data-tab="name" type="button">
@@ -425,13 +417,19 @@
               <button class="settings-tab" data-tab="stats" type="button">
                 Statistics
               </button>
-              <button class="settings-tab danger" data-tab="reset" type="button">
+              <button
+                class="settings-tab danger"
+                data-tab="reset"
+                type="button"
+              >
                 Reset
               </button>
             </aside>
             <section class="settings-content">
               <div class="settings-pane is-active" data-pane="avatar">
-                <p class="settings-text">Available avatars depend on your rank.</p>
+                <p class="settings-text">
+                  Available avatars depend on your rank.
+                </p>
                 <div class="avatar-grid" id="avatarGrid"></div>
                 <div class="settings-row">
                   <button class="pz-btn" id="saveAvatarBtn" type="button">
@@ -452,7 +450,9 @@
                     maxlength="18"
                     placeholder="Enter your name"
                   />
-                  <button class="pz-btn" id="saveNameBtn" type="button">Save</button>
+                  <button class="pz-btn" id="saveNameBtn" type="button">
+                    Save
+                  </button>
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
@@ -488,8 +488,8 @@
               </div>
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
-                  Resets your name, XP/level, avatar, statistics, and chapter completion
-                  progress.
+                  Resets your name, XP/level, avatar, statistics, and chapter
+                  completion progress.
                 </p>
                 <button
                   class="pz-btn"

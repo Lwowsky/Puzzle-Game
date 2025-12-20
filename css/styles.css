@@ -26,15 +26,11 @@
   inset: -25%;
   pointer-events: none;
   z-index: -1;
-
   opacity: .22;
   mix-blend-mode: screen;
-
   background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20width%3D'260'%20height%3D'260'%20viewBox%3D'0%200%20260%20260'%3E%3Cg%20fill%3D'none'%20stroke%3D'%23ff5733'%20stroke-opacity%3D'0.85'%20stroke-width%3D'5'%20stroke-linejoin%3D'round'%3E%3Cg%20transform%3D'translate(70%2065)%20rotate(10)'%3E%3Cpolygon%20points%3D'0%2C-22%209%2C-8%2022%2C0%209%2C8%200%2C22%20-9%2C8%20-22%2C0%20-9%2C-8'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'6'/%3E%3C/g%3E%3Cg%20transform%3D'translate(190%20110)%20rotate(-20)%20scale(1.1)'%3E%3Cpolygon%20points%3D'0%2C-22%209%2C-8%2022%2C0%209%2C8%200%2C22%20-9%2C8%20-22%2C0%20-9%2C-8'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'6'/%3E%3C/g%3E%3Cg%20transform%3D'translate(135%20205)%20rotate(35)%20scale(.95)'%3E%3Cpolygon%20points%3D'0%2C-22%209%2C-8%2022%2C0%209%2C8%200%2C22%20-9%2C8%20-22%2C0%20-9%2C-8'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-
   background-repeat: repeat;
   background-size: 260px 260px;
-
   filter: drop-shadow(0 0 10px rgba(255,87,51,.25));
   animation: shurikenDrift1 50s linear infinite;
 }
@@ -45,15 +41,11 @@
   inset: -30%;
   pointer-events: none;
   z-index: -1;
-
   opacity: .14;
   mix-blend-mode: screen;
-
   background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20width%3D'320'%20height%3D'320'%20viewBox%3D'0%200%20320%20320'%3E%3Cg%20fill%3D'none'%20stroke%3D'%23ff5733'%20stroke-opacity%3D'0.75'%20stroke-width%3D'4'%20stroke-linejoin%3D'round'%3E%3Cg%20transform%3D'translate(90%2095)%20rotate(25)%20scale(1.05)'%3E%3Cpolygon%20points%3D'0%2C-20%208%2C-7%2020%2C0%208%2C7%200%2C20%20-8%2C7%20-20%2C0%20-8%2C-7'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'5'/%3E%3C/g%3E%3Cg%20transform%3D'translate(245%20155)%20rotate(-35)%20scale(.95)'%3E%3Cpolygon%20points%3D'0%2C-20%208%2C-7%2020%2C0%208%2C7%200%2C20%20-8%2C7%20 -20%2C0%20 -8%2C-7'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'5'/%3E%3C/g%3E%3Cg%20transform%3D'translate(170%20270)%20rotate(8)%20scale(1.15)'%3E%3Cpolygon%20points%3D'0%2C-20%208%2C-7%2020%2C0%208%2C7%200%2C20%20-8%2C7%20-20%2C0%20-8%2C-7'/%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-
   background-repeat: repeat;
   background-size: 320px 320px;
-
   filter: drop-shadow(0 0 12px rgba(255,87,51,.18));
   animation: shurikenDrift2 70s linear infinite;
 }

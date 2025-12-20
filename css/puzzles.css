@@ -56,8 +56,6 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.25);
   overflow: hidden;
-
-  /* ✅ ВАЖЛИВО ДЛЯ МОБІЛЬНИХ: менше випадкового скролу/зуму */
   touch-action: manipulation;
 }
 
@@ -80,12 +78,10 @@
   transform: scale(0.98);
 }
 
-/* ✅ Коли тягнеш на ПК */
 .pz-piece.is-dragging {
   opacity: 0.6;
 }
 
-/* ✅ МОБІЛЬНИЙ РЕЖИМ: вибраний шматок (tap-to-swap) */
 .pz-piece.is-selected {
   outline: 3px solid #ff5733;
   outline-offset: -3px;
@@ -129,6 +125,26 @@
 .pz-controls {
   flex-direction: row;
   flex-wrap: wrap;
+}
+.pz-sizes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pz-size-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pz-xp {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.85;
+  pointer-events: none;
+  user-select: none;
 }
 
 @media (max-width: 768px) {

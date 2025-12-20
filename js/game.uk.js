@@ -83,10 +83,19 @@
         </div>
         <div class="pz-right">
           <div class="pz-top">
-            <div class="pz-controls">
-              <button class="pz-btn" data-size="3" type="button">3×3</button>
-              <button class="pz-btn" data-size="4" type="button">4×4</button>
-              <button class="pz-btn" data-size="5" type="button">5×5</button>
+            <div class="pz-controls pz-sizes">
+              <div class="pz-size-option">
+                <button class="pz-btn" data-size="3" type="button">3×3</button>
+                <div class="pz-xp">+5 XP</div>
+              </div>
+              <div class="pz-size-option">
+                <button class="pz-btn" data-size="4" type="button">4×4</button>
+                <div class="pz-xp">+10 XP</div>
+              </div>
+              <div class="pz-size-option">
+                <button class="pz-btn" data-size="5" type="button">5×5</button>
+                <div class="pz-xp">+25 XP</div>
+              </div>
             </div>
             <div class="pz-stats">
               <div>⏳ <span id="pzTime">0</span> сек</div>
@@ -117,7 +126,6 @@
       `../img/puzzles/${id3}.png`,
       `../img/puzzles/${id3}.jpg`,
     ];
-
     const isTouch = matchMedia("(pointer: coarse)").matches;
     let size = 3;
     let imgSrc = "";
