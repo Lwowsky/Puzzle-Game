@@ -16,9 +16,7 @@
 
   function getNextUncompletedId() {
     const done = getCompletedSet();
-    // Шукаємо першу непройдену главу починаючи з 1
     let id = 1;
-    // hard limit щоб випадково не зациклитись
     for (let i = 0; i < 999; i++) {
       if (!done.has(id)) return id;
       id++;
@@ -26,9 +24,43 @@
     return 1;
   }
 
-  function toGame(id) {
-    // важливо: autostart=1
-    location.href = `./game.html?id=${id}&autostart=1`;
+  function openGameModal(gameId) {
+    const modal = document.getElementById("gameModal");
+    const frame = document.getElementById("gameFrame");
+
+    const url = `game.html?id=${gameId}&autostart=1`;
+
+    // fallback: якщо модалки нема (раптом), просто переходимо на сторінку
+    if (!modal || !frame) {
+      location.href = url;
+      return;
+    }
+
+    // cache-bust як у modal.js
+    const u = new URL(url, location.href);
+    u.searchParams.set("_", String(Date.now()));
+
+    frame.src = "about:blank";
+    requestAnimationFrame(() => {
+      frame.src = u.href;
+    });
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeGameModal(reload = false) {
+    const modal = document.getElementById("gameModal");
+    const frame = document.getElementById("gameFrame");
+    if (!modal || !frame) return;
+
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    frame.src = "about:blank";
+    document.body.style.overflow = "";
+
+    if (reload) location.reload();
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -41,15 +73,15 @@
     const lastGameId = safeNum(localStorage.getItem("lastGameId"));
     const nextId = getNextUncompletedId();
 
-    // Start button
+    // Start
     startBtn.textContent = `Почати місію (Глава ${nextId})`;
-    startBtn.addEventListener("click", () => toGame(nextId));
+    startBtn.addEventListener("click", () => openGameModal(nextId));
 
-    // Continue button
+    // Continue
     if (lastGameId) {
       contBtn.disabled = false;
       contBtn.textContent = `Продовжити (Глава ${lastGameId})`;
-      contBtn.addEventListener("click", () => toGame(lastGameId));
+      contBtn.addEventListener("click", () => openGameModal(lastGameId));
       hint.textContent = `Сувій пам’ятає твою останню місію: Глава ${lastGameId}.`;
     } else {
       contBtn.disabled = true;
@@ -57,5 +89,29 @@
       hint.textContent =
         "Ще не було місій у цьому браузері. Натисни «Почати місію», щоб зробити перший крок.";
     }
+
+    // Закриття модалки по кліку на overlay/кнопку
+    const modal = document.getElementById("gameModal");
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target && e.target.matches("[data-close]")) closeGameModal(false);
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("is-open")) {
+          closeGameModal(false);
+        }
+      });
+    }
+
+    // Повідомлення з game.html (iframe)
+    window.addEventListener("message", (e) => {
+      if (e.data?.type === "puzzleWin") {
+        closeGameModal(true);
+      }
+      // якщо ти вже використовуєш requestCloseModal({type:"closeGameModal"})
+      if (e.data?.type === "closeGameModal") {
+        closeGameModal(!!e.data.reload);
+      }
+    });
   });
 })();
