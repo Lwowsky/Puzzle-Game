@@ -287,7 +287,6 @@
       </div>
 
       <div class="story-content" id="story-content">
-        <!-- ✅ NEW Welcome section -->
         <section class="welcome">
           <h2 class="welcome-title">
             Селище Схованого Листа вітає тебе,
@@ -299,52 +298,65 @@
             Кожен фрагмент має своє місце, як печатка в дзюцу. Точне з’єднання —
             крок до рангу, помилка — урок дисципліни.
           </p>
-
-          <div class="hl-actions" role="group" aria-label="Швидкий старт">
-            <button class="hl-btn primary" id="missionBtn" type="button">
-              Почати місію
-            </button>
-
-            <div class="hl-hint" id="missionHint" aria-live="polite"></div>
-          </div>
-
+          <p class="welcome-text">
+            Тут хаос — лише ілюзія для тих, хто поспішає. Увімкни “шарінґан”
+            уважності: лінії, тіні й дрібні деталі видають правильний шлях.
+            Збереш картину — і разом з нею збереш контроль: фрагмент за
+            фрагментом, як шинобі на тренуванні.
+          </p>
           <div class="welcome-flow">
-            <!-- ❗ Картинку НЕ змінюю -->
+            <!-- ✅ 1) Картинка першою -->
             <img
               src="../img/puzzles/main.jpg"
               alt="Welcome Image"
               class="welcome-image"
             />
 
+            <!-- ✅ 2) Місія після картинки (ПК стане справа від картинки) -->
+            <div
+              class="hl-actions hl-mission"
+              role="group"
+              aria-label="Швидкий старт"
+            >
+              <div
+                class="hl-hint hl-last"
+                id="missionHint"
+                aria-live="polite"
+              ></div>
+              <button class="hl-btn primary" id="missionBtn" type="button">
+                Почати місію
+              </button>
+            </div>
+
+            <!-- ✅ 3) Контент -->
             <div class="welcome-after">
               <h3 class="welcome-subtitle">Як зайти в гру</h3>
 
               <ol class="hl-steps">
                 <li>
                   Обери свій шлях через <b>ранги</b> у верхньому меню (Учень →
-                  Хокаге) або натисни <b>«Обрати ранг»</b>.
+                  Хокаге) або натисни <b>Почати місію/Продовжити</b>.
                 </li>
                 <li>
                   Відкрий главу та запусти пазл. У вікні гри натисни
-                  <b>«Start»</b> — і поле перемішається.
+                  <b>«Почати»</b> — і поле перемішається.
                 </li>
                 <li>
                   Вибери складність <b>3×3 / 4×4 / 5×5</b>. Чим складніше — тим
                   більше XP за проходження.
                 </li>
                 <li>
-                  Якщо треба зібратись із думками — натисни <b>Pause</b>.
+                  Якщо треба зібратись із думками — натисни <b>Пауза</b>.
                   Повернешся — продовжиш без паніки.
                 </li>
               </ol>
-
-              <h3 class="welcome-subtitle">Сувій місій</h3>
               <p class="welcome-text">
-                Кожна глава — це місія. Ти не просто “складаєш фото” — ти
-                відточуюєш контроль. Шинобі перемагає не поспіхом, а
-                <b>холодним фокусом</b>.
+                Тут вирішує не швидкість, а <b>погляд</b>. Увімкни свій
+                “шарінґан” уважності: помічай дрібні збіги ліній і тіней. Один
+                точний фрагмент — крок до рангу.
               </p>
 
+              
               <h3 class="welcome-subtitle">Техніки шинобі</h3>
               <ul class="welcome-quotes">
                 <li>
@@ -363,6 +375,10 @@
                   <b>Техніка паузи:</b> якщо “не йде” — зроби ковток повітря.
                   Мозок сам добудує патерн.
                 </li>
+                <li>
+                  <b>Техніка патернів:</b> шукай повтори (хмари, текстури,
+                  волосся, лінії) — вони з’єднують фрагменти швидше за здогадки.
+                </li>
               </ul>
 
               <h3 class="welcome-subtitle">Прогрес і ранги</h3>
@@ -374,7 +390,11 @@
 
               <div class="welcome-divider" aria-hidden="true"></div>
               <p class="welcome-text">
-                <b>Готовий?</b> Вирівняй дихання. Збери волю в кулак — і йди
+                Хаос завжди кричить. Правильний шлях — мовчить. Відчуй різницю —
+                і складання піде.
+              </p>
+              <p class="welcome-text">
+                <b>Готовий</b> <span data-player-name>Шинобі</span>? Вирівняй дихання. Збери волю в кулак — і йди
                 фрагмент за фрагментом.
               </p>
             </div>
@@ -388,7 +408,6 @@
         <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
 
-      <!-- Settings modal (твій — без змін) -->
       <div class="modal" id="settingsModal" aria-hidden="true">
         <div class="modal-overlay" data-close-settings></div>
         <div
@@ -516,6 +535,7 @@
         </div>
       </div>
     </footer>
+
     <div class="modal" id="gameModal" aria-hidden="true">
       <div class="modal-overlay" data-close-modal></div>
       <div
@@ -540,6 +560,7 @@
         ></iframe>
       </div>
     </div>
+
     <script src="../js/script.js"></script>
     <script src="../js/stories.uk.js"></script>
     <script src="../js/chapters.uk.js"></script>

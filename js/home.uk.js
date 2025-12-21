@@ -76,9 +76,11 @@
       if (meta.section) parts.push(meta.section);
       if (meta.chapter) parts.push(meta.chapter);
 
-      hint.textContent = parts.length
-        ? `Сувій пам’ятає твою останню місію: ${parts.join(" • ")}`
-        : `Сувій пам’ятає твою останню місію: Глава ${lastGameId}.`;
+      hint.innerHTML = `
+  <div>Анбу пам’ятає твою останню місію:</div>
+  <div>${meta.section || `Розділ ${lastGameId}: —`}</div>
+  <div>${meta.chapter || `Глава ${lastGameId}: —`}</div>
+`;
     } else {
       btn.textContent = "Почати місію";
       btn.onclick = () => openGameInModal(nextId);

@@ -90,13 +90,19 @@
 }
 
 .welcome {
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   color: #ff5733;
 }
 
 .welcome-flow {
   text-align: left;
+  margin: 15px;
+  padding: 15px;
+}
+
+.welcome-flow .hl-mission {
+  margin: 0 0 18px;
 }
 
 .welcome-image {
@@ -126,9 +132,11 @@
 }
 
 .welcome-quotes li {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: black;
   list-style-type: disc;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .welcome-subtitle {
@@ -140,9 +148,9 @@
 }
 
 .welcome-text {
-  font-size: 1.4rem;
-  margin: 10px 0 0;
-  color: black;
+  font-size: 1.2rem;
+  margin: 12px;
+    color: black;
 }
 
 .welcome-note {
@@ -155,8 +163,11 @@
   margin: 14px 0 18px;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   gap: 12px;
   align-items: center;
+  background-color: antiquewhite;
+  border-radius: 15px;
 }
 
 .hl-btn {
@@ -286,7 +297,9 @@
   }
 
   .welcome-flow {
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
   }
 
   .welcome-subtitle {
@@ -323,6 +336,22 @@
   .hl-hint {
     width: 100%;
     max-width: 420px;
+  }
+  .welcome-flow::after {
+    content: none;
+    display: none;
+  }
+
+  .welcome-flow .hl-mission {
+    order: 1;
+  }
+
+  .welcome-flow .welcome-image {
+    order: 2;
+  }
+
+  .welcome-flow .welcome-after {
+    order: 3;
   }
 }
 
@@ -361,21 +390,6 @@
   will-change: transform, box-shadow, filter;
 }
 
-.story-content .hl-btn::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 87, 51, 0.45),
-    rgba(255, 87, 51, 0) 60%
-  );
-  opacity: 0;
-  transform: translateY(8px) scale(0.98);
-  transition: opacity 180ms ease, transform 220ms ease;
-  pointer-events: none;
-}
-
 .story-content .hl-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
@@ -387,17 +401,6 @@
   transform: translateY(0) scale(1);
 }
 
-.story-content .hl-btn.primary {
-  box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.22),
-    0 0 22px rgba(255, 87, 51, 0.22);
-}
-
-.story-content .hl-btn.primary:hover {
-  box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.28), 0 14px 30px rgba(0, 0, 0, 0.24),
-    0 0 26px rgba(255, 87, 51, 0.28);
-  filter: brightness(1.05);
-}
-
 .story-content .hl-btn:disabled,
 .story-content .hl-btn[disabled] {
   filter: none;
@@ -406,4 +409,37 @@
 .story-content .hl-btn:disabled::before,
 .story-content .hl-btn[disabled]::before {
   opacity: 0;
+}
+
+/* ✅ Місія: текст зверху, кнопка знизу (НЕ в один ряд) */
+.story-content .hl-actions.hl-mission {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* прибираємо flex-розтягування у підказки (бо воно і робить “в один ряд”) */
+.story-content .hl-actions.hl-mission #missionHint {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  text-align: center; /* якщо хочеш по центру — постав center */
+  order: 1;
+}
+
+/* кнопка завжди під текстом */
+.story-content .hl-actions.hl-mission #missionBtn {
+  order: 2;
+  width: min(320px, 100%); /* можеш зробити 100% якщо хочеш як на мобілці */
+}
+.story-content .welcome-image {
+  margin-right: 32px; /* відступ справа */
+  margin-bottom: 18px; /* щоб текст нижче теж дихав */
+}
+
+/* якщо десь margin затирається — підсилюємо саме для welcome */
+.story-content .welcome-flow .welcome-image {
+  margin: 0 32px 18px 0;
 }
