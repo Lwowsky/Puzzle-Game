@@ -191,6 +191,15 @@
       set("sTotal", totalXP(st));
       set("sPlays", getWins());
     }
+    // ✅ Авто-оновлення табу "Avatar" і "Stats" без перезавантаження сторінки
+    window.addEventListener("player:update", () => {
+      // оновлюємо тільки якщо модалка відкрита — щоб не збивати вибір без потреби
+      if (modal && modal.classList.contains("is-open")) {
+        renderStats();
+        renderAvatarGrid();
+      }
+    });
+
     const resetBtn = document.getElementById("resetAllBtn");
     const resetHint = document.getElementById("resetHint");
     resetBtn?.addEventListener("click", () => {
