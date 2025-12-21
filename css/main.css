@@ -387,7 +387,6 @@
   transform: translateY(0) scale(1);
 }
 
-/* primary — сильніше “полум’я” */
 .story-content .hl-btn.primary {
   box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.22),
     0 0 22px rgba(255, 87, 51, 0.22);
@@ -399,7 +398,6 @@
   filter: brightness(1.05);
 }
 
-/* disabled — ніяких “вогнів” */
 .story-content .hl-btn:disabled,
 .story-content .hl-btn[disabled] {
   filter: none;
