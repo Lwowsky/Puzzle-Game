@@ -9,6 +9,12 @@
   }
 
   const PLAYER_STATE_KEY = "playerState";
+  const AVATAR_KEY = "playerAvatarId";
+
+  function clampRankLevel(level) {
+    return Math.min(Math.max(1, level), 6);
+  }
+
   function loadPlayerState() {
     try {
       const raw = localStorage.getItem(PLAYER_STATE_KEY);
@@ -28,19 +34,47 @@
   function xpNeeded(level) {
     return 100 * Math.pow(2, Math.max(0, level - 1));
   }
-  function addXP(amount) {
-    if (!amount) return;
-    if (typeof window.addXP === "function") return window.addXP(amount);
-    const st = loadPlayerState();
-    st.xp += amount;
-    while (st.xp >= xpNeeded(st.level)) {
-      st.xp -= xpNeeded(st.level);
-      st.level += 1;
-    }
-    savePlayerState(st);
-    if (typeof window.renderPlayerInfo === "function")
-      window.renderPlayerInfo();
+function addXP(amount) {
+  if (!amount) return;
+
+  // якщо раптом гра запущена не в iframe і є глобальна addXP — хай вона керує
+  if (typeof window.addXP === "function") return window.addXP(amount);
+
+  const st = loadPlayerState();
+  const oldRank = clampRankLevel(st.level);
+
+  st.xp += amount;
+
+  while (st.xp >= xpNeeded(st.level)) {
+    st.xp -= xpNeeded(st.level);
+    st.level += 1;
   }
+
+  const newRank = clampRankLevel(st.level);
+
+  // ✅ Авто-апгрейд аватара тільки якщо він був на максимумі
+  let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
+  if (!Number.isFinite(avatarId) || avatarId < 1) avatarId = 1;
+
+  // нормалізуємо під старий ранг (щоб не було "вище доступного")
+  if (avatarId > oldRank) avatarId = oldRank;
+
+  // якщо ранг виріс і аватар був максимальним — піднімаємо до нового максимуму
+  if (newRank > oldRank && avatarId === oldRank) {
+    avatarId = newRank;
+  }
+
+  // і на всяк випадок не вище нового рангу
+  if (avatarId > newRank) avatarId = newRank;
+
+  localStorage.setItem(AVATAR_KEY, String(avatarId));
+
+  savePlayerState(st);
+
+  // у грі UI гравця зазвичай нема, але якщо є — оновиться
+  if (typeof window.renderPlayerInfo === "function") window.renderPlayerInfo();
+}
+
 
   const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
   const FIRST_CLEAR_BONUS_XP = 25;
