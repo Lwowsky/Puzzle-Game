@@ -54,6 +54,24 @@
     return name.length ? name : null;
   }
 
+  function getWins() {
+    return Number(localStorage.getItem(WINS_KEY) || "0");
+  }
+
+  function totalXP(st) {
+    let total = st.xp;
+    for (let lvl = 1; lvl < st.level; lvl++) total += xpNeeded(lvl);
+    return total;
+  }
+
+  // === Глобальна подія “онови UI” (щоб settings/stat модалки оновлювались без reload)
+  function notifyPlayerUpdate(reason, extra = {}) {
+    window.dispatchEvent(
+      new CustomEvent("player:update", { detail: { reason, ...extra } })
+    );
+  }
+  window.notifyPlayerUpdate = notifyPlayerUpdate;
+
   function applyPlayerName() {
     const fallback = isEN() ? "Player" : "Гравцю";
     const name = getPlayerName() || fallback;
@@ -66,48 +84,8 @@
     if (avatarTitle) avatarTitle.textContent = name;
   }
 
-  function totalXP(st) {
-    let total = st.xp;
-    for (let lvl = 1; lvl < st.level; lvl++) total += xpNeeded(lvl);
-    return total;
-  }
-
-  function getWins() {
-    return Number(localStorage.getItem(WINS_KEY) || "0");
-  }
-
-  // ✅ один івент для всіх: settings, панель, грід глав і т.д.
-  function notifyPlayerUpdate() {
-    const st = loadState();
-    window.dispatchEvent(new CustomEvent("player:update", { detail: { state: st } }));
-  }
-
-  function sanitizeAvatarId(avatarId, rankLevel) {
-    let id = Number(avatarId || 1);
-    if (!Number.isFinite(id) || id < 1) id = 1;
-    if (id > rankLevel) id = rankLevel;
-    return id;
-  }
-
-  // ✅ Автозміна аватара при підвищенні рівня:
-  // Якщо гравець був на "максимально доступному" аватарі (або вище) — піднімаємо до нового максимуму.
-  // Якщо він вручну обрав нижчий — не чіпаємо.
-  function autoUpgradeAvatarOnLevelUp(prevLevel, newLevel) {
-    const prevRank = clampRankLevel(prevLevel);
-    const newRank = clampRankLevel(newLevel);
-    if (newRank <= prevRank) return;
-
-    const current = sanitizeAvatarId(localStorage.getItem(AVATAR_KEY), prevRank);
-
-    // якщо аватар був на максимумі (або вище) — апгрейдимо
-    if (current >= prevRank) {
-      localStorage.setItem(AVATAR_KEY, String(newRank));
-    }
-  }
-
   function renderPlayerPanel() {
     const name = getPlayerName();
-
     const registerBox = document.getElementById("registerBox");
     const panel = document.getElementById("playerPanel");
     if (!registerBox || !panel) return;
@@ -136,6 +114,32 @@
     if (toNextEl) toNextEl.textContent = String(toNext);
   }
 
+  function getStoredAvatarId() {
+    let id = Number(localStorage.getItem(AVATAR_KEY) || "1");
+    if (!Number.isFinite(id) || id < 1) id = 1;
+    return id;
+  }
+
+  // ✅ Авто-апдейт аватара при левел-апі:
+  // - якщо гравець МАНУАЛЬНО вибрав нижчий аватар — не перетираємо
+  // - якщо стояв “максимально доступний” (тобто був auto-поведінкою) — піднімемо на новий
+  function syncAvatarAfterLevelChange(oldRankLevel, newRankLevel) {
+    let id = getStoredAvatarId();
+
+    // нормалізація під старий рівень (щоб не було “заблокований аватар”)
+    if (id > oldRankLevel) id = oldRankLevel;
+
+    // якщо раніше був на максимумі — авто піднімаємо
+    if (newRankLevel > oldRankLevel && id === oldRankLevel) {
+      id = newRankLevel;
+    }
+
+    // і в будь-якому випадку не вище нового ліміту
+    if (id > newRankLevel) id = newRankLevel;
+
+    localStorage.setItem(AVATAR_KEY, String(id));
+  }
+
   function renderPlayerInfo() {
     const st = loadState();
 
@@ -157,16 +161,22 @@
     if (xpEl) xpEl.textContent = String(st.xp);
     if (xpMaxEl) xpMaxEl.textContent = String(need);
 
-    // ✅ Показуємо саме обраний/збережений аватар (але не вище доступного)
+    // ✅ Ставимо аватар із localStorage, але clamp по доступному рангу
     if (rankIcon) {
-      const avatarId = sanitizeAvatarId(localStorage.getItem(AVATAR_KEY), rankLevel);
+      let avatarId = getStoredAvatarId();
+      if (avatarId > rankLevel) avatarId = rankLevel;
+      if (avatarId < 1) avatarId = 1;
+
+      // якщо поправили — збережемо
       localStorage.setItem(AVATAR_KEY, String(avatarId));
+
       rankIcon.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
       rankIcon.alt = `Avatar ${avatarId}`;
     }
 
     if (bar) {
-      const pct = need > 0 ? Math.min(100, Math.round((st.xp / need) * 100)) : 0;
+      const pct =
+        need > 0 ? Math.min(100, Math.round((st.xp / need) * 100)) : 0;
       bar.style.width = pct + "%";
       bar.setAttribute("aria-valuenow", String(st.xp));
       bar.setAttribute("aria-valuemax", String(need));
@@ -174,14 +184,13 @@
     }
 
     renderPlayerPanel();
-    notifyPlayerUpdate(); // ✅ хай всі інші частини UI підхоплюють зміни
   }
 
   function addXP(amount) {
     if (!amount || !Number.isFinite(amount)) return;
 
-    const prev = loadState();
     const st = loadState();
+    const oldRankLevel = clampRankLevel(st.level);
 
     st.xp += Math.max(0, Math.floor(amount));
 
@@ -190,13 +199,14 @@
       st.level += 1;
     }
 
-    // ✅ апгрейд аватара лише при підвищенні рівня
-    if (st.level > prev.level) {
-      autoUpgradeAvatarOnLevelUp(prev.level, st.level);
-    }
+    const newRankLevel = clampRankLevel(st.level);
+
+    // ✅ аватар синхронізуємо саме тут (бо тут відомо, що був левел-ап)
+    syncAvatarAfterLevelChange(oldRankLevel, newRankLevel);
 
     saveState(st);
     renderPlayerInfo();
+    notifyPlayerUpdate("xpChanged", { amount });
   }
 
   window.addXP = addXP;
@@ -218,18 +228,11 @@
         input.value = "";
         applyPlayerName();
         renderPlayerInfo();
+        notifyPlayerUpdate("nameChanged", { name });
       });
     }
 
     renderPlayerPanel();
-  });
-
-  // (опційно) якщо відкрито в іншій вкладці щось змінилось
-  window.addEventListener("storage", (e) => {
-    if ([NAME_KEY, STATE_KEY, WINS_KEY, AVATAR_KEY].includes(e.key)) {
-      applyPlayerName();
-      renderPlayerInfo();
-    }
   });
 })();
 
