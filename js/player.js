@@ -6,12 +6,19 @@
 
   const RANKS_UK = ["Учень", "Шинобі", "Генін", "Чунін", "Джонін", "Хокаге"];
   const RANKS_EN = ["Student", "Shinobi", "Genin", "Chunin", "Jonin", "Hokage"];
+  const RANKS_JA = ["見習い", "忍び", "下忍", "中忍", "上忍", "火影"];
 
-  function isEN() {
-    return (
-      document.documentElement.lang?.toLowerCase().startsWith("en") ||
-      location.pathname.includes("/en/")
-    );
+  function getLang() {
+    const lang = (document.documentElement.lang || "").toLowerCase();
+    const path = (location.pathname || "").toLowerCase();
+
+    if (lang.startsWith("ja") || path.includes("/ja/")) return "ja";
+    if (lang.startsWith("en") || path.includes("/en/")) return "en";
+    return "uk"; // дефолт: українська
+  }
+
+  function t(map) {
+    return map[getLang()] ?? map.uk;
   }
 
   function pad3(n) {
@@ -45,7 +52,9 @@
   }
 
   function getRankName(level) {
-    const ranks = isEN() ? RANKS_EN : RANKS_UK;
+    const lang = getLang();
+    const ranks =
+      lang === "ja" ? RANKS_JA : lang === "en" ? RANKS_EN : RANKS_UK;
     return ranks[clampRankLevel(level) - 1];
   }
 
@@ -55,7 +64,7 @@
   }
 
   function applyPlayerName() {
-    const fallback = isEN() ? "Player" : "Гравцю";
+    const fallback = t({ uk: "Гравцю", en: "Player", ja: "プレイヤー" });
     const name = getPlayerName() || fallback;
 
     document.querySelectorAll("[data-player-name]").forEach((el) => {
@@ -79,7 +88,9 @@
   // ✅ один івент для всіх: settings, панель, грід глав і т.д.
   function notifyPlayerUpdate() {
     const st = loadState();
-    window.dispatchEvent(new CustomEvent("player:update", { detail: { state: st } }));
+    window.dispatchEvent(
+      new CustomEvent("player:update", { detail: { state: st } })
+    );
   }
 
   function sanitizeAvatarId(avatarId, rankLevel) {
@@ -159,10 +170,17 @@
 
     // ✅ Показуємо саме обраний/збережений аватар (але не вище доступного)
     if (rankIcon) {
-      const avatarId = sanitizeAvatarId(localStorage.getItem(AVATAR_KEY), rankLevel);
+      const avatarId = sanitizeAvatarId(
+        localStorage.getItem(AVATAR_KEY),
+        rankLevel
+      );
       localStorage.setItem(AVATAR_KEY, String(avatarId));
       rankIcon.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
-      rankIcon.alt = `Avatar ${avatarId}`;
+      rankIcon.alt = t({
+        uk: `Аватар ${avatarId}`,
+        en: `Avatar ${avatarId}`,
+        ja: `アバター ${avatarId}`,
+      });
     }
 
     if (bar) {

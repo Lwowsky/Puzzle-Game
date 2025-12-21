@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Puzzle Game Hidden Leaf Contact Us</title>
+    <title>パズルゲーム 木ノ葉</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link
@@ -15,114 +15,120 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
+
   <body class="naruto-shuriken-bg-dark">
     <header class="header">
       <div class="header-inner">
-        <a href="index.html" class="brand" aria-label="На головну">
-          <img src="../img/logo.png" alt="Logo" class="nav-logo" />
+        <a href="index.html" class="brand" aria-label="ホーム">
+          <img src="../img/logo.png" alt="ロゴ" class="nav-logo" />
         </a>
       </div>
-      <nav aria-label="Ранги">
+
+      <nav aria-label="ランク">
         <ul class="header-menu">
           <li class="rank-menu">
             <a class="rank-item" href="rank001.html">
               <img
                 src="../img/avatar/rank001.png"
-                alt="Ранг: Учень"
+                alt="ランク：見習い"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Учень</span>
+              <span class="rank-label">見習い</span>
             </a>
           </li>
           <li class="rank-menu">
             <a class="rank-item" href="rank002.html">
               <img
                 src="../img/avatar/rank002.png"
-                alt="Ранг: Шинобі"
+                alt="ランク：忍"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Шинобі</span>
+              <span class="rank-label">忍</span>
             </a>
           </li>
           <li class="rank-menu">
             <a class="rank-item" href="rank003.html">
               <img
                 src="../img/avatar/rank003.png"
-                alt="Ранг: Генін"
+                alt="ランク：下忍"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Генін</span>
+              <span class="rank-label">下忍</span>
             </a>
           </li>
           <li class="rank-menu">
             <a class="rank-item" href="rank004.html">
               <img
                 src="../img/avatar/rank004.png"
-                alt="Ранг: Чунін"
+                alt="ランク：中忍"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Чунін</span>
+              <span class="rank-label">中忍</span>
             </a>
           </li>
           <li class="rank-menu">
             <a class="rank-item" href="rank005.html">
               <img
                 src="../img/avatar/rank005.png"
-                alt="Ранг: Джонін"
+                alt="ランク：上忍"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Джонін</span>
+              <span class="rank-label">上忍</span>
             </a>
           </li>
           <li class="rank-menu">
             <a class="rank-item" href="rank006.html">
               <img
                 src="../img/avatar/rank006.png"
-                alt="Ранг: Хокаге"
+                alt="ランク：火影"
                 class="rank-link"
                 width="44"
                 height="44"
                 decoding="async"
               />
-              <span class="rank-label">Хокаге</span>
+              <span class="rank-label">火影</span>
             </a>
           </li>
         </ul>
       </nav>
+
       <div class="nav-overlay" id="navOverlay" hidden></div>
+
       <button
         class="burger"
         id="burgerBtn"
-        aria-label="Меню"
+        aria-label="メニュー"
         aria-controls="primaryNav"
         aria-expanded="false"
         type="button"
       >
         <i class="fa-solid fa-bars"></i>
       </button>
-      <nav class="nav-drawer" aria-label="Головне меню">
+
+      <nav class="nav-drawer" aria-label="メインメニュー">
         <ul class="nav-list" id="primaryNav" aria-hidden="true">
           <li class="nav-item">
-            <a href="index.html" class="nav-link">На головну</a>
+            <a href="index.html" class="nav-link">ホーム</a>
           </li>
           <li class="nav-item">
-            <a href="contact.html" class="nav-link">Написати нам</a>
+            <a href="contact.html" class="nav-link">お問い合わせ</a>
           </li>
+
           <li class="lang-switches">
             <a class="lang-flag" id="toUk" href="#" aria-label="Українська">
               <img src="../img/flags/ua.svg" alt="UA" />
@@ -131,92 +137,95 @@
               <img src="../img/flags/gb.svg" alt="EN" />
             </a>
             <a class="lang-flag" id="toJa" href="#" aria-label="日本語">
-              <img src="../img/flags/ja.svg" alt="JA" />
+              <img src="../img/flags/jp.svg" alt="JA" />
             </a>
           </li>
+
           <li>
             <button
               class="settings-btn"
               id="openSettings"
               type="button"
-              aria-label="Налаштування"
+              aria-label="設定"
             >
               <i class="fa-solid fa-gear"></i>
             </button>
           </li>
+
           <li class="rank-wrapper mobile-only">
             <div class="rank-grid">
               <a class="rank-item" href="rank001.html">
                 <img
                   src="../img/avatar/rank001.png"
-                  alt="Ранг: Учень"
+                  alt="ランク：見習い"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Учень</span>
+                <span class="rank-label">見習い</span>
               </a>
               <a class="rank-item" href="rank002.html">
                 <img
                   src="../img/avatar/rank002.png"
-                  alt="Ранг: Шинобі"
+                  alt="ランク：忍"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Шинобі</span>
+                <span class="rank-label">忍</span>
               </a>
               <a class="rank-item" href="rank003.html">
                 <img
                   src="../img/avatar/rank003.png"
-                  alt="Ранг: Генін"
+                  alt="ランク：下忍"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Генін</span>
+                <span class="rank-label">下忍</span>
               </a>
               <a class="rank-item" href="rank004.html">
                 <img
                   src="../img/avatar/rank004.png"
-                  alt="Ранг: Чунін"
+                  alt="ランク：中忍"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Чунін</span>
+                <span class="rank-label">中忍</span>
               </a>
               <a class="rank-item" href="rank005.html">
                 <img
                   src="../img/avatar/rank005.png"
-                  alt="Ранг: Джонін"
+                  alt="ランク：上忍"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Джонін</span>
+                <span class="rank-label">上忍</span>
               </a>
               <a class="rank-item" href="rank006.html">
                 <img
                   src="../img/avatar/rank006.png"
-                  alt="Ранг: Хокаге"
+                  alt="ランク：火影"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Хокаге</span>
+                <span class="rank-label">火影</span>
               </a>
             </div>
           </li>
         </ul>
       </nav>
     </header>
+
     <main class="main-content">
       <div class="main-content--second player-sidebar" id="playerSidebar">
         <button
@@ -227,24 +236,26 @@
           aria-controls="playerSidebarBody"
         >
           <span class="player-sidebar__chev">▾</span>
-          <h3 class="profile-menu">Профіль</h3>
+          <h3 class="profile-menu">プロフィール</h3>
         </button>
+
         <div class="player-sidebar__body" id="playerSidebarBody">
-          <h2 class="avatar-title">Player Name</h2>
+          <h2 class="avatar-title">プレイヤー名</h2>
           <div class="avatar-subtitle">
             <img
               class="rank-badge"
               id="playerRankIcon"
               src="../img/avatar/avatar001.png"
-              alt="Rank"
+              alt="ランク"
             />
-            <p>Ранг: <span id="playerRank">Учень</span></p>
-            <p>Рівень: <span id="playerLevel">1</span></p>
+            <p>ランク：<span id="playerRank">見習い</span></p>
+            <p>レベル：<span id="playerLevel">1</span></p>
             <p>
-              XP: <span id="playerXP">0</span> /
+              XP：<span id="playerXP">0</span> /
               <span id="playerXPMax">100</span>
             </p>
           </div>
+
           <div class="progress">
             <div
               class="progress-bar"
@@ -255,7 +266,8 @@
             ></div>
             <span class="progress-label" id="progressLabel"></span>
           </div>
-          <div class="avatar-title">Статистика</div>
+
+          <div class="avatar-title">統計</div>
           <div class="story-content story-content--text">
             <div id="registerBox">
               <form id="nameForm" class="name-form">
@@ -263,187 +275,168 @@
                   id="nameInput"
                   class="name-form--input"
                   type="text"
-                  placeholder="Введи ім’я"
+                  placeholder="名前を入力"
                   maxlength="18"
                 />
-                <button class="name-form--btn" type="submit">Зберегти</button>
+                <button class="name-form--btn" type="submit">保存</button>
               </form>
             </div>
+
             <div class="playerPanel" id="playerPanel" hidden>
               <div><b id="playerNameLabel"></b></div>
-              <div>Зіграно разів: <span id="statPlays">0</span></div>
-              <div>Всього XP: <span id="statTotalXP">0</span></div>
-              <div>Наступний рівень: <span id="statToNext">0</span> XP</div>
+              <div>プレイ回数：<span id="statPlays">0</span></div>
+              <div>合計XP：<span id="statTotalXP">0</span></div>
+              <div>次のレベルまで：<span id="statToNext">0</span> XP</div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="story-content" id="story-content">
-        <section id="contact" class="contact">
-          <div class="contact__wrap">
-            <header class="contact__header">
-              <h2 class="contact__title">Зв’язок</h2>
-              <p class="contact__subtitle">
-                Маєш ідею для нової глави або хочеш повідомити про баг? Напиши
-                мені 🙂
+        <section class="welcome">
+          <h2 class="welcome-title">
+            木ノ葉隠れの里へようこそ、
+            <span data-player-name>忍</span>！
+          </h2>
+
+          <p class="welcome-text">
+            ここでのパズルは「ただの絵」じゃない。
+            <b>集中のチャクラを鍛える訓練</b>だ。
+            ひとつひとつのピースには居場所がある――印を結ぶように。
+            正確な一致はランクへの一歩、間違いは規律の学び。
+          </p>
+
+          <p class="welcome-text">
+            急ぐ者にとって混沌は錯覚にすぎない。
+            “写輪眼”のように集中を研ぎ澄ませ――線、影、細部が正しい道を示す。
+            絵を完成させることは、同時に自分を整えること。
+            修行する忍のように、ピースをひとつずつ。
+          </p>
+
+          <div class="welcome-flow">
+            <img
+              src="../img/puzzles/main.jpg"
+              alt="ようこそ画像"
+              class="welcome-image"
+            />
+
+            <div class="hl-actions hl-mission" role="group" aria-label="クイックスタート">
+              <div class="hl-hint hl-last" id="missionHint" aria-live="polite"></div>
+              <button class="hl-btn primary" id="missionBtn" type="button">
+                ミッション開始
+              </button>
+            </div>
+
+            <div class="welcome-after">
+              <h3 class="welcome-subtitle">ゲームの始め方</h3>
+
+              <ol class="hl-steps">
+                <li>
+                  上部メニューの<b>ランク</b>（見習い → 火影）から進むか、
+                  <b>ミッション開始／続ける</b>を押してください。
+                </li>
+                <li>
+                  チャプターを開いてパズルを起動します。ゲーム画面で<b>「開始」</b>を押すと盤面がシャッフルされます。
+                </li>
+                <li>
+                  難易度は <b>3×3 / 4×4 / 5×5</b>。難しいほど獲得XPが増えます。
+                </li>
+                <li>
+                  集中したい時は<b>一時停止</b>。戻ってきたら落ち着いて再開できます。
+                </li>
+              </ol>
+
+              <p class="welcome-text">
+                ここで大事なのは速さではなく<b>観察眼</b>。
+                “写輪眼”のように集中し、線や影の小さな一致を見つけよう。
+                正しいピースひとつが、ランクへの一歩になる。
               </p>
-            </header>
-            <form
-              id="contactForm"
-              class="contact__form"
-              method="POST"
-              action="https://formspree.io/f/YOUR_FORM_ID"
-              novalidate
-            >
-              <label class="contact__hp" aria-hidden="true">
-                Не заповнюйте це поле
-                <input
-                  type="text"
-                  name="_gotcha"
-                  tabindex="-1"
-                  autocomplete="off"
-                />
-              </label>
-              <div class="contact__grid">
-                <label class="field">
-                  <span class="field__label">Ім’я</span>
-                  <input
-                    class="field__input"
-                    name="name"
-                    type="text"
-                    placeholder="Наруто"
-                    required
-                    minlength="2"
-                  />
-                  <span class="field__error" data-error-for="name"></span>
-                </label>
-                <label class="field">
-                  <span class="field__label">Email</span>
-                  <input
-                    class="field__input"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    required
-                  />
-                  <span class="field__error" data-error-for="email"></span>
-                </label>
-                <label class="field contact__full">
-                  <span class="field__label">Тема</span>
-                  <input
-                    class="field__input"
-                    name="subject"
-                    type="text"
-                    placeholder="Наприклад: Ідея для розділу 7"
-                    required
-                    minlength="3"
-                  />
-                  <span class="field__error" data-error-for="subject"></span>
-                </label>
-                <label class="field contact__full">
-                  <span class="field__label">Повідомлення</span>
-                  <textarea
-                    class="field__input field__textarea"
-                    name="message"
-                    rows="6"
-                    placeholder="Опиши, що саме потрібно…"
-                    required
-                    minlength="10"
-                  ></textarea>
-                  <span class="field__error" data-error-for="message"></span>
-                </label>
-                <label class="check contact__full">
-                  <input
-                    class="check__box"
-                    type="checkbox"
-                    name="consent"
-                    required
-                  />
-                  <span class="check__text"
-                    >Я погоджуюсь на обробку даних для відповіді на
-                    повідомлення.</span
-                  >
-                </label>
-              </div>
-              <div class="contact__actions">
-                <button class="btn" type="submit" id="contactSubmit">
-                  <span class="btn__text">Надіслати</span>
-                  <span class="btn__spinner" aria-hidden="true"></span>
-                </button>
-                <p
-                  class="contact__status"
-                  id="contactStatus"
-                  role="status"
-                  aria-live="polite"
-                ></p>
-              </div>
-            </form>
+
+              <h3 class="welcome-subtitle">忍のテクニック</h3>
+              <ul class="welcome-quotes">
+                <li><b>枠取りの術：</b> まず角と端から。土台を作ろう。</li>
+                <li><b>ゾーンの術：</b> 画像を区画に分け、ひとつずつ進める。</li>
+                <li><b>影の術：</b> 明暗の切り替わりを探す。そこが手がかり。</li>
+                <li><b>呼吸の術：</b> 詰まったら深呼吸。脳がパターンを補完する。</li>
+                <li><b>反復の術：</b> 雲・質感・髪・線などの繰り返しがピースを繋ぐ。</li>
+              </ul>
+
+              <h3 class="welcome-subtitle">進行とランク</h3>
+              <p class="welcome-text">
+                ミッションでXPを獲得し、レベルが上がります。
+                ランクはただの数字ではなく――混沌の中に規則を見出す力の証。
+              </p>
+
+              <div class="welcome-divider" aria-hidden="true"></div>
+
+              <p class="welcome-text">
+                混沌は叫ぶ。正しい道は静かだ。違いを感じれば、組み立ては自然に進む。
+              </p>
+
+              <p class="welcome-text">
+                <b>準備はいいか</b> <span data-player-name>忍</span>？
+                呼吸を整え、意志を固め――ピースをひとつずつ進めよう。
+              </p>
+            </div>
           </div>
         </section>
       </div>
     </main>
+
     <footer class="footer">
       <nav class="footer-nav">
         <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
+
       <div class="modal" id="settingsModal" aria-hidden="true">
         <div class="modal-overlay" data-close-settings></div>
         <div
           class="modal-window settings-window"
           role="dialog"
           aria-modal="true"
-          aria-label="Налаштування"
+          aria-label="設定"
         >
-          <button
-            class="modal-close"
-            type="button"
-            data-close-settings
-            aria-label="Закрити"
-          >
+          <button class="modal-close" type="button" data-close-settings aria-label="閉じる">
             ✕
           </button>
+
           <div class="settings-head">
-            <h2 class="settings-title">Налаштування</h2>
+            <h2 class="settings-title">設定</h2>
           </div>
+
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
-              <button
-                class="settings-tab is-active"
-                data-tab="avatar"
-                type="button"
-              >
-                Аватар
+              <button class="settings-tab is-active" data-tab="avatar" type="button">
+                アバター
               </button>
               <button class="settings-tab" data-tab="name" type="button">
-                Нік
+                ニックネーム
               </button>
               <button class="settings-tab" data-tab="stats" type="button">
-                Статистика
+                統計
               </button>
-              <button
-                class="settings-tab danger"
-                data-tab="reset"
-                type="button"
-              >
-                Скинути
+              <button class="settings-tab danger" data-tab="reset" type="button">
+                リセット
               </button>
             </aside>
+
             <section class="settings-content">
               <div class="settings-pane is-active" data-pane="avatar">
                 <p class="settings-text">
-                  Доступні аватари залежать від твого рангу.
+                  使用できるアバターはランクによって変わります。
                 </p>
                 <div class="avatar-grid" id="avatarGrid"></div>
                 <div class="settings-row">
                   <button class="pz-btn" id="saveAvatarBtn" type="button">
-                    Зберегти аватар
+                    アバターを保存
                   </button>
                   <span class="settings-hint" id="avatarHint"></span>
                 </div>
               </div>
+
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
-                  Зміни нікнейм (збережеться у браузері).
+                  ニックネームを変更します（このブラウザに保存されます）。
                 </p>
                 <div class="settings-row">
                   <input
@@ -451,22 +444,23 @@
                     class="settings-input"
                     type="text"
                     maxlength="18"
-                    placeholder="Введи ім’я"
+                    placeholder="名前を入力"
                   />
                   <button class="pz-btn" id="saveNameBtn" type="button">
-                    Зберегти
+                    保存
                   </button>
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
+
               <div class="settings-pane" data-pane="stats">
                 <div class="stats-grid">
                   <div class="stat-card">
-                    <div class="stat-k">Ранг</div>
+                    <div class="stat-k">ランク</div>
                     <div class="stat-v" id="sRank">—</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-k">Рівень</div>
+                    <div class="stat-k">レベル</div>
                     <div class="stat-v" id="sLevel">—</div>
                   </div>
                   <div class="stat-card">
@@ -476,23 +470,23 @@
                     </div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-k">До наступного</div>
+                    <div class="stat-k">次まで</div>
                     <div class="stat-v" id="sToNext">—</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-k">Всього XP</div>
+                    <div class="stat-k">合計XP</div>
                     <div class="stat-v" id="sTotal">—</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-k">Скільки раз грав</div>
+                    <div class="stat-k">プレイ回数</div>
                     <div class="stat-v" id="sPlays">—</div>
                   </div>
                 </div>
               </div>
+
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
-                  Скине ім’я, XP/level, аватар, статистику і прогрес проходження
-                  глав.
+                  名前、XP/レベル、アバター、統計、チャプターの進行状況をリセットします。
                 </p>
                 <button
                   class="pz-btn"
@@ -500,7 +494,7 @@
                   type="button"
                   style="background: #ff5733"
                 >
-                  Скинути все
+                  すべてリセット
                 </button>
                 <div class="settings-hint" id="resetHint"></div>
               </div>
@@ -509,10 +503,27 @@
         </div>
       </div>
     </footer>
+
+    <div class="modal" id="gameModal" aria-hidden="true">
+      <div class="modal-overlay" data-close-modal></div>
+      <div class="modal-window" role="dialog" aria-modal="true" aria-label="ゲーム">
+        <button class="modal-close" type="button" data-close-modal aria-label="閉じる">
+          ✕
+        </button>
+        <iframe class="modal-frame" id="gameFrame" src="" loading="lazy"></iframe>
+      </div>
+    </div>
+
     <script src="../js/script.js"></script>
+
+    <!-- ✅ Japanese content files -->
+    <script src="../js/stories.ja.js"></script>
+    <script src="../js/chapters.ja.js"></script>
+
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/settings.js"></script>
     <script src="../js/lang-switch.js" defer></script>
+    <script src="../js/home.js" defer></script>
   </body>
 </html>

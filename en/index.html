@@ -28,7 +28,7 @@
             <a class="rank-item" href="rank001.html">
               <img
                 src="../img/avatar/rank001.png"
-                alt="Student rank"
+                alt="Rank: Student"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -41,7 +41,7 @@
             <a class="rank-item" href="rank002.html">
               <img
                 src="../img/avatar/rank002.png"
-                alt="Shinobi rank"
+                alt="Rank: Shinobi"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -54,7 +54,7 @@
             <a class="rank-item" href="rank003.html">
               <img
                 src="../img/avatar/rank003.png"
-                alt="Genin rank"
+                alt="Rank: Genin"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -67,7 +67,7 @@
             <a class="rank-item" href="rank004.html">
               <img
                 src="../img/avatar/rank004.png"
-                alt="Chunin rank"
+                alt="Rank: Chunin"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -80,7 +80,7 @@
             <a class="rank-item" href="rank005.html">
               <img
                 src="../img/avatar/rank005.png"
-                alt="Jonin rank"
+                alt="Rank: Jonin"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -93,7 +93,7 @@
             <a class="rank-item" href="rank006.html">
               <img
                 src="../img/avatar/rank006.png"
-                alt="Hokage rank"
+                alt="Rank: Hokage"
                 class="rank-link"
                 width="44"
                 height="44"
@@ -130,6 +130,9 @@
             <a class="lang-flag" id="toEn" href="#" aria-label="English">
               <img src="../img/flags/gb.svg" alt="EN" />
             </a>
+            <a class="lang-flag" id="toJa" href="#" aria-label="日本語">
+              <img src="../img/flags/ja.svg" alt="JA" />
+            </a>
           </li>
           <li>
             <button
@@ -146,18 +149,18 @@
               <a class="rank-item" href="rank001.html">
                 <img
                   src="../img/avatar/rank001.png"
-                  alt="Student rank"
+                  alt="Rank: Apprentice"
                   width="64"
                   height="64"
                   decoding="async"
                   loading="lazy"
                 />
-                <span class="rank-label">Student</span>
+                <span class="rank-label">Apprentice</span>
               </a>
               <a class="rank-item" href="rank002.html">
                 <img
                   src="../img/avatar/rank002.png"
-                  alt="Shinobi rank"
+                  alt="Rank: Shinobi"
                   width="64"
                   height="64"
                   decoding="async"
@@ -168,7 +171,7 @@
               <a class="rank-item" href="rank003.html">
                 <img
                   src="../img/avatar/rank003.png"
-                  alt="Genin rank"
+                  alt="Rank: Genin"
                   width="64"
                   height="64"
                   decoding="async"
@@ -179,7 +182,7 @@
               <a class="rank-item" href="rank004.html">
                 <img
                   src="../img/avatar/rank004.png"
-                  alt="Chunin rank"
+                  alt="Rank: Chunin"
                   width="64"
                   height="64"
                   decoding="async"
@@ -190,7 +193,7 @@
               <a class="rank-item" href="rank005.html">
                 <img
                   src="../img/avatar/rank005.png"
-                  alt="Jonin rank"
+                  alt="Rank: Jonin"
                   width="64"
                   height="64"
                   decoding="async"
@@ -201,7 +204,7 @@
               <a class="rank-item" href="rank006.html">
                 <img
                   src="../img/avatar/rank006.png"
-                  alt="Hokage rank"
+                  alt="Rank: Hokage"
                   width="64"
                   height="64"
                   decoding="async"
@@ -235,7 +238,7 @@
               src="../img/avatar/avatar001.png"
               alt="Rank"
             />
-            <p>Rank: <span id="playerRank">Student</span></p>
+            <p>Rank: <span id="playerRank">Apprentice</span></p>
             <p>Level: <span id="playerLevel">1</span></p>
             <p>
               XP: <span id="playerXP">0</span> /
@@ -268,7 +271,7 @@
             </div>
             <div class="playerPanel" id="playerPanel" hidden>
               <div><b id="playerNameLabel"></b></div>
-              <div>Times played: <span id="statPlays">0</span></div>
+              <div>Games played: <span id="statPlays">0</span></div>
               <div>Total XP: <span id="statTotalXP">0</span></div>
               <div>Next level: <span id="statToNext">0</span> XP</div>
             </div>
@@ -278,15 +281,20 @@
       <div class="story-content" id="story-content">
         <section class="welcome">
           <h2 class="welcome-title">
-            Welcome, <span data-player-name>Player</span>!
+            The Hidden Leaf Village welcomes you,
+            <span data-player-name>Shinobi</span>!
           </h2>
           <p class="welcome-text">
-            You have entered the World of Puzzles — a training ground for
-            attention. Here every piece has its place, and every precise
-            connection is a step toward shinobi mastery. Complete chapters, gain
-            experience, and climb the ranks — from Student to Hokage. Don’t
-            rush: victory here comes not from speed, but from focus and a cool
-            head. Your will is your chakra.
+            Here, puzzles aren’t “just pictures.” They’re
+            <b>chakra training for your attention</b>. Every piece has its
+            place, like a hand seal in jutsu. A precise match is a step toward
+            your rank; a mistake is a lesson in discipline.
+          </p>
+          <p class="welcome-text">
+            Here, chaos is only an illusion for those who rush. Turn on your
+            “Sharingan” of focus: lines, shadows, and tiny details reveal the
+            right path. Assemble the image—and with it, assemble control: piece
+            by piece, like a shinobi in training.
           </p>
           <div class="welcome-flow">
             <img
@@ -294,82 +302,82 @@
               alt="Welcome Image"
               class="welcome-image"
             />
+            <div
+              class="hl-actions hl-mission"
+              role="group"
+              aria-label="Quick start"
+            >
+              <div
+                class="hl-hint hl-last"
+                id="missionHint"
+                aria-live="polite"
+              ></div>
+              <button class="hl-btn primary" id="missionBtn" type="button">
+                Start mission
+              </button>
+            </div>
             <div class="welcome-after">
-              <h3 class="welcome-subtitle">Mission description</h3>
+              <h3 class="welcome-subtitle">How to start the game</h3>
+              <ol class="hl-steps">
+                <li>
+                  Choose your path through the <b>ranks</b> in the top menu
+                  (Apprentice → Hokage) or click <b>Start mission/Continue</b>.
+                </li>
+                <li>
+                  Open a chapter and launch the puzzle. In the game window,
+                  press <b>“Start”</b>—the board will shuffle.
+                </li>
+                <li>
+                  Choose a difficulty: <b>3×3 / 4×4 / 5×5</b>. The harder it is,
+                  the more XP you earn.
+                </li>
+                <li>
+                  If you need a moment to focus, press <b>Pause</b>. Come back
+                  and continue—no stress.
+                </li>
+              </ol>
               <p class="welcome-text">
-                In this world, each chapter is a separate mission. Its goal is
-                simple: assemble the picture as if you were forming a technique
-                from hand seals — carefully, consistently, without unnecessary
-                moves. Puzzles don’t “punish” mistakes — they teach discipline
-                and precision.
+                What matters here isn’t speed, but <b>your eye</b>. Turn on your
+                “Sharingan” of focus: notice small matches of lines and shadows.
+                One accurate piece—one step toward your rank.
               </p>
-              <p class="welcome-text">
-                Your path is measured not only by victories, but by how you
-                achieve them: through observation, patience, and control. That
-                is the true strength of a shinobi. And every completed piece is
-                a small proof that chaos bends to will.
-              </p>
-              <h3 class="welcome-subtitle">Rank system and progress</h3>
-              <p class="welcome-text">
-                For completing missions you earn experience and level up. As
-                your level increases, your rank grows — from Student to Hokage.
-                These aren’t just “numbers”: rank means you’ve learned to hold
-                focus longer, spot patterns faster, and not get lost when the
-                image seems confusing.
-              </p>
-              <p class="welcome-text">
-                Remember: avatars unlock along with rank. The higher the level,
-                the wider the style selection. Choose the look that matches your
-                character: a calm tactician, a quick analyst, or a relentless
-                “I’ll finish no matter what.”
-              </p>
-              <h3 class="welcome-subtitle">Shinobi tactics for puzzles</h3>
-              <p class="welcome-text">
-                If you want to progress confidently — play like a shinobi, not
-                like a beginner driven by emotions. Here are “quiet techniques”
-                that deliver results:
-              </p>
+              <h3 class="welcome-subtitle">Shinobi techniques</h3>
               <ul class="welcome-quotes">
                 <li>
-                  <b>Frame technique:</b> start with the corners and edges —
-                  this is your “shield” and support.
+                  <b>Frame technique:</b> start with corners and edges—your
+                  foundation.
                 </li>
                 <li>
-                  <b>Zone technique:</b> divide the field into areas
-                  (sky/grass/face/background) and work sector by sector.
+                  <b>Zone technique:</b> split the picture into sectors and work
+                  one at a time.
                 </li>
                 <li>
-                  <b>Shade technique:</b> look not for color, but for
-                  <i>transitions</i> (shadows, light, lines).
+                  <b>Shadow technique:</b> look for light/shadow
+                  transitions—they guide you.
                 </li>
                 <li>
-                  <b>Pause technique:</b> if it “doesn’t go” — step back: your
-                  brain will complete the patterns on its own.
+                  <b>Pause technique:</b> if you’re stuck, take a breath. Your
+                  brain will rebuild the pattern.
                 </li>
                 <li>
-                  <b>Cleanliness technique:</b> less chaos on the board — fewer
-                  mistakes in your head.
+                  <b>Pattern technique:</b> look for repeats (clouds, textures,
+                  hair, lines)—they connect pieces faster than guessing.
                 </li>
               </ul>
-              <h3 class="welcome-subtitle">Scroll of discipline</h3>
+              <h3 class="welcome-subtitle">Progress and ranks</h3>
               <p class="welcome-text">
-                The real difference between a Student and a Jonin is
-                consistency. A Jonin doesn’t look for “luck” — they create
-                conditions where the right decision becomes inevitable. Play
-                calmly but persistently: every completed chapter trains
-                attention just as daily exercises train chakra.
-              </p>
-              <p class="welcome-text">
-                And also — don’t compare yourself to others. Compare yourself to
-                yesterday’s
-                <span data-player-name>Player</span>. If today you placed even
-                one piece more accurately than yesterday — you’ve already become
-                stronger.
+                Missions give you XP and raise your level. A rank isn’t just a
+                number— it’s proof you learned to see patterns where others see
+                chaos.
               </p>
               <div class="welcome-divider" aria-hidden="true"></div>
               <p class="welcome-text">
-                <b>Ready?</b> Focus. Steady your breathing. And start assembling
-                — piece by piece.
+                Chaos always shouts. The right path is silent. Feel the
+                difference—and the puzzle will flow.
+              </p>
+              <p class="welcome-text">
+                <b>Ready</b> <span data-player-name>Shinobi</span>? Steady your
+                breath. Gather your will—and go piece by piece.
               </p>
             </div>
           </div>
@@ -437,7 +445,7 @@
               </div>
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
-                  Change your nickname (it will be saved in the browser).
+                  Change your nickname (saved in this browser).
                 </p>
                 <div class="settings-row">
                   <input
@@ -478,7 +486,7 @@
                     <div class="stat-v" id="sTotal">—</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-k">Times played</div>
+                    <div class="stat-k">Games played</div>
                     <div class="stat-v" id="sPlays">—</div>
                   </div>
                 </div>
@@ -494,7 +502,7 @@
                   type="button"
                   style="background: #ff5733"
                 >
-                  Reset everything
+                  Reset all
                 </button>
                 <div class="settings-hint" id="resetHint"></div>
               </div>
@@ -503,11 +511,37 @@
         </div>
       </div>
     </footer>
+    <div class="modal" id="gameModal" aria-hidden="true">
+      <div class="modal-overlay" data-close-modal></div>
+      <div
+        class="modal-window"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Game"
+      >
+        <button
+          class="modal-close"
+          type="button"
+          data-close-modal
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <iframe
+          class="modal-frame"
+          id="gameFrame"
+          src=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
     <script src="../js/script.js"></script>
+    <script src="../js/stories.en.js"></script>
     <script src="../js/chapters.en.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/settings.js"></script>
     <script src="../js/lang-switch.js" defer></script>
+    <script src="../js/home.js" defer></script>
   </body>
 </html>

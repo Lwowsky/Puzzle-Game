@@ -55,7 +55,6 @@
     document.body.style.overflow = "hidden";
   }
 
-  // ✅ НОВЕ: одна функція, яку можна викликати скільки завгодно разів
   function renderHomeMission() {
     const btn = document.getElementById("missionBtn");
     const hint = document.getElementById("missionHint");
@@ -65,32 +64,30 @@
     const nextId = getNextUncompletedId();
 
     if (lastGameId) {
-      btn.textContent = "Продовжити";
+      btn.textContent = "Continue";
       btn.onclick = () => openGameInModal(lastGameId);
 
       const meta = getStoryMeta(lastGameId);
       hint.innerHTML = `
-        <div>Анбу пам’ятає твою останню місію:</div>
-        <div>${meta.section || `Розділ ${lastGameId}: —`}</div>
-        <div>${meta.chapter || `Глава ${lastGameId}: —`}</div>
+        <div>Anbu remembers your last mission:</div>
+        <div>${meta.section || `Section ${lastGameId}: —`}</div>
+        <div>${meta.chapter || `Chapter ${lastGameId}: —`}</div>
       `;
     } else {
-      btn.textContent = "Почати місію";
+      btn.textContent = "Start mission";
       btn.onclick = () => openGameInModal(nextId);
       hint.textContent =
-        "Ще не було місій у цьому браузері. Натисни «Почати місію», щоб зробити перший крок.";
+        "No missions yet, dattebayo! Click “Start mission” — earn some ramen money.";
     }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     renderHomeMission();
 
-    // ✅ НОВЕ: оновлення без перезавантаження, коли гра в модалці змінює прогрес
     window.addEventListener("progress:changed", () => {
       renderHomeMission();
     });
 
-    // (опціонально) якщо ти міняєш прогрес в іншій вкладці
     window.addEventListener("storage", (e) => {
       if (e.key === "lastGameId" || e.key === "completedRanks") {
         renderHomeMission();
