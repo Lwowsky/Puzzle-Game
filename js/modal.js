@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.setAttribute("aria-hidden", "true");
     frame.src = "about:blank";
     document.body.style.overflow = "";
+    window.renderPlayerInfo?.();
+    window.dispatchEvent(new Event("progress:changed"));
   }
 
   // ✅ Щоб index.html теж міг відкривати модалку (кнопка "Продовжити" може це викликати)
@@ -89,5 +91,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
