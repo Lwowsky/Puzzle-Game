@@ -32,12 +32,10 @@
     };
   }
 
-  // відкриваємо гру в модалці (як у rank-сторінках)
   function openGameInModal(id) {
     const modal = document.getElementById("gameModal");
     const frame = document.getElementById("gameFrame");
 
-    // fallback якщо раптом модалки нема
     if (!modal || !frame) {
       location.href = `./game.html?id=${id}`;
       return;
@@ -45,8 +43,7 @@
 
     const url = new URL("./game.html", location.href);
     url.searchParams.set("id", String(id));
-    url.searchParams.set("_", String(Date.now())); // щоб кеш не заважав
-    // НЕ додаємо autostart=1 — тоді кнопка “Почати” в грі не зникає
+    url.searchParams.set("_", String(Date.now()));
 
     frame.src = "about:blank";
     requestAnimationFrame(() => {
@@ -58,7 +55,8 @@
     document.body.style.overflow = "hidden";
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // ✅ НОВЕ: одна функція, яку можна викликати скільки завгодно разів
+  function renderHomeMission() {
     const btn = document.getElementById("missionBtn");
     const hint = document.getElementById("missionHint");
     if (!btn || !hint) return;
@@ -66,28 +64,37 @@
     const lastGameId = safeNum(localStorage.getItem("lastGameId"));
     const nextId = getNextUncompletedId();
 
-    // ✅ 1 кнопка: “Почати місію” або “Продовжити”
     if (lastGameId) {
       btn.textContent = "Продовжити";
       btn.onclick = () => openGameInModal(lastGameId);
 
       const meta = getStoryMeta(lastGameId);
-      const parts = [];
-      if (meta.section) parts.push(meta.section);
-      if (meta.chapter) parts.push(meta.chapter);
-
       hint.innerHTML = `
-  <div>Анбу пам’ятає твою останню місію:</div>
-  <div>${meta.section || `Розділ ${lastGameId}: —`}</div>
-  <div>${meta.chapter || `Глава ${lastGameId}: —`}</div>
-`;
+        <div>Анбу пам’ятає твою останню місію:</div>
+        <div>${meta.section || `Розділ ${lastGameId}: —`}</div>
+        <div>${meta.chapter || `Глава ${lastGameId}: —`}</div>
+      `;
     } else {
       btn.textContent = "Почати місію";
       btn.onclick = () => openGameInModal(nextId);
-
-      // ✅ цей рядок залишаємо як ти просив
       hint.textContent =
         "Ще не було місій у цьому браузері. Натисни «Почати місію», щоб зробити перший крок.";
     }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderHomeMission();
+
+    // ✅ НОВЕ: оновлення без перезавантаження, коли гра в модалці змінює прогрес
+    window.addEventListener("progress:changed", () => {
+      renderHomeMission();
+    });
+
+    // (опціонально) якщо ти міняєш прогрес в іншій вкладці
+    window.addEventListener("storage", (e) => {
+      if (e.key === "lastGameId" || e.key === "completedRanks") {
+        renderHomeMission();
+      }
+    });
   });
 })();
