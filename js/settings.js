@@ -212,6 +212,7 @@
       localStorage.removeItem(WINS_KEY);
       localStorage.removeItem(AVATAR_KEY);
       localStorage.removeItem("completedRanks");
+      localStorage.removeItem("lastGameId");
       Object.keys(localStorage).forEach((k) => {
         if (k.startsWith("puzzleBest_")) localStorage.removeItem(k);
       });
