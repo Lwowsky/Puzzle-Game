@@ -100,11 +100,14 @@
     const grid = document.getElementById("avatarGrid");
     const hint = document.getElementById("avatarHint");
     const saveAvatarBtn = document.getElementById("saveAvatarBtn");
-    let selectedAvatar = Number(localStorage.getItem(AVATAR_KEY) || "0");
+    let selectedAvatar = Number(localStorage.getItem(AVATAR_KEY) || "1");
     function renderAvatarGrid() {
       if (!grid) return;
       const st = loadState();
       const unlockedMax = clampRankLevel(st.level);
+      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1)
+        selectedAvatar = 1;
+      if (selectedAvatar > unlockedMax) selectedAvatar = unlockedMax;
       grid.innerHTML = "";
       for (let i = 1; i <= 6; i++) {
         const locked = i > unlockedMax;
@@ -142,11 +145,19 @@
       }
     }
     saveAvatarBtn?.addEventListener("click", () => {
-      if (!selectedAvatar) selectedAvatar = 1;
+      const st = loadState();
+      const unlockedMax = clampRankLevel(st.level);
+
+      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1)
+        selectedAvatar = 1;
+      if (selectedAvatar > unlockedMax) selectedAvatar = unlockedMax;
+
       localStorage.setItem(AVATAR_KEY, String(selectedAvatar));
-      hint && (hint.textContent = "✅ Аватар збережено!");
+      if (hint) hint.textContent = "✅ Аватар збережено!";
       window.renderPlayerInfo?.();
+      renderAvatarGrid(); // щоб одразу підсвітилось коректно
     });
+
     const newNameInput = document.getElementById("newNameInput");
     const saveNameBtn = document.getElementById("saveNameBtn");
     const nameHint = document.getElementById("nameHint");
