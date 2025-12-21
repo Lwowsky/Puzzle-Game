@@ -26,7 +26,7 @@
   background-color: #ede7dd;
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #111; /* ✅ важливо: базовий колір тексту */
+  color: #111;
 }
 
 .avatar-title {
@@ -151,10 +151,6 @@
   color: black;
 }
 
-/* ================================
-   HL actions / steps
-   ================================ */
-
 .hl-actions {
   margin: 14px 0 18px;
   display: flex;
@@ -222,7 +218,6 @@
   color: #cfd6e1;
 }
 
-/* ✅ Контраст на світлому фоні story-content */
 .story-content .hl-hint,
 .story-content .hl-last {
   color: rgba(0, 0, 0, 0.6);
@@ -331,20 +326,19 @@
   }
 }
 
-/* ===== FIX: кнопки на головній (світлий фон story-content) ===== */
 .story-content .hl-btn {
   background: rgba(20, 20, 20, 0.92);
   border-color: rgba(0, 0, 0, 0.22);
   color: #ffffff;
-  opacity: 1; /* щоб не виглядали "вимитими" */
+  opacity: 1;
 }
 
 .story-content .hl-btn.primary {
-  background: #ff5733;              /* більш “наруто”-акцент */
+  background: #ff5733;
   border-color: rgba(255, 87, 51, 0.95);
-  color: #111;                       /* читається на помаранчевому */
+  color: #111;
   box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.18),
-              0 0 22px rgba(255, 87, 51, 0.18);
+    0 0 22px rgba(255, 87, 51, 0.18);
 }
 
 .story-content .hl-btn.ghost {
@@ -353,7 +347,6 @@
   color: rgba(0, 0, 0, 0.85);
 }
 
-/* disabled лишається блідим (це ок), але не “в нуль” */
 .story-content .hl-btn:disabled,
 .story-content .hl-btn[disabled] {
   opacity: 0.45;
@@ -361,57 +354,58 @@
   transform: none;
   box-shadow: none;
 }
-/* === Naruto / Chakra hover (легкий “вогонь”, без лагів) === */
-.story-content .hl-btn{
+
+.story-content .hl-btn {
   position: relative;
   overflow: hidden;
   will-change: transform, box-shadow, filter;
 }
 
-.story-content .hl-btn::before{
+.story-content .hl-btn::before {
   content: "";
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle at 30% 30%,
-      rgba(255, 87, 51, 0.45),
-      rgba(255, 87, 51, 0.0) 60%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 87, 51, 0.45),
+    rgba(255, 87, 51, 0) 60%
+  );
   opacity: 0;
   transform: translateY(8px) scale(0.98);
   transition: opacity 180ms ease, transform 220ms ease;
   pointer-events: none;
 }
 
-.story-content .hl-btn:hover{
+.story-content .hl-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   filter: brightness(1.03);
 }
 
-.story-content .hl-btn:hover::before{
+.story-content .hl-btn:hover::before {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
 /* primary — сильніше “полум’я” */
-.story-content .hl-btn.primary{
-  box-shadow: 0 0 0 2px rgba(255,87,51,0.22),
-              0 0 22px rgba(255,87,51,0.22);
+.story-content .hl-btn.primary {
+  box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.22),
+    0 0 22px rgba(255, 87, 51, 0.22);
 }
 
-.story-content .hl-btn.primary:hover{
-  box-shadow: 0 0 0 2px rgba(255,87,51,0.28),
-              0 14px 30px rgba(0,0,0,0.24),
-              0 0 26px rgba(255,87,51,0.28);
+.story-content .hl-btn.primary:hover {
+  box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.28), 0 14px 30px rgba(0, 0, 0, 0.24),
+    0 0 26px rgba(255, 87, 51, 0.28);
   filter: brightness(1.05);
 }
 
 /* disabled — ніяких “вогнів” */
 .story-content .hl-btn:disabled,
-.story-content .hl-btn[disabled]{
+.story-content .hl-btn[disabled] {
   filter: none;
 }
 
 .story-content .hl-btn:disabled::before,
-.story-content .hl-btn[disabled]::before{
+.story-content .hl-btn[disabled]::before {
   opacity: 0;
 }
