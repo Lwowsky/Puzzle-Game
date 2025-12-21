@@ -24,27 +24,33 @@
     return 1;
   }
 
-  function openGameInModal(id, { autoStart = false } = {}) {
+  function getStoryMeta(id) {
+    const d = window.STORIES?.[id];
+    return {
+      section: d?.title ? String(d.title) : "",
+      chapter: d?.chapter ? String(d.chapter) : "",
+    };
+  }
+
+  // відкриваємо гру в модалці (як у rank-сторінках)
+  function openGameInModal(id) {
     const modal = document.getElementById("gameModal");
     const frame = document.getElementById("gameFrame");
 
-    // якщо модалки нема — fallback на перехід сторінкою
+    // fallback якщо раптом модалки нема
     if (!modal || !frame) {
-      const url = `./game.html?id=${id}${autoStart ? "&autostart=1" : ""}`;
-      location.href = url;
+      location.href = `./game.html?id=${id}`;
       return;
     }
 
-    const u = new URL("./game.html", location.href);
-    u.searchParams.set("id", String(id));
-    if (autoStart) u.searchParams.set("autostart", "1");
-
-    // cache-bust щоб iframe завжди оновлювався
-    u.searchParams.set("_", String(Date.now()));
+    const url = new URL("./game.html", location.href);
+    url.searchParams.set("id", String(id));
+    url.searchParams.set("_", String(Date.now())); // щоб кеш не заважав
+    // НЕ додаємо autostart=1 — тоді кнопка “Почати” в грі не зникає
 
     frame.src = "about:blank";
     requestAnimationFrame(() => {
-      frame.src = u.href;
+      frame.src = url.href;
     });
 
     modal.classList.add("is-open");
@@ -53,28 +59,31 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    const startBtn = document.getElementById("startMissionBtn");
-    const contBtn = document.getElementById("continueMissionBtn");
+    const btn = document.getElementById("missionBtn");
     const hint = document.getElementById("missionHint");
-
-    if (!startBtn || !contBtn || !hint) return;
+    if (!btn || !hint) return;
 
     const lastGameId = safeNum(localStorage.getItem("lastGameId"));
     const nextId = getNextUncompletedId();
 
-    // Почати місію — БЕЗ автозапуску, щоб була кнопка "Почати" у грі
-    startBtn.textContent = `Почати місію (Глава ${nextId})`;
-    startBtn.addEventListener("click", () => openGameInModal(nextId, { autoStart: false }));
-
-    // Продовжити — можна з автозапуском (якщо хочеш швидко)
+    // ✅ 1 кнопка: “Почати місію” або “Продовжити”
     if (lastGameId) {
-      contBtn.disabled = false;
-      contBtn.textContent = `Продовжити (Глава ${lastGameId})`;
-      contBtn.addEventListener("click", () => openGameInModal(lastGameId, { autoStart: true }));
-      hint.textContent = `Сувій пам’ятає твою останню місію: Глава ${lastGameId}.`;
+      btn.textContent = "Продовжити";
+      btn.onclick = () => openGameInModal(lastGameId);
+
+      const meta = getStoryMeta(lastGameId);
+      const parts = [];
+      if (meta.section) parts.push(meta.section);
+      if (meta.chapter) parts.push(meta.chapter);
+
+      hint.textContent = parts.length
+        ? `Сувій пам’ятає твою останню місію: ${parts.join(" • ")}`
+        : `Сувій пам’ятає твою останню місію: Глава ${lastGameId}.`;
     } else {
-      contBtn.disabled = true;
-      contBtn.textContent = "Продовжити (немає місії)";
+      btn.textContent = "Почати місію";
+      btn.onclick = () => openGameInModal(nextId);
+
+      // ✅ цей рядок залишаємо як ти просив
       hint.textContent =
         "Ще не було місій у цьому браузері. Натисни «Почати місію», щоб зробити перший крок.";
     }
