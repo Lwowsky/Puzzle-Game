@@ -7,14 +7,6 @@
   function pad3(n) {
     return String(n).padStart(3, "0");
   }
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
 
   const PLAYER_STATE_KEY = "playerState";
   function loadPlayerState() {
@@ -38,10 +30,7 @@
   }
   function addXP(amount) {
     if (!amount) return;
-    if (typeof window.addXP === "function") {
-      window.addXP(amount);
-      return;
-    }
+    if (typeof window.addXP === "function") return window.addXP(amount);
     const st = loadPlayerState();
     st.xp += amount;
     while (st.xp >= xpNeeded(st.level)) {
@@ -49,19 +38,29 @@
       st.level += 1;
     }
     savePlayerState(st);
-    if (typeof window.renderPlayerInfo === "function") {
-      window.renderPlayerInfo();
+    if (typeof window.renderPlayerInfo === "function") window.renderPlayerInfo();
+  }
+
+  const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
+  const FIRST_CLEAR_BONUS_XP = 25;
+  const COMPLETED_KEY = "completedRanks";
+
+  function requestCloseModal(reload = false) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "closeGameModal", reload }, "*");
+      return;
     }
+    location.href = "./index.html";
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     const id = getId();
     const id3 = pad3(id);
-
-    const COMPLETED_KEY = "completedRanks";
-    const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
-    const FIRST_CLEAR_BONUS_XP = 25;
-
+    localStorage.setItem("lastGameId", String(id));
+    const completedSet = new Set(
+      JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
+    );
+    const alreadyCompleted = completedSet.has(id);
     const data = window.STORIES?.[id];
     const titleEl = document.getElementById("gameTitle");
     const chapterEl = document.getElementById("gameChapter");
@@ -71,13 +70,9 @@
     if (chapterEl) chapterEl.textContent = data?.chapter || "";
     if (storyEl) {
       const text = data?.text;
-      if (!text) {
-        storyEl.innerHTML = "<p>This chapter is in progress…</p>";
-      } else if (Array.isArray(text)) {
-        storyEl.innerHTML = text.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
-      } else {
-        storyEl.innerHTML = `<p>${escapeHtml(text)}</p>`;
-      }
+      storyEl.innerHTML = Array.isArray(text)
+        ? text.map((t) => `<p>${t}</p>`).join("")
+        : `<p>${text || "This chapter is still being prepared..."}</p>`;
     }
 
     const container = document.getElementById("puzzleContainer");
@@ -90,6 +85,13 @@
             <div id="pzBoard" aria-label="Puzzle board"></div>
             <img id="pzPreview" class="pz-preview" alt="Preview">
             <button class="pz-btn pz-start" id="pzStart" type="button">Start</button>
+            <div class="pz-pause-overlay" id="pzPauseOverlay" aria-hidden="true">
+              <div class="pz-pause-card">
+                <div class="pz-pause-title">Paused</div>
+                <button class="pz-btn" id="pzResume" type="button">Resume</button>
+                <button class="pz-btn" id="pzExit2" type="button">Exit</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="pz-right">
@@ -115,11 +117,11 @@
           </div>
           <div class="pz-controls">
             <button class="pz-btn" id="pzShuffle" type="button">Shuffle</button>
-            <button class="pz-btn" id="pzReset" type="button">Reset</button>
+            <button class="pz-btn" id="pzPause" type="button">Pause</button>
+            <button class="pz-btn" id="pzExit" type="button">Exit</button>
           </div>
           <div class="pz-status" id="pzStatus"></div>
-          <div class="pz-hint" id="pzHint"></div>
-          <button class="pz-btn" id="completeBtn" type="button" disabled>Finish chapter</button>
+          <button class="pz-btn" id="completeBtn" type="button" disabled></button>
         </div>
       </div>
     `;
@@ -128,15 +130,15 @@
     const stage = container.querySelector("#pzStage");
     const previewImg = container.querySelector("#pzPreview");
     const startBtn = container.querySelector("#pzStart");
-
     const status = container.querySelector("#pzStatus");
     const timeEl = container.querySelector("#pzTime");
     const bestEl = container.querySelector("#pzBest");
     const shuffleBtn = container.querySelector("#pzShuffle");
-    const resetBtn = container.querySelector("#pzReset");
-    const hintEl = container.querySelector("#pzHint");
+    const pauseBtn = container.querySelector("#pzPause");
+    const exitBtn = container.querySelector("#pzExit");
+    const resumeBtn = container.querySelector("#pzResume");
+    const exitBtn2 = container.querySelector("#pzExit2");
     const completeBtn = container.querySelector("#completeBtn");
-
     const imgCandidates = [
       `../img/puzzles/tom${id3}.png`,
       `../img/puzzles/tom${id3}.jpg`,
@@ -145,17 +147,17 @@
     ];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
-
     let size = 3;
     let imgSrc = "";
     let pieces = [];
     let correctOrder = [];
     let dragged = null;
     let selectedPiece = null;
-
     let timer = null;
     let time = 0;
     let started = false;
+    let paused = false;
+    let solved = false;
 
     function bestKey() {
       return `puzzleBest_${id}_${size}`;
@@ -168,9 +170,37 @@
     }
 
     function highlightSize() {
-      container.querySelectorAll("[data-size]").forEach((b) => {
-        b.classList.toggle("active", Number(b.dataset.size) === size);
+      container.querySelectorAll(".pz-sizes [data-size]").forEach((b) => {
+        const isActive = Number(b.dataset.size) === size;
+        b.classList.toggle("active", isActive);
+        b.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
+    }
+
+    function setCompletePreWinState() {
+      solved = false;
+      completeBtn.classList.remove("is-done");
+      completeBtn.disabled = true;
+      completeBtn.textContent = alreadyCompleted
+        ? "Bonus 25 XP already claimed ✅"
+        : "Finish chapter (+25 XP)";
+    }
+
+    function setCompletePostWinState() {
+      solved = true;
+      completeBtn.disabled = false;
+      completeBtn.classList.remove("is-done");
+      const nextId = id + 1;
+      const hasNext = !!window.STORIES?.[nextId];
+      if (hasNext) {
+        completeBtn.textContent = "Next chapter →";
+        completeBtn.onclick = () => {
+          location.href = `./game.html?id=${nextId}&autostart=1`;
+        };
+      } else {
+        completeBtn.textContent = "Close";
+        completeBtn.onclick = () => requestCloseModal(true);
+      }
     }
 
     function renderBoard() {
@@ -193,78 +223,72 @@
       selectedPiece = null;
     }
 
-    container.querySelectorAll("[data-size]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        size = Number(btn.dataset.size);
-        highlightSize();
-        preparePuzzle();
-      });
-    });
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(() => {
+        time++;
+        timeEl.textContent = String(time);
+      }, 1000);
+    }
 
-    shuffleBtn.addEventListener("click", () => {
+    function stopTimer() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    function pauseGame() {
+      if (!started || paused) return;
+      paused = true;
+      stage.classList.add("paused");
+      stopTimer();
+      status.textContent = "⏸ Paused";
+    }
+
+    function resumeGame() {
+      if (!started || !paused) return;
+      paused = false;
+      stage.classList.remove("paused");
+      startTimer();
+      status.textContent = "Game resumed!";
+    }
+
+    function togglePause() {
       if (!started) return;
-      shuffle();
-    });
+      paused ? resumeGame() : pauseGame();
+    }
 
-    resetBtn.addEventListener("click", () => {
-      preparePuzzle();
-      beginGame();
-    });
-
-    completeBtn.addEventListener("click", () => {
-      window.parent?.postMessage({ type: "puzzleWin", id }, "*");
-      status.textContent = "✅ Done!";
-    });
-
-    startBtn.addEventListener("click", beginGame);
-
-    function tryLoadImage(i = 0) {
-      if (i >= imgCandidates.length) {
-        hintEl.textContent = `❌ No image for game ${id}. Add: img/puzzles/tom${id3}.jpg`;
-        return;
+    function shuffle() {
+      if (paused) return;
+      clearSelection();
+      for (let i = pieces.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = pieces[i];
+        pieces[i] = pieces[j];
+        pieces[j] = tmp;
       }
-      const src = imgCandidates[i];
-      hintEl.textContent = `Game ${id} • Loading: ${src}`;
-      const test = new Image();
-      test.onload = () => {
-        imgSrc = src;
-        if (previewImg) previewImg.src = src;
-        hintEl.textContent = "";
-        preparePuzzle();
-
-        if (new URLSearchParams(location.search).get("autostart") === "1") {
-          beginGame();
-        }
-      };
-      test.onerror = () => tryLoadImage(i + 1);
-      test.src = src;
+      renderBoard();
+      status.textContent = "Shuffled!";
     }
 
     function preparePuzzle() {
       if (!imgSrc) return;
-
       started = false;
-      stage?.classList.remove("started");
-
+      paused = false;
+      solved = false;
+      stage.classList.remove("started");
+      stage.classList.remove("paused");
       stopTimer();
       time = 0;
       timeEl.textContent = "0";
-      status.textContent = "Press “Start” to shuffle and begin.";
-      completeBtn.disabled = true;
-
-      clearSelection();
       bestEl.textContent = getBest();
-
-      board.style.gap = "0px";
-
-      board.style.display = "grid";
+      status.textContent = 'Press "Start" to begin the game.';
+      setCompletePreWinState();
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-
       pieces = [];
       correctOrder = [];
       dragged = null;
-
+      clearSelection();
       let index = 0;
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
@@ -272,14 +296,15 @@
           piece.className = "pz-piece";
           piece.style.backgroundImage = `url("${imgSrc}")`;
           piece.style.backgroundSize = `${size * 100}% ${size * 100}%`;
-          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${(y / (size - 1)) * 100}%`;
+          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
+            (y / (size - 1)) * 100
+          }%`;
           piece.dataset.index = String(index);
-
           correctOrder.push(index);
-
           if (!isTouch) {
             piece.draggable = true;
             piece.addEventListener("dragstart", function () {
+              if (!started || paused) return;
               dragged = this;
               this.classList.add("is-dragging");
             });
@@ -287,15 +312,18 @@
               this.classList.remove("is-dragging");
               dragged = null;
             });
-            piece.addEventListener("dragover", (e) => e.preventDefault());
+            piece.addEventListener("dragover", (e) => {
+              if (!started || paused) return;
+              e.preventDefault();
+            });
             piece.addEventListener("drop", function () {
-              if (!started) return;
+              if (!started || paused) return;
               if (!dragged || dragged === this) return;
               swapPieces(dragged, this);
             });
           } else {
             piece.addEventListener("click", () => {
-              if (!started) return;
+              if (!started || paused) return;
 
               if (!selectedPiece) {
                 selectedPiece = piece;
@@ -311,7 +339,6 @@
               swapPieces(p1, piece);
             });
           }
-
           pieces.push(piece);
           index++;
         }
@@ -319,91 +346,87 @@
 
       renderBoard();
       highlightSize();
-
       shuffleBtn.disabled = true;
-      resetBtn.disabled = true;
+      pauseBtn.disabled = true;
       startBtn.disabled = false;
+      exitBtn.disabled = false;
     }
 
     function beginGame() {
       if (!imgSrc || started) return;
-
       started = true;
-      stage?.classList.add("started");
-
-      board.style.gap = "";
-
+      paused = false;
+      stage.classList.add("started");
+      stage.classList.remove("paused");
       shuffleBtn.disabled = false;
-      resetBtn.disabled = false;
-
+      pauseBtn.disabled = false;
       shuffle();
-      status.textContent = "Game started!";
       startTimer();
-    }
-
-    function shuffle() {
-      clearSelection();
-      for (let i = pieces.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const tmp = pieces[i];
-        pieces[i] = pieces[j];
-        pieces[j] = tmp;
-      }
-      renderBoard();
-      status.textContent = "Shuffled!";
-    }
-
-    function startTimer() {
-      stopTimer();
-      timer = setInterval(() => {
-        time++;
-        timeEl.textContent = String(time);
-      }, 1000);
-    }
-
-    function stopTimer() {
-      if (timer) clearInterval(timer);
-      timer = null;
+      status.textContent = "Game started!";
     }
 
     function checkWin() {
+      if (solved) return;
       for (let i = 0; i < pieces.length; i++) {
         if (Number(pieces[i].dataset.index) !== correctOrder[i]) return;
       }
 
+      solved = true;
       stopTimer();
-
-      localStorage.setItem(
-        "gamesPlayed",
-        String(Number(localStorage.getItem("gamesPlayed") || "0") + 1)
-      );
-
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
-
-      const done = new Set(
-        JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
-      );
-
       let bonusXP = 0;
-      if (!done.has(id)) {
-        done.add(id);
-        localStorage.setItem(COMPLETED_KEY, JSON.stringify([...done]));
+      if (!completedSet.has(id)) {
+        completedSet.add(id);
+        localStorage.setItem(COMPLETED_KEY, JSON.stringify([...completedSet]));
         bonusXP = FIRST_CLEAR_BONUS_XP;
         addXP(bonusXP);
       }
-
-      status.textContent = bonusXP
-        ? `🎉 Solved! +${diffXP} XP • First clear: +${bonusXP} XP`
-        : `✅ Solved! +${diffXP} XP`;
 
       const best = getBest();
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
+      } else {
+        bestEl.textContent = best;
       }
 
-      completeBtn.disabled = false;
+      status.textContent = bonusXP
+        ? `🎉 Puzzle solved! +${diffXP} XP • First clear: +${bonusXP} XP`
+        : `✅ Puzzle solved! +${diffXP} XP`;
+
+      setCompletePostWinState();
+    }
+    startBtn.addEventListener("click", beginGame);
+    shuffleBtn.addEventListener("click", () => started && !paused && shuffle());
+    pauseBtn.addEventListener("click", togglePause);
+    resumeBtn.addEventListener("click", resumeGame);
+    exitBtn.addEventListener("click", () => requestCloseModal(false));
+    exitBtn2.addEventListener("click", () => requestCloseModal(false));
+    container.querySelectorAll(".pz-sizes [data-size]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        size = Number(btn.dataset.size);
+        preparePuzzle();
+      });
+    });
+    function tryLoadImage(i = 0) {
+      if (i >= imgCandidates.length) {
+        status.textContent = "❌ Image not found.";
+        return;
+      }
+      const src = imgCandidates[i];
+      const test = new Image();
+      test.onload = () => {
+        imgSrc = src;
+        previewImg.src = src;
+        preparePuzzle();
+
+        if (new URLSearchParams(location.search).get("autostart") === "1") {
+          beginGame();
+        }
+      };
+      test.onerror = () => tryLoadImage(i + 1);
+      test.src = src;
     }
 
     highlightSize();

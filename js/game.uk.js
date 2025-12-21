@@ -8,7 +8,6 @@
     return String(n).padStart(3, "0");
   }
 
-  // XP system (працює навіть якщо немає window.addXP)
   const PLAYER_STATE_KEY = "playerState";
   function loadPlayerState() {
     try {
@@ -32,7 +31,6 @@
   function addXP(amount) {
     if (!amount) return;
     if (typeof window.addXP === "function") return window.addXP(amount);
-
     const st = loadPlayerState();
     st.xp += amount;
     while (st.xp >= xpNeeded(st.level)) {
@@ -40,20 +38,18 @@
       st.level += 1;
     }
     savePlayerState(st);
-    if (typeof window.renderPlayerInfo === "function") window.renderPlayerInfo();
+    if (typeof window.renderPlayerInfo === "function")
+      window.renderPlayerInfo();
   }
 
   const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
   const FIRST_CLEAR_BONUS_XP = 25;
   const COMPLETED_KEY = "completedRanks";
-
   function requestCloseModal(reload = false) {
-    // якщо гра всередині iframe/модалки
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: "closeGameModal", reload }, "*");
       return;
     }
-    // fallback якщо гра відкрита як звичайна сторінка
     location.href = "./index.html";
   }
 
@@ -61,14 +57,10 @@
     const id = getId();
     const id3 = pad3(id);
     localStorage.setItem("lastGameId", String(id));
-
-    // completed set
     const completedSet = new Set(
       JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
     );
     const alreadyCompleted = completedSet.has(id);
-
-    // title/story
     const data = window.STORIES?.[id];
     const titleEl = document.getElementById("gameTitle");
     const chapterEl = document.getElementById("gameChapter");
@@ -84,7 +76,6 @@
 
     const container = document.getElementById("puzzleContainer");
     if (!container) return;
-
     container.innerHTML = `
       <div class="pz-layout">
         <div class="pz-left">
@@ -92,7 +83,6 @@
             <div id="pzBoard" aria-label="Puzzle board"></div>
             <img id="pzPreview" class="pz-preview" alt="Preview">
             <button class="pz-btn pz-start" id="pzStart" type="button">Почати</button>
-
             <div class="pz-pause-overlay" id="pzPauseOverlay" aria-hidden="true">
               <div class="pz-pause-card">
                 <div class="pz-pause-title">Пауза</div>
@@ -102,7 +92,6 @@
             </div>
           </div>
         </div>
-
         <div class="pz-right">
           <div class="pz-top">
             <div class="pz-controls pz-sizes">
@@ -119,21 +108,17 @@
                 <div class="pz-xp">+25 XP</div>
               </div>
             </div>
-
             <div class="pz-stats">
               <div>⏳ <span id="pzTime">0</span> сек</div>
               <div>🏆 <span id="pzBest">—</span></div>
             </div>
           </div>
-
           <div class="pz-controls">
             <button class="pz-btn" id="pzShuffle" type="button">Перемішати</button>
             <button class="pz-btn" id="pzPause" type="button">Пауза</button>
             <button class="pz-btn" id="pzExit" type="button">Вийти</button>
           </div>
-
           <div class="pz-status" id="pzStatus"></div>
-
           <button class="pz-btn" id="completeBtn" type="button" disabled></button>
         </div>
       </div>
@@ -143,20 +128,15 @@
     const stage = container.querySelector("#pzStage");
     const previewImg = container.querySelector("#pzPreview");
     const startBtn = container.querySelector("#pzStart");
-
     const status = container.querySelector("#pzStatus");
     const timeEl = container.querySelector("#pzTime");
     const bestEl = container.querySelector("#pzBest");
-
     const shuffleBtn = container.querySelector("#pzShuffle");
     const pauseBtn = container.querySelector("#pzPause");
     const exitBtn = container.querySelector("#pzExit");
-
     const resumeBtn = container.querySelector("#pzResume");
     const exitBtn2 = container.querySelector("#pzExit2");
-
     const completeBtn = container.querySelector("#completeBtn");
-
     const imgCandidates = [
       `../img/puzzles/tom${id3}.png`,
       `../img/puzzles/tom${id3}.jpg`,
@@ -165,14 +145,12 @@
     ];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
-
     let size = 3;
     let imgSrc = "";
     let pieces = [];
     let correctOrder = [];
     let dragged = null;
     let selectedPiece = null;
-
     let timer = null;
     let time = 0;
     let started = false;
@@ -201,25 +179,19 @@
       solved = false;
       completeBtn.classList.remove("is-done");
       completeBtn.disabled = true;
-
-      // показуємо інфо про бонус (як ти хотів)
       completeBtn.textContent = alreadyCompleted
         ? "Бонус 25 XP уже отримано ✅"
         : "Завершити главу (+25 XP)";
     }
-
     function setCompletePostWinState() {
       solved = true;
       completeBtn.disabled = false;
       completeBtn.classList.remove("is-done");
-
       const nextId = id + 1;
       const hasNext = !!window.STORIES?.[nextId];
-
       if (hasNext) {
         completeBtn.textContent = "Наступна глава →";
         completeBtn.onclick = () => {
-          // лишаємось у модалці, просто переходимо на наступну главу
           location.href = `./game.html?id=${nextId}&autostart=1`;
         };
       } else {
@@ -297,29 +269,23 @@
 
     function preparePuzzle() {
       if (!imgSrc) return;
-
       started = false;
       paused = false;
       solved = false;
       stage.classList.remove("started");
       stage.classList.remove("paused");
-
       stopTimer();
       time = 0;
       timeEl.textContent = "0";
       bestEl.textContent = getBest();
       status.textContent = "Натисни «Почати», щоб почати гру.";
-
       setCompletePreWinState();
-
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-
       pieces = [];
       correctOrder = [];
       dragged = null;
       clearSelection();
-
       let index = 0;
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
@@ -327,7 +293,9 @@
           piece.className = "pz-piece";
           piece.style.backgroundImage = `url("${imgSrc}")`;
           piece.style.backgroundSize = `${size * 100}% ${size * 100}%`;
-          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${(y / (size - 1)) * 100}%`;
+          piece.style.backgroundPosition = `${(x / (size - 1)) * 100}% ${
+            (y / (size - 1)) * 100
+          }%`;
           piece.dataset.index = String(index);
           correctOrder.push(index);
 
@@ -369,7 +337,6 @@
               swapPieces(p1, piece);
             });
           }
-
           pieces.push(piece);
           index++;
         }
@@ -377,26 +344,20 @@
 
       renderBoard();
       highlightSize();
-
       shuffleBtn.disabled = true;
       pauseBtn.disabled = true;
       startBtn.disabled = false;
-
-      // Вихід завжди доступний
       exitBtn.disabled = false;
     }
 
     function beginGame() {
       if (!imgSrc || started) return;
-
       started = true;
       paused = false;
       stage.classList.add("started");
       stage.classList.remove("paused");
-
       shuffleBtn.disabled = false;
       pauseBtn.disabled = false;
-
       shuffle();
       startTimer();
       status.textContent = "Гра почалась!";
@@ -404,17 +365,14 @@
 
     function checkWin() {
       if (solved) return;
-
       for (let i = 0; i < pieces.length; i++) {
         if (Number(pieces[i].dataset.index) !== correctOrder[i]) return;
       }
 
       solved = true;
       stopTimer();
-
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
-
       let bonusXP = 0;
       if (!completedSet.has(id)) {
         completedSet.add(id);
@@ -434,23 +392,15 @@
       status.textContent = bonusXP
         ? `🎉 Пазл складено! +${diffXP} XP • Перше проходження: +${bonusXP} XP`
         : `✅ Пазл складено! +${diffXP} XP`;
-
-      // показуємо "Наступна глава →"
       setCompletePostWinState();
     }
 
-    // Buttons
     startBtn.addEventListener("click", beginGame);
     shuffleBtn.addEventListener("click", () => started && !paused && shuffle());
     pauseBtn.addEventListener("click", togglePause);
-
     resumeBtn.addEventListener("click", resumeGame);
-
-    // ВАЖЛИВО: тепер вихід закриває модалку
     exitBtn.addEventListener("click", () => requestCloseModal(false));
     exitBtn2.addEventListener("click", () => requestCloseModal(false));
-
-    // sizes
     container.querySelectorAll(".pz-sizes [data-size]").forEach((btn) => {
       btn.addEventListener("click", () => {
         size = Number(btn.dataset.size);
@@ -458,7 +408,6 @@
       });
     });
 
-    // image loader
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
         status.textContent = "❌ Картинка не знайдена.";

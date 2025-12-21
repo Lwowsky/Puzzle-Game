@@ -15,6 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
 }
 
 .pz-right {
@@ -25,9 +26,9 @@
   gap: 12px;
   width: 280px;
   max-width: 320px;
+  padding-right: 5px;
 }
 
-/* --- Puzzle board --- */
 .pz-board-wrap {
   position: relative;
   width: min(70vmin, 720px);
@@ -68,7 +69,6 @@
   transform: scale(0.985);
 }
 
-/* --- Preview + Start --- */
 .pz-preview {
   position: absolute;
   inset: 0;
@@ -92,13 +92,11 @@
   font-size: 18px;
 }
 
-/* --- Before start: assembled image --- */
 .pz-board-wrap:not(.started) #pzBoard {
   pointer-events: none;
-  gap: 0;
+  gap: 1.5px;
 }
 
-/* --- After start: gameplay --- */
 .pz-board-wrap.started #pzBoard {
   gap: 3px;
 }
@@ -109,7 +107,6 @@
   display: none;
 }
 
-/* --- Buttons / stats --- */
 .pz-btn {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(17, 17, 17, 0.55);
@@ -120,7 +117,6 @@
   font-weight: 700;
 }
 
-/* Активний режим розміру */
 .pz-sizes .pz-btn.active {
   border-color: rgba(255, 87, 51, 0.9);
   box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.25),
@@ -161,19 +157,21 @@
   display: flex;
 }
 
-.pz-board-wrap.paused .pz-piece{
+.pz-board-wrap.paused .pz-piece {
   background-image: none !important;
   box-shadow: none;
-  border-color: rgba(255,255,255,0.08);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
-.pz-board-wrap.paused .pz-preview{ opacity: 0 !important; }
+.pz-board-wrap.paused .pz-preview {
+  opacity: 0 !important;
+}
 
-/* блокуємо взаємодію з полем */
-.pz-board-wrap.paused #pzBoard{ pointer-events: none; }
+.pz-board-wrap.paused #pzBoard {
+  pointer-events: none;
+}
 
-/* ===== FINISH BUTTON STATES ===== */
-#completeBtn.is-done{
+#completeBtn.is-done {
   opacity: 0.55;
   cursor: not-allowed;
 }
@@ -218,17 +216,72 @@
   text-align: center;
 }
 
-/* --- Mobile --- */
+@media (max-width: 992px) {
+  .pz-layout {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .pz-left {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pz-board-wrap {
+    width: 100%;
+    max-width: min(90vw, 600px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  #pzBoard {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .pz-right {
+    width: 100%;
+    max-width: 420px;
+    margin-bottom: 20px;
+    text-align: center;
+    align-items: center;
+  }
+}
+
 @media (max-width: 768px) {
   .pz-layout {
     flex-direction: column;
     gap: 16px;
   }
+
   .pz-right {
     width: 100%;
     max-width: 420px;
+    margin-bottom: 20px;
   }
+
+  .pz-left {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  #pzBoard {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
   .pz-board-wrap {
-    width: min(92vw, 420px);
+    width: 100%;
+    max-width: min(92vw, 420px);
   }
 }

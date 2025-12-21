@@ -39,17 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("message", (e) => {
-    // Безпека: приймаємо тільки з нашого домену
     if (e.origin !== location.origin) return;
 
     if (e.data?.type === "closeGameModal") {
       closeModal();
-      // якщо захочеш — можна робити reload тут по прапорцю
       if (e.data?.reload) location.reload();
       return;
     }
 
-    // старий кейс: якщо ти десь ще шлеш puzzleWin
     if (e.data?.type === "puzzleWin") {
       closeModal();
       location.reload();
