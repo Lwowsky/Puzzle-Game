@@ -528,17 +528,21 @@
       </div>
     </footer>
     <div class="modal" id="gameModal" aria-hidden="true">
-      <div class="modal-overlay" data-close></div>
+      <div class="modal-overlay" data-close-modal></div>
       <div
         class="modal-window"
         role="dialog"
         aria-modal="true"
         aria-label="Game"
       >
-        <button class="modal-close" type="button" data-close aria-label="Close">
+        <button
+          class="modal-close"
+          type="button"
+          data-close-modal
+          aria-label="Close"
+        >
           ✕
         </button>
-
         <iframe
           class="modal-frame"
           id="gameFrame"

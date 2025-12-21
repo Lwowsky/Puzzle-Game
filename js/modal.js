@@ -53,3 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// === Game modal close support ===
+document.addEventListener("click", (e) => {
+  const modal = e.target.closest("#gameModal");
+  if (!modal) return;
+
+  if (
+    e.target.matches("[data-close-modal]") ||
+    e.target.closest("[data-close-modal]") ||
+    e.target.closest(".modal-close")
+  ) {
+    const frame = modal.querySelector("#gameFrame");
+    if (frame) frame.src = "about:blank";
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+});
