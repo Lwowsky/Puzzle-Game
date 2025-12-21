@@ -15,7 +15,10 @@
       const raw = localStorage.getItem(PLAYER_STATE_KEY);
       if (!raw) return { level: 1, xp: 0 };
       const obj = JSON.parse(raw);
-      return { level: Number(obj.level) > 0 ? Number(obj.level) : 1, xp: Number(obj.xp) >= 0 ? Number(obj.xp) : 0 };
+      return {
+        level: Number(obj.level) > 0 ? Number(obj.level) : 1,
+        xp: Number(obj.xp) >= 0 ? Number(obj.xp) : 0,
+      };
     } catch {
       return { level: 1, xp: 0 };
     }
@@ -44,17 +47,13 @@
   const FIRST_CLEAR_BONUS_XP = 25;
   const COMPLETED_KEY = "completedRanks";
 
-  function safeExit() {
-    // якщо є норм referrer — повертаємось назад, інакше йдемо на index у цій папці
-    try {
-      if (document.referrer) {
-        const r = new URL(document.referrer);
-        if (r.origin === location.origin) {
-          history.back();
-          return;
-        }
-      }
-    } catch {}
+  function requestCloseModal(reload = false) {
+    // якщо гра всередині iframe/модалки
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "closeGameModal", reload }, "*");
+      return;
+    }
+    // fallback якщо гра відкрита як звичайна сторінка
     location.href = "./index.html";
   }
 
@@ -67,7 +66,9 @@
     const completedSet = new Set(
       JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]").map(Number)
     );
+    const alreadyCompleted = completedSet.has(id);
 
+    // title/story
     const data = window.STORIES?.[id];
     const titleEl = document.getElementById("gameTitle");
     const chapterEl = document.getElementById("gameChapter");
@@ -133,7 +134,7 @@
 
           <div class="pz-status" id="pzStatus"></div>
 
-          <button class="pz-btn" id="completeBtn" type="button" disabled>Завершити главу</button>
+          <button class="pz-btn" id="completeBtn" type="button" disabled></button>
         </div>
       </div>
     `;
@@ -176,6 +177,7 @@
     let time = 0;
     let started = false;
     let paused = false;
+    let solved = false;
 
     function bestKey() {
       return `puzzleBest_${id}_${size}`;
@@ -195,24 +197,34 @@
       });
     }
 
-    function setCompleteButtonState(solvedNow) {
-      const alreadyDone = completedSet.has(id);
-
-      if (alreadyDone) {
-        completeBtn.disabled = true;
-        completeBtn.classList.add("is-done");
-        completeBtn.textContent = "Глава вже пройдена ✅";
-        return;
-      }
-
-      // ще не пройдена
+    function setCompletePreWinState() {
+      solved = false;
       completeBtn.classList.remove("is-done");
-      if (!solvedNow) {
-        completeBtn.disabled = true;
-        completeBtn.textContent = "Завершити главу (+25 XP)";
+      completeBtn.disabled = true;
+
+      // показуємо інфо про бонус (як ти хотів)
+      completeBtn.textContent = alreadyCompleted
+        ? "Бонус 25 XP уже отримано ✅"
+        : "Завершити главу (+25 XP)";
+    }
+
+    function setCompletePostWinState() {
+      solved = true;
+      completeBtn.disabled = false;
+      completeBtn.classList.remove("is-done");
+
+      const nextId = id + 1;
+      const hasNext = !!window.STORIES?.[nextId];
+
+      if (hasNext) {
+        completeBtn.textContent = "Наступна глава →";
+        completeBtn.onclick = () => {
+          // лишаємось у модалці, просто переходимо на наступну главу
+          location.href = `./game.html?id=${nextId}&autostart=1`;
+        };
       } else {
-        completeBtn.disabled = false;
-        completeBtn.textContent = "Завершити главу (+25 XP)";
+        completeBtn.textContent = "Закрити";
+        completeBtn.onclick = () => requestCloseModal(true);
       }
     }
 
@@ -267,8 +279,7 @@
 
     function togglePause() {
       if (!started) return;
-      if (paused) resumeGame();
-      else pauseGame();
+      paused ? resumeGame() : pauseGame();
     }
 
     function shuffle() {
@@ -289,16 +300,17 @@
 
       started = false;
       paused = false;
+      solved = false;
       stage.classList.remove("started");
       stage.classList.remove("paused");
 
       stopTimer();
       time = 0;
       timeEl.textContent = "0";
-      status.textContent = "Натисни «Почати», щоб почати гру.";
       bestEl.textContent = getBest();
+      status.textContent = "Натисни «Почати», щоб почати гру.";
 
-      setCompleteButtonState(false);
+      setCompletePreWinState();
 
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -369,6 +381,9 @@
       shuffleBtn.disabled = true;
       pauseBtn.disabled = true;
       startBtn.disabled = false;
+
+      // Вихід завжди доступний
+      exitBtn.disabled = false;
     }
 
     function beginGame() {
@@ -388,10 +403,13 @@
     }
 
     function checkWin() {
+      if (solved) return;
+
       for (let i = 0; i < pieces.length; i++) {
         if (Number(pieces[i].dataset.index) !== correctOrder[i]) return;
       }
 
+      solved = true;
       stopTimer();
 
       const diffXP = DIFFICULTY_XP[size] || 0;
@@ -409,16 +427,16 @@
       if (best === "—" || time < Number(best)) {
         setBest(time);
         bestEl.textContent = String(time);
+      } else {
+        bestEl.textContent = best;
       }
 
-      if (bonusXP) {
-        status.textContent = `🎉 Пазл складено! +${diffXP} XP • Перше проходження: +${bonusXP} XP`;
-        setCompleteButtonState(true); // можна натиснути “Завершити”
-      } else {
-        status.textContent = `✅ Пазл складено! +${diffXP} XP`;
-        // Якщо вже пройдена — кнопка лишається неактивна
-        setCompleteButtonState(false);
-      }
+      status.textContent = bonusXP
+        ? `🎉 Пазл складено! +${diffXP} XP • Перше проходження: +${bonusXP} XP`
+        : `✅ Пазл складено! +${diffXP} XP`;
+
+      // показуємо "Наступна глава →"
+      setCompletePostWinState();
     }
 
     // Buttons
@@ -427,17 +445,10 @@
     pauseBtn.addEventListener("click", togglePause);
 
     resumeBtn.addEventListener("click", resumeGame);
-    exitBtn.addEventListener("click", safeExit);
-    exitBtn2.addEventListener("click", safeExit);
 
-    completeBtn.addEventListener("click", () => {
-      // якщо глава вже пройдена — кнопка і так disabled
-      completeBtn.disabled = true;
-      completeBtn.classList.add("is-done");
-      completeBtn.textContent = "✅ Главу завершено";
-      // можеш змінити на редірект/наступну главу
-      safeExit();
-    });
+    // ВАЖЛИВО: тепер вихід закриває модалку
+    exitBtn.addEventListener("click", () => requestCloseModal(false));
+    exitBtn2.addEventListener("click", () => requestCloseModal(false));
 
     // sizes
     container.querySelectorAll(".pz-sizes [data-size]").forEach((btn) => {
