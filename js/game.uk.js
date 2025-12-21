@@ -181,7 +181,7 @@
       completeBtn.disabled = true;
       completeBtn.textContent = alreadyCompleted
         ? "Бонус 25 XP уже отримано ✅"
-         : "Завершити главу 25 XP";
+        : "Завершити главу 25 XP";
     }
     function setCompletePostWinState() {
       solved = true;
@@ -192,7 +192,7 @@
       if (hasNext) {
         completeBtn.textContent = "Наступна глава →";
         completeBtn.onclick = () => {
-          location.href = `./game.html?id=${nextId}&autostart=1`;
+          location.href = `./game.html?id=${nextId}`;
         };
       } else {
         completeBtn.textContent = "Закрити";
