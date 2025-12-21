@@ -147,15 +147,13 @@
     saveAvatarBtn?.addEventListener("click", () => {
       const st = loadState();
       const unlockedMax = clampRankLevel(st.level);
-
       if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1)
         selectedAvatar = 1;
       if (selectedAvatar > unlockedMax) selectedAvatar = unlockedMax;
-
       localStorage.setItem(AVATAR_KEY, String(selectedAvatar));
       if (hint) hint.textContent = "✅ Аватар збережено!";
       window.renderPlayerInfo?.();
-      renderAvatarGrid(); // щоб одразу підсвітилось коректно
+      renderAvatarGrid();
     });
 
     const newNameInput = document.getElementById("newNameInput");

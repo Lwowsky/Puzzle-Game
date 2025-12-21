@@ -4,14 +4,7 @@
   const WINS_KEY = "gamesPlayed";
   const AVATAR_KEY = "playerAvatarId";
   const RANKS_UK = ["Учень", "Шинобі", "Генін", "Чунін", "Джонін", "Хокаге"];
-  const RANKS_EN = [
-    "Student",
-    "Shinobi",
-    "Genin",
-    "Chunin",
-    "Jonin",
-    "Hokage",
-  ];
+  const RANKS_EN = ["Student", "Shinobi", "Genin", "Chunin", "Jonin", "Hokage"];
   function isEN() {
     return (
       document.documentElement.lang?.toLowerCase().startsWith("en") ||
@@ -110,17 +103,21 @@
     if (xpEl) xpEl.textContent = String(st.xp);
     if (xpMaxEl) xpMaxEl.textContent = String(need);
     if (rankIcon) {
-      rankIcon.src = `../img/avatar/avatar${pad3(rankLevel)}.png`;
-      rankIcon.alt = `Rank ${rankLevel}`;
-    }
-    if (avatarImg) {
+      // ✅ Отримуємо збережений аватар
       let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
+
+      // Перевіряємо межі
       if (!avatarId || avatarId < 1) avatarId = 1;
       if (avatarId > rankLevel) avatarId = rankLevel;
+
+      // Оновлюємо localStorage, якщо змінився
       localStorage.setItem(AVATAR_KEY, String(avatarId));
-      avatarImg.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
-      avatarImg.alt = `Avatar ${avatarId}`;
+
+      // ✅ Встановлюємо саме обраний аватар
+      rankIcon.src = `../img/avatar/avatar${pad3(avatarId)}.png`;
+      rankIcon.alt = `Avatar ${avatarId}`;
     }
+
     if (bar) {
       const pct =
         need > 0 ? Math.min(100, Math.round((st.xp / need) * 100)) : 0;
