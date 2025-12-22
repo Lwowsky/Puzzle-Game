@@ -1,16 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirect...</title>
   </head>
   <body>
     <script>
-      const saved = localStorage.getItem("lang");
-      const auto = (navigator.language || "").toLowerCase().startsWith("uk")
-        ? "uk"
-        : "en";
-      const lang = saved || auto;
-      location.replace(`./${lang}/index.html`);
+      (() => {
+        const SUPPORTED = ["en", "uk", "ja"];
+        const saved = (localStorage.getItem("lang") || "").toLowerCase();
+        if (SUPPORTED.includes(saved)) {
+          location.replace(`./${saved}/index.html`);
+          return;
+        }
+        const navLang = (
+          (navigator.languages && navigator.languages[0]) ||
+          navigator.language ||
+          ""
+        ).toLowerCase();
+        let auto = "en";
+        if (navLang.startsWith("uk") || navLang.startsWith("ua")) auto = "uk";
+        else if (navLang.startsWith("ja")) auto = "ja";
+        localStorage.setItem("lang", auto);
+        location.replace(`./${auto}/index.html`);
+      })();
     </script>
   </body>
 </html>
