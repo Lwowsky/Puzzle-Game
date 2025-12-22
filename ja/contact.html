@@ -22,7 +22,6 @@
           <img src="../img/logo.png" alt="ロゴ" class="nav-logo" />
         </a>
       </div>
-
       <nav aria-label="ランク">
         <ul class="header-menu">
           <li class="rank-menu">
@@ -105,9 +104,7 @@
           </li>
         </ul>
       </nav>
-
       <div class="nav-overlay" id="navOverlay" hidden></div>
-
       <button
         class="burger"
         id="burgerBtn"
@@ -118,7 +115,6 @@
       >
         <i class="fa-solid fa-bars"></i>
       </button>
-
       <nav class="nav-drawer" aria-label="メインメニュー">
         <ul class="nav-list" id="primaryNav" aria-hidden="true">
           <li class="nav-item">
@@ -127,7 +123,6 @@
           <li class="nav-item">
             <a href="contact.html" class="nav-link">お問い合わせ</a>
           </li>
-
           <li class="lang-switches">
             <a class="lang-flag" id="toUk" href="#" aria-label="Українська">
               <img src="../img/flags/ua.svg" alt="UA" />
@@ -139,7 +134,6 @@
               <img src="../img/flags/ja.svg" alt="JA" />
             </a>
           </li>
-
           <li>
             <button
               class="settings-btn"
@@ -150,7 +144,6 @@
               <i class="fa-solid fa-gear"></i>
             </button>
           </li>
-
           <li class="rank-wrapper mobile-only">
             <div class="rank-grid">
               <a class="rank-item" href="rank001.html">
@@ -224,7 +217,6 @@
         </ul>
       </nav>
     </header>
-
     <main class="main-content">
       <div class="main-content--second player-sidebar" id="playerSidebar">
         <button
@@ -237,7 +229,6 @@
           <span class="player-sidebar__chev">▾</span>
           <h3 class="profile-menu">プロフィール</h3>
         </button>
-
         <div class="player-sidebar__body" id="playerSidebarBody">
           <h2 class="avatar-title">プレイヤー名</h2>
           <div class="avatar-subtitle">
@@ -254,7 +245,6 @@
               <span id="playerXPMax">100</span>
             </p>
           </div>
-
           <div class="progress">
             <div
               class="progress-bar"
@@ -265,7 +255,6 @@
             ></div>
             <span class="progress-label" id="progressLabel"></span>
           </div>
-
           <div class="avatar-title">統計</div>
           <div class="story-content story-content--text">
             <div id="registerBox">
@@ -280,7 +269,6 @@
                 <button class="name-form--btn" type="submit">保存</button>
               </form>
             </div>
-
             <div class="playerPanel" id="playerPanel" hidden>
               <div><b id="playerNameLabel"></b></div>
               <div>プレイ回数：<span id="statPlays">0</span></div>
@@ -290,7 +278,6 @@
           </div>
         </div>
       </div>
-
       <div class="story-content" id="story-content">
         <section id="contact" class="contact">
           <div class="contact__wrap">
@@ -301,7 +288,6 @@
                 🙂
               </p>
             </header>
-
             <form
               id="contactForm"
               class="contact__form"
@@ -318,7 +304,6 @@
                   autocomplete="off"
                 />
               </label>
-
               <div class="contact__grid">
                 <label class="field">
                   <span class="field__label">お名前</span>
@@ -332,7 +317,6 @@
                   />
                   <span class="field__error" data-error-for="name"></span>
                 </label>
-
                 <label class="field">
                   <span class="field__label">メール</span>
                   <input
@@ -344,7 +328,6 @@
                   />
                   <span class="field__error" data-error-for="email"></span>
                 </label>
-
                 <label class="field contact__full">
                   <span class="field__label">件名</span>
                   <input
@@ -357,7 +340,6 @@
                   />
                   <span class="field__error" data-error-for="subject"></span>
                 </label>
-
                 <label class="field contact__full">
                   <span class="field__label">メッセージ</span>
                   <textarea
@@ -370,7 +352,6 @@
                   ></textarea>
                   <span class="field__error" data-error-for="message"></span>
                 </label>
-
                 <label class="check contact__full">
                   <input
                     class="check__box"
@@ -383,7 +364,6 @@
                   </span>
                 </label>
               </div>
-
               <div class="contact__actions">
                 <button class="btn" type="submit" id="contactSubmit">
                   <span class="btn__text">送信</span>
@@ -401,12 +381,10 @@
         </section>
       </div>
     </main>
-
     <footer class="footer">
       <nav class="footer-nav">
         <p>© 2025 Puzzle Game. All rights reserved.</p>
       </nav>
-
       <div class="modal" id="settingsModal" aria-hidden="true">
         <div class="modal-overlay" data-close-settings></div>
         <div
@@ -423,11 +401,9 @@
           >
             ✕
           </button>
-
           <div class="settings-head">
             <h2 class="settings-title">設定</h2>
           </div>
-
           <div class="settings-body">
             <aside class="settings-tabs" role="tablist">
               <button
@@ -451,7 +427,6 @@
                 リセット
               </button>
             </aside>
-
             <section class="settings-content">
               <div class="settings-pane is-active" data-pane="avatar">
                 <p class="settings-text">
@@ -465,7 +440,6 @@
                   <span class="settings-hint" id="avatarHint"></span>
                 </div>
               </div>
-
               <div class="settings-pane" data-pane="name">
                 <p class="settings-text">
                   ニックネームを変更します（ブラウザに保存されます）。
@@ -484,7 +458,6 @@
                 </div>
                 <div class="settings-hint" id="nameHint"></div>
               </div>
-
               <div class="settings-pane" data-pane="stats">
                 <div class="stats-grid">
                   <div class="stat-card">
@@ -515,7 +488,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="settings-pane" data-pane="reset">
                 <p class="settings-text">
                   名前、XP/レベル、アバター、統計、チャプター進行をリセットします。
@@ -535,7 +507,6 @@
         </div>
       </div>
     </footer>
-
     <script src="../js/script.js"></script>
     <script src="../js/player.js"></script>
     <script src="../js/modal.js"></script>

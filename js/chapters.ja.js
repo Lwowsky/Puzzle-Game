@@ -61,10 +61,7 @@
       u.searchParams.set("id", String(id));
 
       const thumb = `../img/puzzles/tom${pad3(id)}.jpg`;
-
-      // ⚠️ тут лишаю твій fallback, але перекладаю "Глава" на японську
       const chapterName = window.STORIES?.[id]?.chapter || `第${id}章`;
-
       html += `<div>
         <h2 class="game-card--title">${chapterName}</h2>
         <a class="game-card ${state}"

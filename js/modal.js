@@ -3,17 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const frame = document.getElementById("gameFrame");
   if (!modal || !frame) return;
 
-  const grid = document.getElementById("rankGames"); // ✅ може бути null на index.html
+  const grid = document.getElementById("rankGames");
 
   function openModal(rawUrl) {
     const u = new URL(rawUrl, location.href);
-    u.searchParams.set("_", String(Date.now())); // cache-bust
-
+    u.searchParams.set("_", String(Date.now()));
     frame.src = "about:blank";
     requestAnimationFrame(() => {
       frame.src = u.href;
     });
-
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -27,12 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.renderPlayerInfo?.();
     window.dispatchEvent(new Event("progress:changed"));
   }
-
-  // ✅ Щоб index.html теж міг відкривати модалку (кнопка "Продовжити" може це викликати)
   window.openGameModal = openModal;
   window.closeGameModal = closeModal;
-
-  // ✅ Клік по картках є тільки на rank-сторінках
   if (grid) {
     grid.addEventListener("click", (e) => {
       const card = e.target.closest(".game-card");
@@ -41,8 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
       openModal(card.dataset.gameUrl);
     });
   }
-
-  // ✅ Закриття по X / кнопках закриття
   modal.addEventListener("click", (e) => {
     if (
       e.target.matches("[data-close]") ||
@@ -54,39 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }
   });
-
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
   });
-
-  // ✅ ОЦЕ — головне: слухаємо postMessage з iframe на ВСІХ сторінках, включно з index.html
   window.addEventListener("message", (e) => {
-    // Безпечніше: приймаємо тільки повідомлення від поточного iframe
     if (e.source !== frame.contentWindow) return;
-
-    // Якщо ти тестиш через file:// — origin може бути "null"
     if (e.origin !== location.origin && e.origin !== "null") return;
-
     const type = typeof e.data === "string" ? e.data : e.data?.type;
-
     if (type === "closeGameModal") {
       closeModal();
       window.renderPlayerInfo?.();
-
-      // ✅ сигнал “прогрес змінився” (щоб index міг оновити розділ/главу без reload)
       window.dispatchEvent(new Event("progress:changed"));
       return;
     }
-
     if (type === "puzzleWin") {
-      // НЕ робимо reload
       closeModal();
       window.renderPlayerInfo?.();
       window.dispatchEvent(new Event("progress:changed"));
-
-      // якщо гра передає nextUrl і ти хочеш авто-перехід — відкривай:
       if (e.data?.nextUrl) openModal(e.data.nextUrl);
-
       return;
     }
   });

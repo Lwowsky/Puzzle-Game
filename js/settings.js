@@ -10,8 +10,10 @@
 
   function getLang() {
     const lang = (document.documentElement.lang || "").toLowerCase();
-    if (lang.startsWith("ja") || location.pathname.includes("/ja/")) return "ja";
-    if (lang.startsWith("en") || location.pathname.includes("/en/")) return "en";
+    if (lang.startsWith("ja") || location.pathname.includes("/ja/"))
+      return "ja";
+    if (lang.startsWith("en") || location.pathname.includes("/en/"))
+      return "en";
     return "uk";
   }
 
@@ -89,7 +91,8 @@
   }
   function getRankName(level) {
     const lang = getLang();
-    const ranks = lang === "ja" ? RANKS_JA : lang === "en" ? RANKS_EN : RANKS_UK;
+    const ranks =
+      lang === "ja" ? RANKS_JA : lang === "en" ? RANKS_EN : RANKS_UK;
     return ranks[clampRankLevel(level) - 1];
   }
   function getWins() {
@@ -115,19 +118,26 @@
     const panes = modal.querySelectorAll("[data-pane]");
 
     function setTab(key) {
-      tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.tab === key));
-      panes.forEach((p) => p.classList.toggle("is-active", p.dataset.pane === key));
+      tabs.forEach((t) =>
+        t.classList.toggle("is-active", t.dataset.tab === key)
+      );
+      panes.forEach((p) =>
+        p.classList.toggle("is-active", p.dataset.pane === key)
+      );
       if (key === "stats") renderStats();
     }
 
-    tabs.forEach((btn) => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+    tabs.forEach((btn) =>
+      btn.addEventListener("click", () => setTab(btn.dataset.tab))
+    );
 
     modal.addEventListener("click", (e) => {
       if (e.target.matches("[data-close-settings]")) closeModal(modal);
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal(modal);
+      if (e.key === "Escape" && modal.classList.contains("is-open"))
+        closeModal(modal);
     });
 
     const grid = document.getElementById("avatarGrid");
@@ -139,12 +149,15 @@
     function renderAvatarGrid() {
       if (!grid) return;
 
-      selectedAvatar = Number(localStorage.getItem(AVATAR_KEY) || selectedAvatar || "1");
+      selectedAvatar = Number(
+        localStorage.getItem(AVATAR_KEY) || selectedAvatar || "1"
+      );
 
       const st = loadState();
       const unlockedMax = clampRankLevel(st.level);
 
-      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1) selectedAvatar = 1;
+      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1)
+        selectedAvatar = 1;
       if (selectedAvatar > unlockedMax) selectedAvatar = unlockedMax;
 
       grid.innerHTML = "";
@@ -159,7 +172,10 @@
           (locked ? " is-locked" : "") +
           (i === selectedAvatar ? " is-selected" : "");
 
-        card.setAttribute("aria-label", locked ? t("aria_avatar_locked", i) : t("aria_avatar", i));
+        card.setAttribute(
+          "aria-label",
+          locked ? t("aria_avatar_locked", i) : t("aria_avatar", i)
+        );
 
         const img = document.createElement("img");
         img.src = `../img/avatar/avatar${pad3(i)}.png`;
@@ -191,7 +207,8 @@
       const st = loadState();
       const unlockedMax = clampRankLevel(st.level);
 
-      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1) selectedAvatar = 1;
+      if (!Number.isFinite(selectedAvatar) || selectedAvatar < 1)
+        selectedAvatar = 1;
       if (selectedAvatar > unlockedMax) selectedAvatar = unlockedMax;
 
       localStorage.setItem(AVATAR_KEY, String(selectedAvatar));
@@ -223,7 +240,9 @@
       if (nameHint) nameHint.textContent = t("hint_saved_name");
       window.renderPlayerInfo?.();
 
-      document.querySelectorAll("[data-player-name]").forEach((el) => (el.textContent = val));
+      document
+        .querySelectorAll("[data-player-name]")
+        .forEach((el) => (el.textContent = val));
       const title = document.querySelector(".avatar-title");
       if (title) title.textContent = val;
     });

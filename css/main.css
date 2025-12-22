@@ -150,7 +150,7 @@
 .welcome-text {
   font-size: 1.2rem;
   margin: 12px;
-    color: black;
+  color: black;
 }
 
 .welcome-note {
@@ -411,7 +411,6 @@
   opacity: 0;
 }
 
-/* ✅ Місія: текст зверху, кнопка знизу (НЕ в один ряд) */
 .story-content .hl-actions.hl-mission {
   display: flex;
   flex-direction: column;
@@ -420,26 +419,23 @@
   gap: 12px;
 }
 
-/* прибираємо flex-розтягування у підказки (бо воно і робить “в один ряд”) */
 .story-content .hl-actions.hl-mission #missionHint {
   flex: 0 0 auto;
   width: 100%;
   min-width: 0;
-  text-align: center; /* якщо хочеш по центру — постав center */
+  text-align: center;
   order: 1;
 }
 
-/* кнопка завжди під текстом */
 .story-content .hl-actions.hl-mission #missionBtn {
   order: 2;
-  width: min(320px, 100%); /* можеш зробити 100% якщо хочеш як на мобілці */
+  width: min(320px, 100%);
 }
 .story-content .welcome-image {
-  margin-right: 32px; /* відступ справа */
-  margin-bottom: 18px; /* щоб текст нижче теж дихав */
+  margin-right: 32px;
+  margin-bottom: 18px;
 }
 
-/* якщо десь margin затирається — підсилюємо саме для welcome */
 .story-content .welcome-flow .welcome-image {
   margin: 0 32px 18px 0;
 }
