@@ -161,12 +161,7 @@
     const exitBtn2 = container.querySelector("#pzExit2");
     const completeBtn = container.querySelector("#completeBtn");
 
-    const imgCandidates = [
-      `../img/puzzles/tom${id3}.png`,
-      `../img/puzzles/tom${id3}.jpg`,
-      `../img/puzzles/${id3}.png`,
-      `../img/puzzles/${id3}.jpg`,
-    ];
+    const imgCandidates = [`../img/puzzles/tom${id3}.png`];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
     let size = 3;

@@ -38,7 +38,8 @@
       st.level += 1;
     }
     savePlayerState(st);
-    if (typeof window.renderPlayerInfo === "function") window.renderPlayerInfo();
+    if (typeof window.renderPlayerInfo === "function")
+      window.renderPlayerInfo();
   }
 
   const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
@@ -139,12 +140,7 @@
     const resumeBtn = container.querySelector("#pzResume");
     const exitBtn2 = container.querySelector("#pzExit2");
     const completeBtn = container.querySelector("#completeBtn");
-    const imgCandidates = [
-      `../img/puzzles/tom${id3}.png`,
-      `../img/puzzles/tom${id3}.jpg`,
-      `../img/puzzles/${id3}.png`,
-      `../img/puzzles/${id3}.jpg`,
-    ];
+    const imgCandidates = [`../img/puzzles/tom${id3}.png`];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
     let size = 3;

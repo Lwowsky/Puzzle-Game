@@ -34,32 +34,32 @@
   function xpNeeded(level) {
     return 100 * Math.pow(2, Math.max(0, level - 1));
   }
-function addXP(amount) {
-  if (!amount) return;
-  if (typeof window.addXP === "function") return window.addXP(amount);
+  function addXP(amount) {
+    if (!amount) return;
+    if (typeof window.addXP === "function") return window.addXP(amount);
 
-  const st = loadPlayerState();
-  const oldRank = clampRankLevel(st.level);
+    const st = loadPlayerState();
+    const oldRank = clampRankLevel(st.level);
 
-  st.xp += amount;
+    st.xp += amount;
 
-  while (st.xp >= xpNeeded(st.level)) {
-    st.xp -= xpNeeded(st.level);
-    st.level += 1;
+    while (st.xp >= xpNeeded(st.level)) {
+      st.xp -= xpNeeded(st.level);
+      st.level += 1;
+    }
+    const newRank = clampRankLevel(st.level);
+    let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
+    if (!Number.isFinite(avatarId) || avatarId < 1) avatarId = 1;
+    if (avatarId > oldRank) avatarId = oldRank;
+    if (newRank > oldRank && avatarId === oldRank) {
+      avatarId = newRank;
+    }
+    if (avatarId > newRank) avatarId = newRank;
+    localStorage.setItem(AVATAR_KEY, String(avatarId));
+    savePlayerState(st);
+    if (typeof window.renderPlayerInfo === "function")
+      window.renderPlayerInfo();
   }
-  const newRank = clampRankLevel(st.level);
-  let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
-  if (!Number.isFinite(avatarId) || avatarId < 1) avatarId = 1;
-  if (avatarId > oldRank) avatarId = oldRank;
-  if (newRank > oldRank && avatarId === oldRank) {
-    avatarId = newRank;
-  }
-  if (avatarId > newRank) avatarId = newRank;
-  localStorage.setItem(AVATAR_KEY, String(avatarId));
-  savePlayerState(st);
-  if (typeof window.renderPlayerInfo === "function") window.renderPlayerInfo();
-}
-
 
   const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
   const FIRST_CLEAR_BONUS_XP = 25;
@@ -156,12 +156,7 @@ function addXP(amount) {
     const resumeBtn = container.querySelector("#pzResume");
     const exitBtn2 = container.querySelector("#pzExit2");
     const completeBtn = container.querySelector("#completeBtn");
-    const imgCandidates = [
-      `../img/puzzles/tom${id3}.png`,
-      `../img/puzzles/tom${id3}.jpg`,
-      `../img/puzzles/${id3}.png`,
-      `../img/puzzles/${id3}.jpg`,
-    ];
+    const imgCandidates = [`../img/puzzles/tom${id3}.jpg`];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
     let size = 3;
