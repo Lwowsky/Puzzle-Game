@@ -140,7 +140,7 @@
     const resumeBtn = container.querySelector("#pzResume");
     const exitBtn2 = container.querySelector("#pzExit2");
     const completeBtn = container.querySelector("#completeBtn");
-    const imgCandidates = [`../img/puzzles/tom${id3}.png`];
+    const imgCandidates = [`../img/puzzles/tom${id3}.jpg`];
 
     const isTouch = matchMedia("(pointer: coarse)").matches;
     let size = 3;
