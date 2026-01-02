@@ -208,6 +208,15 @@
     renderPlayerInfo();
   }
 
+  function addGamePlayed(delta = 1) {
+    const cur = Number(localStorage.getItem(WINS_KEY) || "0");
+    const next = Math.max(0, cur + Math.floor(delta));
+    localStorage.setItem(WINS_KEY, String(next));
+    renderPlayerInfo();
+  }
+
+  window.addGamePlayed = addGamePlayed;
+
   window.addXP = addXP;
   window.renderPlayerInfo = renderPlayerInfo;
 
