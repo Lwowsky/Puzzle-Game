@@ -9,6 +9,12 @@
   }
 
   const PLAYER_STATE_KEY = "playerState";
+  const AVATAR_KEY = "playerAvatarId";
+
+  function clampRankLevel(level) {
+    return Math.min(Math.max(1, level), 6);
+  }
+
   function loadPlayerState() {
     try {
       const raw = localStorage.getItem(PLAYER_STATE_KEY);
@@ -31,12 +37,25 @@
   function addXP(amount) {
     if (!amount) return;
     if (typeof window.addXP === "function") return window.addXP(amount);
+
     const st = loadPlayerState();
+    const oldRank = clampRankLevel(st.level);
+
     st.xp += amount;
+
     while (st.xp >= xpNeeded(st.level)) {
       st.xp -= xpNeeded(st.level);
       st.level += 1;
     }
+    const newRank = clampRankLevel(st.level);
+    let avatarId = Number(localStorage.getItem(AVATAR_KEY) || "1");
+    if (!Number.isFinite(avatarId) || avatarId < 1) avatarId = 1;
+    if (avatarId > oldRank) avatarId = oldRank;
+    if (newRank > oldRank && avatarId === oldRank) {
+      avatarId = newRank;
+    }
+    if (avatarId > newRank) avatarId = newRank;
+    localStorage.setItem(AVATAR_KEY, String(avatarId));
     savePlayerState(st);
     if (typeof window.renderPlayerInfo === "function")
       window.renderPlayerInfo();
@@ -45,7 +64,6 @@
   const DIFFICULTY_XP = { 3: 5, 4: 10, 5: 25 };
   const FIRST_CLEAR_BONUS_XP = 25;
   const COMPLETED_KEY = "completedRanks";
-
   function requestCloseModal(reload = false) {
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: "closeGameModal", reload }, "*");
@@ -66,7 +84,6 @@
     const titleEl = document.getElementById("gameTitle");
     const chapterEl = document.getElementById("gameChapter");
     const storyEl = document.getElementById("gameStory");
-
     if (titleEl) titleEl.textContent = data?.title || `Game ${id}`;
     if (chapterEl) chapterEl.textContent = data?.chapter || "";
     if (storyEl) {
@@ -78,7 +95,6 @@
 
     const container = document.getElementById("puzzleContainer");
     if (!container) return;
-
     container.innerHTML = `
       <div class="pz-layout">
         <div class="pz-left">
@@ -179,9 +195,8 @@
       completeBtn.disabled = true;
       completeBtn.textContent = alreadyCompleted
         ? "Bonus 25 XP already claimed ✅"
-        : "Finish chapter (+25 XP)";
+        : "Complete chapter +25 XP";
     }
-
     function setCompletePostWinState() {
       solved = true;
       completeBtn.disabled = false;
@@ -191,7 +206,7 @@
       if (hasNext) {
         completeBtn.textContent = "Next chapter →";
         completeBtn.onclick = () => {
-          location.href = `./game.html?id=${nextId}&autostart=1`;
+          location.href = `./game.html?id=${nextId}`;
         };
       } else {
         completeBtn.textContent = "Close";
@@ -277,7 +292,7 @@
       time = 0;
       timeEl.textContent = "0";
       bestEl.textContent = getBest();
-      status.textContent = 'Press "Start" to begin the game.';
+      status.textContent = 'Press "Start" to begin.';
       setCompletePreWinState();
       board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
       board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -297,6 +312,7 @@
           }%`;
           piece.dataset.index = String(index);
           correctOrder.push(index);
+
           if (!isTouch) {
             piece.draggable = true;
             piece.addEventListener("dragstart", function () {
@@ -390,9 +406,9 @@
       status.textContent = bonusXP
         ? `🎉 Puzzle solved! +${diffXP} XP • First clear: +${bonusXP} XP`
         : `✅ Puzzle solved! +${diffXP} XP`;
-
       setCompletePostWinState();
     }
+
     startBtn.addEventListener("click", beginGame);
     shuffleBtn.addEventListener("click", () => started && !paused && shuffle());
     pauseBtn.addEventListener("click", togglePause);
@@ -405,6 +421,7 @@
         preparePuzzle();
       });
     });
+
     function tryLoadImage(i = 0) {
       if (i >= imgCandidates.length) {
         status.textContent = "❌ Image not found.";
