@@ -396,7 +396,7 @@
 
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
-
+      if (typeof window.addGamePlayed === "function") window.addGamePlayed(1);
       let bonusXP = 0;
       if (!completedSet.has(id)) {
         completedSet.add(id);
