@@ -387,7 +387,13 @@
       stopTimer();
       const diffXP = DIFFICULTY_XP[size] || 0;
       addXP(diffXP);
-      if (typeof window.addGamePlayed === "function") window.addGamePlayed(1);
+      const PLAYS_KEY = "gamesPlayed";
+      localStorage.setItem(
+        PLAYS_KEY,
+        String(Number(localStorage.getItem(PLAYS_KEY) || "0") + 1)
+      );
+
+      window.parent?.renderPlayerInfo?.();
       let bonusXP = 0;
       if (!completedSet.has(id)) {
         completedSet.add(id);
