@@ -21,3 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (e) => e.key === "Escape" && setOpen(false));
   nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
 });
+
+//Year
+const c = new Date().getFullYear();
+document.getElementById("y").textContent = c === 2025 ? "2025" : `2025-${c}`;
